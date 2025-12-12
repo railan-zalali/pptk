@@ -6,6 +6,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StrategicController;
 use App\Http\Controllers\VisitController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminRegionController;
+use App\Http\Controllers\Admin\AdminGardenController;
+use App\Http\Controllers\Admin\AdminProductionController;
+use App\Http\Controllers\Admin\AdminInsightController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -33,3 +38,40 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+// Admin routes
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+
+    // Regions CRUD
+    Route::get('/regions', [AdminRegionController::class, 'index'])->name('regions.index');
+    Route::get('/regions/create', [AdminRegionController::class, 'create'])->name('regions.create');
+    Route::post('/regions', [AdminRegionController::class, 'store'])->name('regions.store');
+    Route::get('/regions/{region}/edit', [AdminRegionController::class, 'edit'])->name('regions.edit');
+    Route::put('/regions/{region}', [AdminRegionController::class, 'update'])->name('regions.update');
+    Route::delete('/regions/{region}', [AdminRegionController::class, 'destroy'])->name('regions.destroy');
+
+    // Gardens CRUD
+    Route::get('/gardens', [AdminGardenController::class, 'index'])->name('gardens.index');
+    Route::get('/gardens/create', [AdminGardenController::class, 'create'])->name('gardens.create');
+    Route::post('/gardens', [AdminGardenController::class, 'store'])->name('gardens.store');
+    Route::get('/gardens/{garden}/edit', [AdminGardenController::class, 'edit'])->name('gardens.edit');
+    Route::put('/gardens/{garden}', [AdminGardenController::class, 'update'])->name('gardens.update');
+    Route::delete('/gardens/{garden}', [AdminGardenController::class, 'destroy'])->name('gardens.destroy');
+
+    // Production Data CRUD
+    Route::get('/production', [AdminProductionController::class, 'index'])->name('production.index');
+    Route::get('/production/create', [AdminProductionController::class, 'create'])->name('production.create');
+    Route::post('/production', [AdminProductionController::class, 'store'])->name('production.store');
+    Route::get('/production/{production}/edit', [AdminProductionController::class, 'edit'])->name('production.edit');
+    Route::put('/production/{production}', [AdminProductionController::class, 'update'])->name('production.update');
+    Route::delete('/production/{production}', [AdminProductionController::class, 'destroy'])->name('production.destroy');
+
+    // Insights CRUD
+    Route::get('/insights', [AdminInsightController::class, 'index'])->name('insights.index');
+    Route::get('/insights/create', [AdminInsightController::class, 'create'])->name('insights.create');
+    Route::post('/insights', [AdminInsightController::class, 'store'])->name('insights.store');
+    Route::get('/insights/{insight}/edit', [AdminInsightController::class, 'edit'])->name('insights.edit');
+    Route::put('/insights/{insight}', [AdminInsightController::class, 'update'])->name('insights.update');
+    Route::delete('/insights/{insight}', [AdminInsightController::class, 'destroy'])->name('insights.destroy');
+});
