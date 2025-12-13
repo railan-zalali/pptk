@@ -26,43 +26,48 @@ class DashboardController extends Controller
 
     public function garden(Request $request)
     {
-        $gardens = Garden::with('region')->get();
+        $gardens = Garden::with(['region', 'productionData'])->get();
         $selectedGarden = $request->get('garden_id') ? Garden::find($request->get('garden_id')) : null;
 
-        // Calculate key metrics
-        $query = $selectedGarden ? $selectedGarden->productionData() : ProductionData::query();
+        $baseQuery = ProductionData::query();
+        if ($selectedGarden) {
+            $baseQuery->where('garden_id', $selectedGarden->id);
+        }
 
-        $totalProduction = $query->sum('production');
-        $avgProductivity = $query->avg('productivity');
+        $totalProduction = (clone $baseQuery)->sum('production');
+        $avgProductivity = (clone $baseQuery)->avg('productivity');
         $totalArea = $selectedGarden ? $selectedGarden->area : $gardens->sum('area');
         $gardenCount = $selectedGarden ? 1 : $gardens->count();
         $monthlyVisits = $selectedGarden ? $selectedGarden->visits()->whereMonth('visit_date', now()->month)->count() : \App\Models\Visit::whereMonth('visit_date', now()->month)->count();
 
-        // Calculate growth percentages
-        $lastMonthProduction = $query->whereBetween('record_date', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()])->sum('production');
+        $lastMonthProduction = (clone $baseQuery)
+            ->whereBetween('record_date', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()])
+            ->sum('production');
         $productionGrowth = $lastMonthProduction > 0 ? (($totalProduction - $lastMonthProduction) / $lastMonthProduction) * 100 : 0;
 
         $lastMonthVisits = $selectedGarden ? $selectedGarden->visits()->whereMonth('visit_date', now()->subMonth()->month)->count() : \App\Models\Visit::whereMonth('visit_date', now()->subMonth()->month)->count();
         $visitGrowth = $lastMonthVisits > 0 ? (($monthlyVisits - $lastMonthVisits) / $lastMonthVisits) * 100 : 0;
 
-        // Calculate productivity trend
-        $recentProductivity = $query->where('record_date', '>=', now()->subMonths(3))->avg('productivity');
-        $olderProductivity = $query->whereBetween('record_date', [now()->subMonths(6), now()->subMonths(3)])->avg('productivity');
+        $recentProductivity = (clone $baseQuery)
+            ->where('record_date', '>=', now()->subMonths(3))
+            ->avg('productivity');
+        $olderProductivity = (clone $baseQuery)
+            ->whereBetween('record_date', [now()->subMonths(6), now()->subMonths(3)])
+            ->avg('productivity');
         $productivityTrend = $olderProductivity > 0 ? (($recentProductivity - $olderProductivity) / $olderProductivity) * 100 : 0;
 
-        // Prepare chart data
         $productionChartData = $this->getProductionChartData($selectedGarden);
         $productivityChartData = $this->getProductivityChartData($selectedGarden);
         $regionalChartData = $this->getRegionalChartData();
 
         $monthStart = now()->startOfMonth();
         $yearStart = now()->startOfYear();
-        $rkapMonthly = $query->whereBetween('record_date', [$monthStart, now()])->avg('rkap_percentage') ?? 0;
-        $rkapYtd = $query->whereBetween('record_date', [$yearStart, now()])->avg('rkap_percentage') ?? 0;
-        $dryProductionYtd = $query->whereBetween('record_date', [$yearStart, now()])->sum('production') ?? 0;
-        $wetMonthlyAvg = $query->whereBetween('record_date', [$monthStart, now()])->avg('wet_production_kg') ?? 0;
-        $wetMonthlyTotal = $query->whereBetween('record_date', [$monthStart, now()])->sum('wet_production_kg') ?? 0;
-        $qualityMonthlyAvg = $query->whereBetween('record_date', [$monthStart, now()])->avg('quality_score') ?? 0;
+        $rkapMonthly = (clone $baseQuery)->whereBetween('record_date', [$monthStart, now()])->avg('rkap_percentage') ?? 0;
+        $rkapYtd = (clone $baseQuery)->whereBetween('record_date', [$yearStart, now()])->avg('rkap_percentage') ?? 0;
+        $dryProductionYtd = (clone $baseQuery)->whereBetween('record_date', [$yearStart, now()])->sum('production') ?? 0;
+        $wetMonthlyAvg = (clone $baseQuery)->whereBetween('record_date', [$monthStart, now()])->avg('wet_production_kg') ?? 0;
+        $wetMonthlyTotal = (clone $baseQuery)->whereBetween('record_date', [$monthStart, now()])->sum('wet_production_kg') ?? 0;
+        $qualityMonthlyAvg = (clone $baseQuery)->whereBetween('record_date', [$monthStart, now()])->avg('quality_score') ?? 0;
 
         return view('dashboard.garden', compact(
             'gardens',
@@ -96,25 +101,23 @@ class DashboardController extends Controller
         $monthsMap = ['6m' => 6, '1y' => 12, '2y' => 24, 'all' => null];
         $months = $monthsMap[$period] ?? 12;
 
-        $gardensQuery = Garden::with('region');
+        $gardensQuery = Garden::with(['region', 'productionData']);
         if ($regionId && $regionId !== 'all') {
             $gardensQuery->where('region_id', $regionId);
         }
         $gardens = $gardensQuery->get();
 
         $comparativeData = [];
+        $cutoff = $months ? now()->subMonths($months) : null;
         foreach ($gardens as $garden) {
-            $dataQuery = $garden->productionData();
-            if ($months) {
-                $dataQuery->where('record_date', '>=', now()->subMonths($months));
-            }
-
+            $data = $cutoff
+                ? $garden->productionData->filter(fn($d) => $d->record_date >= $cutoff)
+                : $garden->productionData;
             $metric = match ($focus) {
-                'quality' => $dataQuery->avg('quality_score'),
-                'sustainability' => $dataQuery->avg('rkap_percentage'),
-                default => $dataQuery->avg('productivity'),
+                'quality' => $data->avg('quality_score'),
+                'sustainability' => $data->avg('rkap_percentage'),
+                default => $data->avg('productivity'),
             };
-
             $comparativeData[] = [
                 'name' => $garden->name,
                 'productivity' => $metric,
@@ -124,12 +127,11 @@ class DashboardController extends Controller
 
         $regions = Region::all();
 
-        $topGarden = $gardens->sortByDesc(function ($g) use ($months) {
-            $q = $g->productionData();
-            if ($months) {
-                $q->where('record_date', '>=', now()->subMonths($months));
-            }
-            return $q->avg('productivity') ?? 0;
+        $topGarden = $gardens->sortByDesc(function ($g) use ($cutoff) {
+            $data = $cutoff
+                ? $g->productionData->filter(fn($d) => $d->record_date >= $cutoff)
+                : $g->productionData;
+            return $data->avg('productivity') ?? 0;
         })->first();
         $topVariety = $topGarden?->tea_variety ?? 'Tidak tersedia';
         $optimalElevation = round($gardens->avg('elevation') ?? 0);

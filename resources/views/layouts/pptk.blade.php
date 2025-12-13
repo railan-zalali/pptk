@@ -1,22 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Portal PPTK Gambung') }} - {{ $title ?? 'Portal Informasi dan Monitoring Kinerja Multi-Kebun Model Teh' }}</title>
+    <title>{{ config('app.name', 'Portal PPTK Gambung') }} -
+        {{ $title ?? 'Portal Informasi dan Monitoring Kinerja Multi-Kebun Model Teh' }}</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Portal Informasi dan Monitoring Kinerja Multi-Kebun Model Teh PPTK Gambung - Sistem monitoring real-time untuk kebun model teh">
+    <meta name="description"
+        content="Portal Informasi dan Monitoring Kinerja Multi-Kebun Model Teh PPTK Gambung - Sistem monitoring real-time untuk kebun model teh">
     <meta name="keywords" content="PPTK Gambung, Monitoring Kebun Teh, Kebun Model, Teh Indonesia, Penelitian Teh">
     <meta name="author" content="Pusat Penelitian Teh dan Kina Gambung">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -36,11 +40,36 @@
             --background-beige: #F5F5DC;
             --earth-brown: #8B4513;
             --tea-green: #9ACD32;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #4b5563;
+        }
+
+        .dark {
+            --primary-green: #4ade80;
+            /* lighter green for dark mode */
+            --secondary-green: #22c55e;
+            --accent-green: #166534;
+            --background-beige: #111827;
+            /* gray-900 */
+            --earth-brown: #d97706;
+            --tea-green: #3f6212;
+            --card-bg: #1f2937;
+            /* gray-800 */
+            --text-main: #f3f4f6;
+            /* gray-100 */
+            --text-muted: #9ca3af;
+            /* gray-400 */
         }
 
         body {
             font-family: 'Open Sans', sans-serif;
             background: linear-gradient(135deg, var(--background-beige) 0%, #ffffff 100%);
+            color: var(--text-main);
+        }
+
+        .dark body {
+            background: linear-gradient(135deg, var(--background-beige) 0%, #030712 100%);
         }
 
         .pptk-primary {
@@ -56,10 +85,11 @@
         }
 
         .pptk-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            color: var(--text-main);
         }
 
         .pptk-card:hover {
@@ -248,41 +278,54 @@
 
     @stack('styles')
 </head>
-<body class="font-sans antialiased tea-pattern">
+
+<body class="font-sans antialiased tea-pattern dark:bg-gray-900 dark:text-gray-100">
     <div class="min-h-screen">
         <!-- Navigation -->
-        <nav class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
+        <nav class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <!-- Logo -->
                     <div class="flex items-center">
                         <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                            <div class="w-10 h-10 bg-gradient-to-br from-green-600 to-green-400 rounded-full flex items-center justify-center">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-green-600 to-green-400 rounded-full flex items-center justify-center">
                                 <span class="material-icons text-white text-lg">eco</span>
                             </div>
                             <div class="hidden md:block">
-                                <h1 class="text-xl font-bold text-gray-800">Portal PPTK Gambung</h1>
-                                <p class="text-xs text-gray-600">Multi-Kebun Model Teh</p>
+                                <h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">Portal PPTK Gambung</h1>
+                                <p class="text-xs text-gray-600 dark:text-gray-300">Multi-Kebun Model Teh</p>
                             </div>
                         </a>
                     </div>
 
                     <!-- Desktop Navigation -->
                     <div class="hidden md:flex items-center space-x-8">
-                        <a href="{{ route('home') }}" class="nav-link text-gray-700 hover:text-green-600 font-medium">Beranda</a>
-                        <a href="{{ route('about') }}" class="nav-link text-gray-700 hover:text-green-600 font-medium">Tentang</a>
-                        <a href="{{ route('strategic.index') }}" class="nav-link text-gray-700 hover:text-green-600 font-medium">Strategic Action</a>
-                        <a href="{{ route('visits.index') }}" class="nav-link text-gray-700 hover:text-green-600 font-medium">Kunjungan</a>
+                        <a href="{{ route('home') }}"
+                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Beranda</a>
+                        <a href="{{ route('about') }}"
+                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Tentang</a>
+                        <a href="{{ route('strategic.index') }}"
+                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Strategic
+                            Action</a>
+                        <a href="{{ route('visits.index') }}"
+                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Kunjungan</a>
 
                         @auth
                             <div class="relative group">
-                                <button class="nav-link text-gray-700 hover:text-green-600 font-medium flex items-center">
+                                <button
+                                    class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium flex items-center">
                                     Dashboard
                                     <span class="material-icons ml-1 text-sm">expand_more</span>
                                 </button>
-                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                                    <a href="{{ route('dashboard.garden') }}" class="block px-4 py-2 text-gray-700 hover:bg-green-50 rounded-t-lg">Dashboard Kebun Model</a>
-                                    <a href="{{ route('dashboard.research') }}" class="block px-4 py-2 text-gray-700 hover:bg-green-50 rounded-b-lg">Dashboard Penelitian</a>
+                                <div
+                                    class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                    <a href="{{ route('dashboard.garden') }}"
+                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Dashboard
+                                        Kebun Model</a>
+                                    <a href="{{ route('dashboard.research') }}"
+                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-b-lg">Dashboard
+                                        Penelitian</a>
                                 </div>
                             </div>
                         @endauth
@@ -293,34 +336,48 @@
                         <!-- Search Bar -->
                         <div class="hidden lg:block">
                             <div class="relative">
-                                <input type="text" placeholder="Cari kebun atau indikator..." class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                <span class="material-icons absolute left-3 top-2.5 text-gray-400">search</span>
+                                <input type="text" placeholder="Cari kebun atau indikator..."
+                                    class="w-64 pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-gray-100">
+                                <span
+                                    class="material-icons absolute left-3 top-2.5 text-gray-400 dark:text-gray-500">search</span>
                             </div>
                         </div>
+                        <button id="themeToggle"
+                            class="p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 touch-friendly"
+                            title="Toggle tema">
+                            <span class="material-icons" id="themeIcon">dark_mode</span>
+                        </button>
 
                         <!-- Auth Links -->
                         @guest
-                            <a href="{{ route('login') }}" class="text-gray-700 hover:text-green-600 font-medium">Masuk</a>
+                            <a href="{{ route('login') }}"
+                                class="text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Masuk</a>
                             <a href="{{ route('register') }}" class="pptk-btn text-sm">Daftar</a>
                         @else
                             <div class="relative group">
-                                <button class="flex items-center space-x-2 text-gray-700 hover:text-green-600">
+                                <button
+                                    class="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-green-600">
                                     <span class="material-icons">account_circle</span>
                                     <span class="hidden md:block">{{ Auth::user()->name }}</span>
                                     <span class="material-icons text-sm">expand_more</span>
                                 </button>
-                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                                    <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-gray-700 hover:bg-green-50 rounded-t-lg">Profil</a>
+                                <div
+                                    class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                    <a href="{{ route('profile.edit') }}"
+                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Profil</a>
                                     <form method="POST" action="{{ route('logout') }}" class="block">
                                         @csrf
-                                        <button type="submit" class="w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 rounded-b-lg">Keluar</button>
+                                        <button type="submit"
+                                            class="w-full text-left px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-b-lg">Keluar</button>
                                     </form>
                                 </div>
                             </div>
                         @endguest
 
                         <!-- Mobile menu button -->
-                        <button class="md:hidden p-2 rounded-md text-gray-700 hover:text-green-600 hover:bg-gray-100 touch-friendly" onclick="toggleMobileMenu()">
+                        <button
+                            class="md:hidden p-2 rounded-md text-gray-700 hover:text-green-600 hover:bg-gray-100 touch-friendly"
+                            onclick="toggleMobileMenu()">
                             <span class="material-icons">menu</span>
                         </button>
                     </div>
@@ -330,15 +387,24 @@
             <!-- Mobile Navigation -->
             <div id="mobile-menu" class="md:hidden hidden mobile-menu border-t">
                 <div class="px-4 py-2 space-y-1">
-                    <a href="{{ route('home') }}" class="mobile-nav-item block text-gray-700 hover:text-green-600 hover:bg-green-50">Beranda</a>
-                    <a href="{{ route('about') }}" class="mobile-nav-item block text-gray-700 hover:text-green-600 hover:bg-green-50">Tentang</a>
-                    <a href="{{ route('strategic.index') }}" class="mobile-nav-item block text-gray-700 hover:text-green-600 hover:bg-green-50">Strategic Action</a>
-                    <a href="{{ route('visits.index') }}" class="mobile-nav-item block text-gray-700 hover:text-green-600 hover:bg-green-50">Kunjungan</a>
+                    <a href="{{ route('home') }}"
+                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Beranda</a>
+                    <a href="{{ route('about') }}"
+                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Tentang</a>
+                    <a href="{{ route('strategic.index') }}"
+                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Strategic
+                        Action</a>
+                    <a href="{{ route('visits.index') }}"
+                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Kunjungan</a>
                     @auth
                         <div class="border-t pt-2 mt-2">
-                            <p class="px-3 py-2 text-sm font-medium text-gray-500">Dashboard</p>
-                            <a href="{{ route('dashboard.garden') }}" class="mobile-nav-item block text-gray-700 hover:text-green-600 hover:bg-green-50 ml-4">Dashboard Kebun Model</a>
-                            <a href="{{ route('dashboard.research') }}" class="mobile-nav-item block text-gray-700 hover:text-green-600 hover:bg-green-50 ml-4">Dashboard Penelitian</a>
+                            <p class="px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-300">Dashboard</p>
+                            <a href="{{ route('dashboard.garden') }}"
+                                class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700 ml-4">Dashboard
+                                Kebun Model</a>
+                            <a href="{{ route('dashboard.research') }}"
+                                class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700 ml-4">Dashboard
+                                Penelitian</a>
                         </div>
                     @endauth
                 </div>
@@ -347,9 +413,9 @@
 
         <!-- Page Heading -->
         @if (isset($header))
-            <header class="bg-white/90 backdrop-blur-sm shadow">
+            <header class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-100 leading-tight">
                         {{ $header }}
                     </h2>
                 </div>
@@ -367,22 +433,29 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
                         <h3 class="text-lg font-semibold mb-4">Portal PPTK Gambung</h3>
-                        <p class="text-green-100">Sistem monitoring kinerja multi-kebun model teh untuk mendukung penelitian dan pengembangan pertanian berkelanjutan.</p>
+                        <p class="text-green-100">Sistem monitoring kinerja multi-kebun model teh untuk mendukung
+                            penelitian dan pengembangan pertanian berkelanjutan.</p>
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold mb-4">Kontak</h3>
                         <div class="space-y-2 text-green-100">
-                            <p class="flex items-center"><span class="material-icons mr-2">location_on</span> Pusat Penelitian Teh dan Kina Gambung</p>
-                            <p class="flex items-center"><span class="material-icons mr-2">phone</span> +62 22 278 1234</p>
-                            <p class="flex items-center"><span class="material-icons mr-2">email</span> info@pptk-gambung.id</p>
+                            <p class="flex items-center"><span class="material-icons mr-2">location_on</span> Pusat
+                                Penelitian Teh dan Kina Gambung</p>
+                            <p class="flex items-center"><span class="material-icons mr-2">phone</span> +62 22 278
+                                1234</p>
+                            <p class="flex items-center"><span class="material-icons mr-2">email</span>
+                                info@pptk-gambung.id</p>
                         </div>
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold mb-4">Tautan Cepat</h3>
                         <div class="space-y-2">
-                            <a href="{{ route('about') }}" class="block text-green-100 hover:text-white transition-colors">Tentang Kebun Model</a>
-                            <a href="{{ route('strategic.index') }}" class="block text-green-100 hover:text-white transition-colors">Strategic Action</a>
-                            <a href="{{ route('dashboard.garden') }}" class="block text-green-100 hover:text-white transition-colors">Dashboard</a>
+                            <a href="{{ route('about') }}"
+                                class="block text-green-100 hover:text-white transition-colors">Tentang Kebun Model</a>
+                            <a href="{{ route('strategic.index') }}"
+                                class="block text-green-100 hover:text-white transition-colors">Strategic Action</a>
+                            <a href="{{ route('dashboard.garden') }}"
+                                class="block text-green-100 hover:text-white transition-colors">Dashboard</a>
                         </div>
                     </div>
                 </div>
@@ -395,6 +468,32 @@
 
     <!-- Scripts -->
     <script>
+        (function() {
+            var s = localStorage.getItem('theme');
+            var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var t = s ? s : (d ? 'dark' : 'light');
+            if (t === 'dark') {
+                document.documentElement.classList.add('dark')
+            }
+        })();
+        (function() {
+            var b = document.getElementById('themeToggle');
+            var i = document.getElementById('themeIcon');
+
+            function u() {
+                i.textContent = document.documentElement.classList.contains('dark') ? 'light_mode' : 'dark_mode'
+            }
+            if (b && i) {
+                u();
+                b.addEventListener('click', function() {
+                    document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' :
+                        'light');
+                    u()
+                })
+            }
+        })();
+
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
@@ -413,4 +512,5 @@
 
     @stack('scripts')
 </body>
+
 </html>

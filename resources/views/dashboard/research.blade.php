@@ -6,16 +6,18 @@
     <div class="container mx-auto px-4 py-8">
         <!-- Page Header -->
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-green-800 mb-2">Dashboard Penelitian</h1>
-            <p class="text-gray-600">Analisis komparatif dan wawasan ilmiah untuk penelitian kebun model teh</p>
+            <h1 class="text-3xl font-bold text-green-800 dark:text-green-100 mb-2">Dashboard Penelitian</h1>
+            <p class="text-gray-600 dark:text-gray-300">Analisis komparatif dan wawasan ilmiah untuk penelitian kebun model
+                teh</p>
         </div>
 
         <!-- Research Filters -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Periode Analisis</label>
-                    <select id="periodFilter" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Periode Analisis</label>
+                    <select id="periodFilter"
+                        class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                         <option value="6m">6 Bulan Terakhir</option>
                         <option value="1y" selected>1 Tahun Terakhir</option>
                         <option value="2y">2 Tahun Terakhir</option>
@@ -23,8 +25,9 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Fokus Penelitian</label>
-                    <select id="focusFilter" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Fokus Penelitian</label>
+                    <select id="focusFilter"
+                        class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                         <option value="productivity" selected>Produktivitas</option>
                         <option value="quality">Kualitas</option>
                         <option value="sustainability">Keberlanjutan</option>
@@ -32,8 +35,9 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Wilayah</label>
-                    <select id="regionFilter" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Wilayah</label>
+                    <select id="regionFilter"
+                        class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                         <option value="all" selected>Semua Wilayah</option>
                         @foreach ($regions as $region)
                             <option value="{{ $region->id }}">{{ $region->name }}</option>
@@ -51,80 +55,93 @@
 
         <!-- Key Research Insights -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg shadow-lg p-6 border border-green-200">
+            <div
+                class="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/50 dark:to-green-800/50 rounded-lg shadow-lg p-6 border border-green-200 dark:border-green-800">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-green-800">Temuan Utama</h3>
-                    <div class="bg-green-200 p-2 rounded-full">
-                        <i class="fas fa-microscope text-green-600"></i>
+                    <h3 class="text-lg font-semibold text-green-800 dark:text-green-100">Temuan Utama</h3>
+                    <div class="bg-green-200 dark:bg-green-800 p-2 rounded-full">
+                        <i class="fas fa-microscope text-green-600 dark:text-green-300"></i>
                     </div>
                 </div>
                 <div class="space-y-3">
                     <div class="flex items-start">
-                        <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3"></div>
-                        <p class="text-sm text-gray-700">Varietas <strong>{{ $topVariety }}</strong> menunjukkan
+                        <div class="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full mt-2 mr-3"></div>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">Varietas <strong>{{ $topVariety }}</strong>
+                            menunjukkan
                             produktivitas tertinggi</p>
                     </div>
                     <div class="flex items-start">
-                        <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3"></div>
-                        <p class="text-sm text-gray-700">Elevasi {{ $optimalElevation }} mdpl optimal untuk pertumbuhan</p>
+                        <div class="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full mt-2 mr-3"></div>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">Elevasi {{ $optimalElevation }} mdpl optimal
+                            untuk pertumbuhan</p>
                     </div>
                     <div class="flex items-start">
-                        <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3"></div>
-                        <p class="text-sm text-gray-700">pH tanah {{ $optimalPh }} memberikan hasil terbaik</p>
+                        <div class="w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full mt-2 mr-3"></div>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">pH tanah {{ $optimalPh }} memberikan hasil
+                            terbaik</p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg shadow-lg p-6 border border-blue-200">
+            <div
+                class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 rounded-lg shadow-lg p-6 border border-blue-200 dark:border-blue-800">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-blue-800">Statistik Penelitian</h3>
-                    <div class="bg-blue-200 p-2 rounded-full">
-                        <i class="fas fa-chart-bar text-blue-600"></i>
+                    <h3 class="text-lg font-semibold text-blue-800 dark:text-blue-100">Statistik Penelitian</h3>
+                    <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded-full">
+                        <i class="fas fa-chart-bar text-blue-600 dark:text-blue-300"></i>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <p class="text-2xl font-bold text-blue-600">{{ number_format($researchCount, 0) }}</p>
-                        <p class="text-xs text-gray-600">Penelitian Aktif</p>
+                        <p class="text-2xl font-bold text-blue-600 dark:text-blue-300">
+                            {{ number_format($researchCount, 0) }}</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Penelitian Aktif</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-blue-600">{{ number_format($publicationCount, 0) }}</p>
-                        <p class="text-xs text-gray-600">Publikasi Ilmiah</p>
+                        <p class="text-2xl font-bold text-blue-600 dark:text-blue-300">
+                            {{ number_format($publicationCount, 0) }}</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Publikasi Ilmiah</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-blue-600">{{ number_format($collaborationCount, 0) }}</p>
-                        <p class="text-xs text-gray-600">Kolaborasi</p>
+                        <p class="text-2xl font-bold text-blue-600 dark:text-blue-300">
+                            {{ number_format($collaborationCount, 0) }}</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Kolaborasi</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-blue-600">{{ number_format($datasetCount, 0) }}</p>
-                        <p class="text-xs text-gray-600">Dataset</p>
+                        <p class="text-2xl font-bold text-blue-600 dark:text-blue-300">{{ number_format($datasetCount, 0) }}
+                        </p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">Dataset</p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg shadow-lg p-6 border border-purple-200">
+            <div
+                class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/50 dark:to-purple-800/50 rounded-lg shadow-lg p-6 border border-purple-200 dark:border-purple-800">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-purple-800">Tren Terbaru</h3>
-                    <div class="bg-purple-200 p-2 rounded-full">
-                        <i class="fas fa-trending-up text-purple-600"></i>
+                    <h3 class="text-lg font-semibold text-purple-800 dark:text-purple-100">Tren Terbaru</h3>
+                    <div class="bg-purple-200 dark:bg-purple-800 p-2 rounded-full">
+                        <i class="fas fa-trending-up text-purple-600 dark:text-purple-300"></i>
                     </div>
                 </div>
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-700">Produktivitas</span>
-                        <span class="text-sm font-semibold text-{{ $productivityTrend >= 0 ? 'green' : 'red' }}-600">
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Produktivitas</span>
+                        <span
+                            class="text-sm font-semibold text-{{ $productivityTrend >= 0 ? 'green' : 'red' }}-600 dark:text-{{ $productivityTrend >= 0 ? 'green' : 'red' }}-400">
                             {{ $productivityTrend >= 0 ? '+' : '' }}{{ number_format($productivityTrend, 1) }}%
                         </span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-700">Kualitas Daun</span>
-                        <span class="text-sm font-semibold text-{{ $qualityTrend >= 0 ? 'green' : 'red' }}-600">
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Kualitas Daun</span>
+                        <span
+                            class="text-sm font-semibold text-{{ $qualityTrend >= 0 ? 'green' : 'red' }}-600 dark:text-{{ $qualityTrend >= 0 ? 'green' : 'red' }}-400">
                             {{ $qualityTrend >= 0 ? '+' : '' }}{{ number_format($qualityTrend, 1) }}%
                         </span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-700">Keberlanjutan</span>
-                        <span class="text-sm font-semibold text-{{ $sustainabilityTrend >= 0 ? 'green' : 'red' }}-600">
+                        <span class="text-sm text-gray-700 dark:text-gray-300">Keberlanjutan</span>
+                        <span
+                            class="text-sm font-semibold text-{{ $sustainabilityTrend >= 0 ? 'green' : 'red' }}-600 dark:text-{{ $sustainabilityTrend >= 0 ? 'green' : 'red' }}-400">
                             {{ $sustainabilityTrend >= 0 ? '+' : '' }}{{ number_format($sustainabilityTrend, 1) }}%
                         </span>
                     </div>
@@ -135,10 +152,12 @@
         <!-- Comparative Analysis Charts -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             <!-- Productivity Comparison -->
-            <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Perbandingan Produktivitas per Varietas</h3>
-                    <button onclick="exportChart('productivityComparison')" class="text-blue-600 hover:text-blue-800">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Perbandingan Produktivitas per
+                        Varietas</h3>
+                    <button onclick="exportChart('productivityComparison')"
+                        class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
                         <i class="fas fa-download"></i>
                     </button>
                 </div>
@@ -148,10 +167,11 @@
             </div>
 
             <!-- Environmental Factors -->
-            <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Pengaruh Faktor Lingkungan</h3>
-                    <button onclick="exportChart('environmentalFactors')" class="text-blue-600 hover:text-blue-800">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Pengaruh Faktor Lingkungan</h3>
+                    <button onclick="exportChart('environmentalFactors')"
+                        class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
                         <i class="fas fa-download"></i>
                     </button>
                 </div>
@@ -162,25 +182,25 @@
         </div>
 
         <!-- Research Correlation Matrix -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Matriks Korelasi Faktor Penelitian</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Matriks Korelasi Faktor Penelitian</h3>
             <div class="grid grid-cols-5 gap-2 text-xs">
                 <div></div>
                 @foreach (['Produktivitas', 'Kualitas', 'pH Tanah', 'Curah Hujan', 'Elevasi'] as $factor)
-                    <div class="text-center font-semibold text-gray-700 p-2">{{ $factor }}</div>
+                    <div class="text-center font-semibold text-gray-700 dark:text-gray-300 p-2">{{ $factor }}</div>
                 @endforeach
                 @foreach ($correlationMatrix as $rowFactor => $correlations)
-                    <div class="font-semibold text-gray-700 p-2">{{ $rowFactor }}</div>
+                    <div class="font-semibold text-gray-700 dark:text-gray-300 p-2">{{ $rowFactor }}</div>
                     @foreach ($correlations as $colFactor => $correlation)
                         @php
                             $corrColor =
                                 $correlation >= 0.6
-                                    ? 'bg-green-100 text-green-800'
+                                    ? 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-100'
                                     : ($correlation >= 0.3
-                                        ? 'bg-yellow-100 text-yellow-800'
+                                        ? 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-100'
                                         : ($correlation <= -0.3
-                                            ? 'bg-red-100 text-red-800'
-                                            : 'bg-gray-100 text-gray-800'));
+                                            ? 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-100'
+                                            : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'));
                         @endphp
                         <div class="text-center p-2 rounded {{ $corrColor }}">
                             {{ number_format($correlation, 2) }}
@@ -188,35 +208,39 @@
                     @endforeach
                 @endforeach
             </div>
-            <div class="mt-4 text-xs text-gray-600">
+            <div class="mt-4 text-xs text-gray-600 dark:text-gray-400">
                 <p><strong>Keterangan:</strong> Korelasi mendekati 1 menunjukkan hubungan positif kuat, mendekati -1
                     menunjukkan hubungan negatif kuat</p>
             </div>
         </div>
 
         <!-- Research Publications -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">Publikasi Penelitian Terbaru</h3>
-                <a href="#" class="text-green-600 hover:text-green-800 text-sm font-medium">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Publikasi Penelitian Terbaru</h3>
+                <a href="#"
+                    class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium">
                     Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
                 </a>
             </div>
             <div class="space-y-4">
                 @foreach ($recentPublications as $publication)
-                    <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                    <div
+                        class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div class="flex-1">
-                                <h4 class="font-semibold text-gray-800 mb-1">{{ $publication->title }}</h4>
-                                <p class="text-sm text-gray-600 mb-2">{{ $publication->authors }} •
+                                <h4 class="font-semibold text-gray-800 dark:text-gray-100 mb-1">{{ $publication->title }}
+                                </h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{{ $publication->authors }} •
                                     {{ $publication->journal }}</p>
                                 <div class="flex flex-wrap gap-2 mb-2">
                                     @foreach ($publication->keywords as $keyword)
                                         <span
-                                            class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">{{ $keyword }}</span>
+                                            class="px-2 py-1 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-100 rounded text-xs">{{ $keyword }}</span>
                                     @endforeach
                                 </div>
-                                <p class="text-xs text-gray-500">{{ $publication->published_date->format('d M Y') }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                    {{ $publication->published_date->format('d M Y') }}</p>
                             </div>
                             <div class="mt-3 md:mt-0 md:ml-4 flex gap-2">
                                 <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
@@ -233,42 +257,43 @@
         </div>
 
         <!-- Research Collaboration Network -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Jaringan Kolaborasi Penelitian</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Jaringan Kolaborasi Penelitian</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                    <h4 class="font-medium text-gray-700 mb-3">Institusi Mitra</h4>
+                    <h4 class="font-medium text-gray-700 dark:text-gray-300 mb-3">Institusi Mitra</h4>
                     <div class="space-y-2">
                         @foreach ($collaborationInstitutions as $institution)
-                            <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
-                                <span class="text-sm text-gray-700">{{ $institution->name }}</span>
+                            <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                                <span class="text-sm text-gray-700 dark:text-gray-200">{{ $institution->name }}</span>
                                 <span
-                                    class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ $institution->projects }}
+                                    class="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-100 px-2 py-1 rounded">{{ $institution->projects }}
                                     proyek</span>
                             </div>
                         @endforeach
                     </div>
                 </div>
                 <div>
-                    <h4 class="font-medium text-gray-700 mb-3">Peneliti Utama</h4>
+                    <h4 class="font-medium text-gray-700 dark:text-gray-300 mb-3">Peneliti Utama</h4>
                     <div class="space-y-2">
                         @foreach ($topResearchers as $researcher)
-                            <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
-                                <span class="text-sm text-gray-700">{{ $researcher->name }}</span>
+                            <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                                <span class="text-sm text-gray-700 dark:text-gray-200">{{ $researcher->name }}</span>
                                 <span
-                                    class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">{{ $researcher->publications }}
+                                    class="text-xs bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-100 px-2 py-1 rounded">{{ $researcher->publications }}
                                     publikasi</span>
                             </div>
                         @endforeach
                     </div>
                 </div>
                 <div>
-                    <h4 class="font-medium text-gray-700 mb-3">Area Penelitian</h4>
+                    <h4 class="font-medium text-gray-700 dark:text-gray-300 mb-3">Area Penelitian</h4>
                     <div class="space-y-2">
                         @foreach ($researchAreas as $area)
-                            <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
-                                <span class="text-sm text-gray-700">{{ $area->name }}</span>
-                                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">{{ $area->studies }}
+                            <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                                <span class="text-sm text-gray-700 dark:text-gray-200">{{ $area->name }}</span>
+                                <span
+                                    class="text-xs bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-100 px-2 py-1 rounded">{{ $area->studies }}
                                     studi</span>
                             </div>
                         @endforeach
@@ -284,6 +309,18 @@
     <script>
         // Chart data from controller
         const chartData = @json($chartData);
+
+        // Theme colors helper
+        function getThemeColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            return {
+                text: isDark ? '#e5e7eb' : '#374151', // gray-200 : gray-700
+                grid: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                backdrop: isDark ? 'rgba(31, 41, 55, 0.8)' : 'rgba(255, 255, 255, 0.8)'
+            };
+        }
+
+        const initialColors = getThemeColors();
 
         // Productivity Comparison Chart
         const productivityCtx = document.getElementById('productivityComparisonChart').getContext('2d');
@@ -316,7 +353,22 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Produktivitas (kg/ha)'
+                            text: 'Produktivitas (kg/ha)',
+                            color: initialColors.text
+                        },
+                        ticks: {
+                            color: initialColors.text
+                        },
+                        grid: {
+                            color: initialColors.grid
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: initialColors.text
+                        },
+                        grid: {
+                            color: initialColors.grid
                         }
                     }
                 }
@@ -353,10 +405,53 @@
                 scales: {
                     r: {
                         beginAtZero: true,
-                        max: 100
+                        max: 100,
+                        pointLabels: {
+                            color: initialColors.text
+                        },
+                        grid: {
+                            color: initialColors.grid
+                        },
+                        ticks: {
+                            color: initialColors.text,
+                            backdropColor: initialColors.backdrop
+                        }
                     }
                 }
             }
+        });
+
+        // Update charts when theme changes
+        function updateCharts() {
+            const colors = getThemeColors();
+
+            // Update Productivity Chart
+            productivityChart.options.scales.y.ticks.color = colors.text;
+            productivityChart.options.scales.y.title.color = colors.text;
+            productivityChart.options.scales.y.grid.color = colors.grid;
+            productivityChart.options.scales.x.ticks.color = colors.text;
+            productivityChart.options.scales.x.grid.color = colors.grid;
+            productivityChart.update();
+
+            // Update Environmental Chart
+            environmentalChart.options.scales.r.pointLabels.color = colors.text;
+            environmentalChart.options.scales.r.grid.color = colors.grid;
+            environmentalChart.options.scales.r.ticks.color = colors.text;
+            environmentalChart.options.scales.r.ticks.backdropColor = colors.backdrop;
+            environmentalChart.update();
+        }
+
+        // Listen for theme changes using MutationObserver on html element
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    updateCharts();
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true
         });
 
         // Research dashboard functions

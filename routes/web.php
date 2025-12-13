@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminGardenController;
 use App\Http\Controllers\Admin\AdminProductionController;
 use App\Http\Controllers\Admin\AdminInsightController;
 use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\AdminVisitController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -79,4 +80,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/insights/{insight}/edit', [AdminInsightController::class, 'edit'])->name('insights.edit');
     Route::put('/insights/{insight}', [AdminInsightController::class, 'update'])->name('insights.update');
     Route::delete('/insights/{insight}', [AdminInsightController::class, 'destroy'])->name('insights.destroy');
+
+    Route::get('/visits', [AdminVisitController::class, 'index'])->name('visits.index');
+    Route::get('/visits/create', [AdminVisitController::class, 'create'])->name('visits.create');
+    Route::post('/visits', [AdminVisitController::class, 'store'])->name('visits.store');
+    Route::get('/visits/{visit}/edit', [AdminVisitController::class, 'edit'])->name('visits.edit');
+    Route::put('/visits/{visit}', [AdminVisitController::class, 'update'])->name('visits.update');
+    Route::delete('/visits/{visit}', [AdminVisitController::class, 'destroy'])->name('visits.destroy');
 });

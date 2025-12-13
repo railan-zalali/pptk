@@ -7,49 +7,49 @@
         <!-- Breadcrumb -->
         <nav class="mb-8">
             <ol class="flex items-center space-x-2 text-sm">
-                <li><a href="{{ route('home') }}" class="text-green-600 hover:text-green-800">Beranda</a></li>
-                <li><span class="text-gray-400">/</span></li>
-                <li><a href="{{ route('strategic.index') }}" class="text-green-600 hover:text-green-800">Aksi Strategis</a>
+                <li><a href="{{ route('home') }}" class="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300">Beranda</a></li>
+                <li><span class="text-gray-400 dark:text-gray-600">/</span></li>
+                <li><a href="{{ route('strategic.index') }}" class="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300">Aksi Strategis</a>
                 </li>
-                <li><span class="text-gray-400">/</span></li>
+                <li><span class="text-gray-400 dark:text-gray-600">/</span></li>
                 <li><a href="{{ route('strategic.region', $garden->region->id) }}"
-                        class="text-green-600 hover:text-green-800">{{ $garden->region->name }}</a></li>
-                <li><span class="text-gray-400">/</span></li>
-                <li class="text-gray-700">{{ $garden->name }}</li>
+                        class="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300">{{ $garden->region->name }}</a></li>
+                <li><span class="text-gray-400 dark:text-gray-600">/</span></li>
+                <li class="text-gray-700 dark:text-gray-300">{{ $garden->name }}</li>
             </ol>
         </nav>
 
         <!-- Garden Header -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
             <div class="flex flex-col md:flex-row items-start justify-between">
                 <div class="mb-4 md:mb-0">
-                    <h1 class="text-3xl font-bold text-green-800 mb-2">{{ $garden->name }}</h1>
-                    <p class="text-gray-600 mb-2">
-                        <i class="fas fa-map-marker-alt text-green-600 mr-2"></i>
+                    <h1 class="text-3xl font-bold text-green-800 dark:text-green-100 mb-2">{{ $garden->name }}</h1>
+                    <p class="text-gray-600 dark:text-gray-300 mb-2">
+                        <i class="fas fa-map-marker-alt text-green-600 dark:text-green-400 mr-2"></i>
                         {{ $garden->address }}, {{ $garden->region->name }}
                     </p>
-                    <p class="text-gray-600 mb-4">
-                        <i class="fas fa-ruler-combined text-green-600 mr-2"></i>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">
+                        <i class="fas fa-ruler-combined text-green-600 dark:text-green-400 mr-2"></i>
                         Luas Area: {{ number_format($garden->area, 2) }} hektar
                     </p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                        <span class="px-3 py-1 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-100 rounded-full text-sm">
                             {{ ucfirst($garden->garden_type) }}
                         </span>
-                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                        <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-100 rounded-full text-sm">
                             {{ $garden->elevation }} mdpl
                         </span>
-                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
+                        <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-100 rounded-full text-sm">
                             Varietas: {{ $garden->tea_variety }}
                         </span>
                     </div>
                 </div>
                 <div class="text-right">
-                    <div class="text-2xl font-bold text-green-600 mb-2">
+                    <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
                         {{ number_format($latestProduction->productivity ?? 0, 1) }} kg/ha
                     </div>
-                    <div class="text-sm text-gray-600">Produktivitas Terakhir</div>
-                    <div class="text-xs text-gray-500">{{ $latestProduction->month ?? 'Belum ada data' }}</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-300">Produktivitas Terakhir</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ $latestProduction->month ?? 'Belum ada data' }}</div>
                 </div>
             </div>
         </div>
@@ -58,17 +58,17 @@
                 class="pptk-btn text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Kembali
                 ke Wilayah</a>
             <a href="{{ route('visits.index') }}"
-                class="px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Lihat
+                class="px-4 py-2 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-100 dark:hover:bg-green-800 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Lihat
                 Kunjungan</a>
-            <div class="flex gap-2 sticky top-20 z-40 bg-white/70 backdrop-blur-md rounded-full px-2 py-1">
+            <div class="flex gap-2 sticky top-20 z-40 bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-full px-2 py-1">
                 <a href="#lokasi"
-                    class="px-3 py-1 bg-green-50 text-green-700 rounded-full hover:bg-green-100 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Lokasi</a>
+                    class="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full hover:bg-green-100 dark:hover:bg-green-800 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Lokasi</a>
                 <a href="#statistik"
-                    class="px-3 py-1 bg-green-50 text-green-700 rounded-full hover:bg-green-100 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Statistik</a>
+                    class="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full hover:bg-green-100 dark:hover:bg-green-800 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Statistik</a>
                 <a href="#dokumentasi"
-                    class="px-3 py-1 bg-green-50 text-green-700 rounded-full hover:bg-green-100 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Dokumentasi</a>
+                    class="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full hover:bg-green-100 dark:hover:bg-green-800 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Dokumentasi</a>
                 <a href="#wawasan"
-                    class="px-3 py-1 bg-green-50 text-green-700 rounded-full hover:bg-green-100 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Wawasan</a>
+                    class="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full hover:bg-green-100 dark:hover:bg-green-800 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300">Wawasan</a>
             </div>
         </div>
 
@@ -76,36 +76,36 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             <!-- Map Section -->
             <div class="lg:col-span-2 scroll-mt-24" id="lokasi">
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-xl font-bold text-green-800 mb-4">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-bold text-green-800 dark:text-green-100 mb-4">
                         <i class="fas fa-map mr-2"></i>Peta Lokasi
                     </h2>
                     <div id="map"
-                        class="relative w-full h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden border border-gray-200 mb-4">
+                        class="relative w-full h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 mb-4">
                         <div id="mapSkeleton"
-                            class="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse z-10">
-                            <div class="text-center text-gray-500">
-                                <div class="w-32 h-4 bg-gray-200 rounded mb-2"></div>
-                                <div class="w-24 h-4 bg-gray-200 rounded mx-auto"></div>
+                            class="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-700 animate-pulse z-10">
+                            <div class="text-center text-gray-500 dark:text-gray-400">
+                                <div class="w-32 h-4 bg-gray-200 dark:bg-gray-600 rounded mb-2"></div>
+                                <div class="w-24 h-4 bg-gray-200 dark:bg-gray-600 rounded mx-auto"></div>
                             </div>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                            <span class="font-semibold text-gray-700">Latitude:</span>
-                            <span class="text-gray-600 ml-2">{{ $garden->latitude ?? '-' }}</span>
+                            <span class="font-semibold text-gray-700 dark:text-gray-300">Latitude:</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->latitude ?? '-' }}</span>
                         </div>
                         <div>
-                            <span class="font-semibold text-gray-700">Longitude:</span>
-                            <span class="text-gray-600 ml-2">{{ $garden->longitude ?? '-' }}</span>
+                            <span class="font-semibold text-gray-700 dark:text-gray-300">Longitude:</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->longitude ?? '-' }}</span>
                         </div>
                         <div>
-                            <span class="font-semibold text-gray-700">Ketinggian:</span>
-                            <span class="text-gray-600 ml-2">{{ $garden->elevation }} mdpl</span>
+                            <span class="font-semibold text-gray-700 dark:text-gray-300">Ketinggian:</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->elevation }} mdpl</span>
                         </div>
                         <div>
-                            <span class="font-semibold text-gray-700">Curah Hujan:</span>
-                            <span class="text-gray-600 ml-2">{{ $garden->rainfall }} mm/tahun</span>
+                            <span class="font-semibold text-gray-700 dark:text-gray-300">Curah Hujan:</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->rainfall }} mm/tahun</span>
                         </div>
                     </div>
                 </div>
@@ -113,52 +113,52 @@
 
             <!-- Quick Stats -->
             <div class="space-y-6 scroll-mt-24" id="statistik">
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-bold text-green-800 mb-4">Statistik Cepat</h3>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h3 class="text-lg font-bold text-green-800 dark:text-green-100 mb-4">Statistik Cepat</h3>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Rata-rata Produktivitas</span>
-                            <span class="font-bold text-green-600">{{ number_format($avgProductivity, 1) }} kg/ha</span>
+                            <span class="text-gray-600 dark:text-gray-300">Rata-rata Produktivitas</span>
+                            <span class="font-bold text-green-600 dark:text-green-400">{{ number_format($avgProductivity, 1) }} kg/ha</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Total Produksi</span>
-                            <span class="font-bold text-blue-600">{{ number_format($totalProduction, 0) }} kg</span>
+                            <span class="text-gray-600 dark:text-gray-300">Total Produksi</span>
+                            <span class="font-bold text-blue-600 dark:text-blue-400">{{ number_format($totalProduction, 0) }} kg</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Kunjungan Dinas</span>
-                            <span class="font-bold text-purple-600">{{ $visitCount }} kali</span>
+                            <span class="text-gray-600 dark:text-gray-300">Kunjungan Dinas</span>
+                            <span class="font-bold text-purple-600 dark:text-purple-400">{{ $visitCount }} kali</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Status Kesehatan</span>
-                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                            <span class="text-gray-600 dark:text-gray-300">Status Kesehatan</span>
+                            <span class="px-2 py-1 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-100 rounded-full text-xs">
                                 {{ ucfirst($garden->status) }}
                             </span>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h3 class="text-lg font-bold text-green-800 mb-4">Informasi Tanah</h3>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                    <h3 class="text-lg font-bold text-green-800 dark:text-green-100 mb-4">Informasi Tanah</h3>
                     <div class="space-y-3">
                         <div>
-                            <span class="text-sm text-gray-600">pH Tanah:</span>
-                            <span class="font-semibold ml-2">{{ $garden->soil_ph ?? '7.0' }}</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">pH Tanah:</span>
+                            <span class="font-semibold ml-2 text-gray-800 dark:text-gray-200">{{ $garden->soil_ph ?? '7.0' }}</span>
                         </div>
                         <div>
-                            <span class="text-sm text-gray-600">Jenis Tanah:</span>
-                            <span class="font-semibold ml-2">{{ $garden->soil_type ?? 'Andosol' }}</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Jenis Tanah:</span>
+                            <span class="font-semibold ml-2 text-gray-800 dark:text-gray-200">{{ $garden->soil_type ?? 'Andosol' }}</span>
                         </div>
                         <div>
-                            <span class="text-sm text-gray-600">Drainase:</span>
-                            <span class="font-semibold ml-2">{{ $garden->drainage ?? 'Baik' }}</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">Drainase:</span>
+                            <span class="font-semibold ml-2 text-gray-800 dark:text-gray-200">{{ $garden->drainage ?? 'Baik' }}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8 scroll-mt-24" id="dokumentasi">
-            <h2 class="text-xl font-bold text-green-800 mb-6 gradient-text">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8 scroll-mt-24" id="dokumentasi">
+            <h2 class="text-xl font-bold text-green-800 dark:text-green-100 mb-6 gradient-text">
                 <i class="fas fa-camera mr-2"></i>Dokumentasi Kebun
             </h2>
             @php
@@ -200,7 +200,7 @@
                 }
             @endphp
             @if (count($galleryPhotos) === 0)
-                <p class="text-gray-600 mb-4">Belum ada dokumentasi wilayah tersedia.</p>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Belum ada dokumentasi wilayah tersedia.</p>
             @endif
             <div id="galleryGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
             <div class="text-center mt-6">
@@ -223,82 +223,82 @@
         </div>
 
         <!-- Strategic Actions -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-            <h2 class="text-xl font-bold text-green-800 mb-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-bold text-green-800 dark:text-green-100 mb-6">
                 <i class="fas fa-cogs mr-2"></i>Aksi Strategis
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Production Optimization -->
-                <div class="border border-green-200 rounded-lg p-4">
-                    <h3 class="font-bold text-green-700 mb-3">Optimasi Produksi</h3>
-                    <ul class="space-y-2 text-sm text-gray-600">
+                <div class="border border-green-200 dark:border-green-700 rounded-lg p-4">
+                    <h3 class="font-bold text-green-700 dark:text-green-400 mb-3">Optimasi Produksi</h3>
+                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
                         <li class="flex items-start">
-                            <i class="fas fa-leaf text-green-500 mt-1 mr-2"></i>
+                            <i class="fas fa-leaf text-green-500 dark:text-green-400 mt-1 mr-2"></i>
                             <span>Pemangkasan pohon secara teratur untuk meningkatkan pertumbuhan baru</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-seedling text-green-500 mt-1 mr-2"></i>
+                            <i class="fas fa-seedling text-green-500 dark:text-green-400 mt-1 mr-2"></i>
                             <span>Pemupukan berimbang sesuai analisis tanah</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-tint text-green-500 mt-1 mr-2"></i>
+                            <i class="fas fa-tint text-green-500 dark:text-green-400 mt-1 mr-2"></i>
                             <span>Sistem irigasi efisien untuk menjaga kelembaban optimal</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Quality Improvement -->
-                <div class="border border-blue-200 rounded-lg p-4">
-                    <h3 class="font-bold text-blue-700 mb-3">Peningkatan Kualitas</h3>
-                    <ul class="space-y-2 text-sm text-gray-600">
+                <div class="border border-blue-200 dark:border-blue-700 rounded-lg p-4">
+                    <h3 class="font-bold text-blue-700 dark:text-blue-400 mb-3">Peningkatan Kualitas</h3>
+                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
                         <li class="flex items-start">
-                            <i class="fas fa-microscope text-blue-500 mt-1 mr-2"></i>
+                            <i class="fas fa-microscope text-blue-500 dark:text-blue-400 mt-1 mr-2"></i>
                             <span>Pemantauan kualitas daun secara berkala</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-clock text-blue-500 mt-1 mr-2"></i>
+                            <i class="fas fa-clock text-blue-500 dark:text-blue-400 mt-1 mr-2"></i>
                             <span>Waktu panen optimal untuk memaksimalkan kandungan antioksidan</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-thermometer-half text-blue-500 mt-1 mr-2"></i>
+                            <i class="fas fa-thermometer-half text-blue-500 dark:text-blue-400 mt-1 mr-2"></i>
                             <span>Kontrol suhu dan kelembaban selama pengolahan</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Sustainability -->
-                <div class="border border-yellow-200 rounded-lg p-4">
-                    <h3 class="font-bold text-yellow-700 mb-3">Keberlanjutan</h3>
-                    <ul class="space-y-2 text-sm text-gray-600">
+                <div class="border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+                    <h3 class="font-bold text-yellow-700 dark:text-yellow-400 mb-3">Keberlanjutan</h3>
+                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
                         <li class="flex items-start">
-                            <i class="fas fa-recycle text-yellow-500 mt-1 mr-2"></i>
+                            <i class="fas fa-recycle text-yellow-500 dark:text-yellow-400 mt-1 mr-2"></i>
                             <span>Pemanfaatan limbah organik sebagai pupuk kompos</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-bug text-yellow-500 mt-1 mr-2"></i>
+                            <i class="fas fa-bug text-yellow-500 dark:text-yellow-400 mt-1 mr-2"></i>
                             <span>Pengendalian hama terpadu (IPM) untuk mengurangi pestisida kimia</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-tree text-yellow-500 mt-1 mr-2"></i>
+                            <i class="fas fa-tree text-yellow-500 dark:text-yellow-400 mt-1 mr-2"></i>
                             <span>Penanaman pohon pelindung untuk menjaga ekosistem</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Technology Integration -->
-                <div class="border border-purple-200 rounded-lg p-4">
-                    <h3 class="font-bold text-purple-700 mb-3">Integrasi Teknologi</h3>
-                    <ul class="space-y-2 text-sm text-gray-600">
+                <div class="border border-purple-200 dark:border-purple-700 rounded-lg p-4">
+                    <h3 class="font-bold text-purple-700 dark:text-purple-400 mb-3">Integrasi Teknologi</h3>
+                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
                         <li class="flex items-start">
-                            <i class="fas fa-mobile-alt text-purple-500 mt-1 mr-2"></i>
+                            <i class="fas fa-mobile-alt text-purple-500 dark:text-purple-400 mt-1 mr-2"></i>
                             <span>Aplikasi monitoring real-time untuk petani</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-satellite text-purple-500 mt-1 mr-2"></i>
+                            <i class="fas fa-satellite text-purple-500 dark:text-purple-400 mt-1 mr-2"></i>
                             <span>Pemanfaatan citra satelit untuk analisis pertumbuhan</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-chart-line text-purple-500 mt-1 mr-2"></i>
+                            <i class="fas fa-chart-line text-purple-500 dark:text-purple-400 mt-1 mr-2"></i>
                             <span>Sistem prediksi hasil berbasis data historis</span>
                         </li>
                     </ul>
@@ -308,8 +308,8 @@
 
         <!-- Recent Insights -->
         @if ($insights->count() > 0)
-            <div class="bg-white rounded-lg shadow-lg p-6 scroll-mt-24" id="wawasan">
-                <h2 class="text-xl font-bold text-green-800 mb-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 scroll-mt-24" id="wawasan">
+                <h2 class="text-xl font-bold text-green-800 dark:text-green-100 mb-6">
                     <i class="fas fa-lightbulb mr-2"></i>Wawasan Terbaru
                 </h2>
                 <div class="space-y-4">
@@ -318,8 +318,8 @@
                             class="border-l-4 border-{{ $insight->alert_level == 'high' ? 'red' : ($insight->alert_level == 'medium' ? 'yellow' : 'green') }}-500 pl-4 py-2">
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <h3 class="font-semibold text-gray-800">{{ $insight->title }}</h3>
-                                    <p class="text-gray-600 text-sm mt-1">{{ $insight->description }}</p>
+                                    <h3 class="font-semibold text-gray-800 dark:text-gray-100">{{ $insight->title }}</h3>
+                                    <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">{{ $insight->description }}</p>
                                     <div class="mt-2">
                                         @php
                                             $recs = is_array($insight->recommendations)
@@ -328,13 +328,13 @@
                                         @endphp
                                         @foreach ($recs as $recommendation)
                                             <span
-                                                class="inline-block px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs mr-2 mb-1">
+                                                class="inline-block px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs mr-2 mb-1">
                                                 {{ $recommendation }}
                                             </span>
                                         @endforeach
                                     </div>
                                 </div>
-                                <div class="text-right text-sm text-gray-500">
+                                <div class="text-right text-sm text-gray-500 dark:text-gray-400">
                                     {{ $insight->created_at->format('d M Y') }}
                                 </div>
                             </div>

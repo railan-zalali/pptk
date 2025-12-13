@@ -38,78 +38,78 @@
 </section>
 
 <!-- Quick Links Section -->
-<section class="py-16 bg-white">
+<section class="py-16 bg-white dark:bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">
                 Menu Utama Portal
             </h2>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
                 Akses cepat ke fitur-fitur utama portal monitoring kebun model teh
             </p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Tentang Kebun Model -->
-            <a href="{{ route('about') }}" class="pptk-card p-6 group">
+            <a href="{{ route('about') }}" class="pptk-card p-6 group bg-white dark:bg-gray-800">
                 <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
                     <span class="material-icons text-white text-2xl">park</span>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Tentang Kebun Model</h3>
-                <p class="text-gray-600 mb-4">Informasi lengkap tentang kebun model teh yang dikelola PPTK Gambung, sejarah, manfaat, dan peran dalam penelitian.</p>
-                <div class="flex items-center text-green-600 font-medium group-hover:text-green-700">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Tentang Kebun Model</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Informasi lengkap tentang kebun model teh yang dikelola PPTK Gambung, sejarah, manfaat, dan peran dalam penelitian.</p>
+                <div class="flex items-center text-green-600 dark:text-green-400 font-medium group-hover:text-green-700 dark:group-hover:text-green-300">
                     <span>Selengkapnya</span>
                     <span class="material-icons ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
             </a>
             
             <!-- Strategic Action -->
-            <a href="{{ route('strategic.index') }}" class="pptk-card p-6 group">
+            <a href="{{ route('strategic.index') }}" class="pptk-card p-6 group bg-white dark:bg-gray-800">
                 <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
                     <span class="material-icons text-white text-2xl">map</span>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Strategic Action - Kebun Wilayah</h3>
-                <p class="text-gray-600 mb-4">Navigasi berbasis wilayah untuk mengakses informasi detail setiap kebun model di Jawa Barat, Jawa Tengah, dan Sumatra.</p>
-                <div class="flex items-center text-blue-600 font-medium group-hover:text-blue-700">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Strategic Action - Kebun Wilayah</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Navigasi berbasis wilayah untuk mengakses informasi detail setiap kebun model di Jawa Barat, Jawa Tengah, dan Sumatra.</p>
+                <div class="flex items-center text-blue-600 dark:text-blue-400 font-medium group-hover:text-blue-700 dark:group-hover:text-blue-300">
                     <span>Jelajahi Wilayah</span>
                     <span class="material-icons ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
             </a>
             
             <!-- Kunjungan Dinas -->
-            <a href="{{ route('visits.index') }}" class="pptk-card p-6 group">
+            <a href="{{ route('visits.index') }}" class="pptk-card p-6 group bg-white dark:bg-gray-800">
                 <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
                     <span class="material-icons text-white text-2xl">event</span>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Kunjungan Dinas</h3>
-                <p class="text-gray-600 mb-4">Kelola dan pantau jadwal kunjungan dinas ke kebun model. Lihat timeline kunjungan dan jadwalkan kunjungan baru.</p>
-                <div class="flex items-center text-purple-600 font-medium group-hover:text-purple-700">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Kunjungan Dinas</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Kelola dan pantau jadwal kunjungan dinas ke kebun model. Lihat timeline kunjungan dan jadwalkan kunjungan baru.</p>
+                <div class="flex items-center text-purple-600 dark:text-purple-400 font-medium group-hover:text-purple-700 dark:group-hover:text-purple-300">
                     <span>Lihat Jadwal</span>
                     <span class="material-icons ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
             </a>
             
             <!-- Dashboard Kebun Model -->
-            <a href="{{ route('dashboard.garden') }}" class="pptk-card p-6 group">
+            <a href="{{ route('dashboard.garden') }}" class="pptk-card p-6 group bg-white dark:bg-gray-800">
                 <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
                     <span class="material-icons text-white text-2xl">analytics</span>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Dashboard Kebun Model</h3>
-                <p class="text-gray-600 mb-4">Dashboard interaktif dengan chart produktivitas, filter per kebun, dan parameter pendukung untuk monitoring kinerja.</p>
-                <div class="flex items-center text-orange-600 font-medium group-hover:text-orange-700">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Dashboard Kebun Model</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Dashboard interaktif dengan chart produktivitas, filter per kebun, dan parameter pendukung untuk monitoring kinerja.</p>
+                <div class="flex items-center text-orange-600 dark:text-orange-400 font-medium group-hover:text-orange-700 dark:group-hover:text-orange-300">
                     <span>Akses Dashboard</span>
                     <span class="material-icons ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
             </a>
             
             <!-- Dashboard Penelitian -->
-            <a href="{{ route('dashboard.research') }}" class="pptk-card p-6 group">
+            <a href="{{ route('dashboard.research') }}" class="pptk-card p-6 group bg-white dark:bg-gray-800">
                 <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
                     <span class="material-icons text-white text-2xl">science</span>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 mb-3">Dashboard Bagian Penelitian</h3>
-                <p class="text-gray-600 mb-4">Dashboard khusus penelitian dengan analisis komparatif antar kebun dan rule-based insights untuk pengambilan keputusan.</p>
-                <div class="flex items-center text-teal-600 font-medium group-hover:text-teal-700">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Dashboard Bagian Penelitian</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Dashboard khusus penelitian dengan analisis komparatif antar kebun dan rule-based insights untuk pengambilan keputusan.</p>
+                <div class="flex items-center text-teal-600 dark:text-teal-400 font-medium group-hover:text-teal-700 dark:group-hover:text-teal-300">
                     <span>Lihat Analisis</span>
                     <span class="material-icons ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
                 </div>
@@ -117,27 +117,27 @@
             
             <!-- Login/Register -->
             @guest
-                <a href="{{ route('login') }}" class="pptk-card p-6 group">
+                <a href="{{ route('login') }}" class="pptk-card p-6 group bg-white dark:bg-gray-800">
                     <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-gray-500 to-gray-600 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
                         <span class="material-icons text-white text-2xl">login</span>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Masuk / Daftar</h3>
-                    <p class="text-gray-600 mb-4">Akses dashboard dan fitur eksklusif dengan masuk ke akun Anda atau daftar sebagai pengguna baru.</p>
-                    <div class="flex items-center text-gray-600 font-medium group-hover:text-gray-700">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Masuk / Daftar</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Akses dashboard dan fitur eksklusif dengan masuk ke akun Anda atau daftar sebagai pengguna baru.</p>
+                    <div class="flex items-center text-gray-600 dark:text-gray-400 font-medium group-hover:text-gray-700 dark:group-hover:text-gray-300">
                         <span>Masuk Sekarang</span>
                         <span class="material-icons ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </div>
                 </a>
             @else
-                <div class="pptk-card p-6">
+                <div class="pptk-card p-6 bg-white dark:bg-gray-800">
                     <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl mb-4">
                         <span class="material-icons text-white text-2xl">person</span>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Selamat Datang, {{ Auth::user()->name }}!</h3>
-                    <p class="text-gray-600 mb-4">Anda telah login sebagai {{ Auth::user()->role }}. Akses dashboard untuk memantau kinerja kebun model.</p>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">Selamat Datang, {{ Auth::user()->name }}!</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Anda telah login sebagai {{ Auth::user()->role }}. Akses dashboard untuk memantau kinerja kebun model.</p>
                     <div class="flex flex-col space-y-2">
                         <a href="{{ route('dashboard.garden') }}" class="pptk-btn text-center text-sm">Dashboard Kebun Model</a>
-                        <a href="{{ route('dashboard.research') }}" class="bg-green-100 text-green-700 px-4 py-2 rounded-lg text-center text-sm hover:bg-green-200 transition-colors">Dashboard Penelitian</a>
+                        <a href="{{ route('dashboard.research') }}" class="bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 px-4 py-2 rounded-lg text-center text-sm hover:bg-green-200 dark:hover:bg-green-800 transition-colors">Dashboard Penelitian</a>
                     </div>
                 </div>
             @endguest
@@ -146,13 +146,13 @@
 </section>
 
 <!-- Features Overview -->
-<section class="py-16 bg-gradient-to-br from-green-50 to-green-100">
+<section class="py-16 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-950">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">
                 Fitur Unggulan Portal
             </h2>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                 Teknologi modern untuk monitoring dan analisis kebun model teh
             </p>
         </div>
@@ -162,32 +162,32 @@
                 <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="material-icons text-white text-3xl">monitoring</span>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Monitoring Real-time</h3>
-                <p class="text-gray-600">Pantau kinerja kebun model secara real-time dengan dashboard interaktif</p>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Monitoring Real-time</h3>
+                <p class="text-gray-600 dark:text-gray-400">Pantau kinerja kebun model secara real-time dengan dashboard interaktif</p>
             </div>
             
             <div class="text-center">
                 <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="material-icons text-white text-3xl">analytics</span>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Analisis Cerdas</h3>
-                <p class="text-gray-600">Rule-based algorithm untuk memberikan insight dan rekomendasi</p>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Analisis Cerdas</h3>
+                <p class="text-gray-600 dark:text-gray-400">Rule-based algorithm untuk memberikan insight dan rekomendasi</p>
             </div>
             
             <div class="text-center">
                 <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="material-icons text-white text-3xl">devices</span>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Responsive Design</h3>
-                <p class="text-gray-600">Akses portal dari berbagai perangkat dengan tampilan optimal</p>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Responsive Design</h3>
+                <p class="text-gray-600 dark:text-gray-400">Akses portal dari berbagai perangkat dengan tampilan optimal</p>
             </div>
             
             <div class="text-center">
                 <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="material-icons text-white text-3xl">security</span>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Aman & Terpercaya</h3>
-                <p class="text-gray-600">Sistem keamanan berlapis dengan autentikasi Laravel Breeze</p>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Aman & Terpercaya</h3>
+                <p class="text-gray-600 dark:text-gray-400">Sistem keamanan berlapis dengan autentikasi Laravel Breeze</p>
             </div>
         </div>
     </div>
