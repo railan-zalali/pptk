@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AdminRegionController;
 use App\Http\Controllers\Admin\AdminGardenController;
 use App\Http\Controllers\Admin\AdminProductionController;
 use App\Http\Controllers\Admin\AdminInsightController;
+use App\Http\Controllers\Admin\AdminPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -42,6 +43,10 @@ require __DIR__ . '/auth.php';
 // Admin routes
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+
+    // Pages
+    Route::get('/pages/about', [AdminPageController::class, 'editAbout'])->name('pages.about.edit');
+    Route::put('/pages/about', [AdminPageController::class, 'updateAbout'])->name('pages.about.update');
 
     // Regions CRUD
     Route::get('/regions', [AdminRegionController::class, 'index'])->name('regions.index');

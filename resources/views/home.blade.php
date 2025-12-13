@@ -4,8 +4,9 @@
 <!-- Hero Section -->
 <section class="relative h-screen flex items-center justify-center overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <img src="https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Beautiful%20tea%20plantation%20landscape%20with%20rolling%20hills%2C%20lush%20green%20tea%20bushes%2C%20morning%20mist%2C%20professional%20photography%2C%20serene%20atmosphere&image_size=landscape_16_9" 
+        <img src="{{ $heroPhotoUrl ?? 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Beautiful%20tea%20plantation%20landscape%20with%20rolling%20hills%2C%20lush%20green%20tea%20bushes%2C%20morning%20mist%2C%20professional%20photography%2C%20serene%20atmosphere&image_size=landscape_16_9' }}" 
              alt="Kebun Teh PPTK Gambung" 
+             loading="lazy" decoding="async"
              class="w-full h-full object-cover">
         <div class="hero-overlay absolute inset-0"></div>
     </div>

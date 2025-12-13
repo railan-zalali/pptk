@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Garden;
 use App\Models\Region;
+use App\Models\GardenPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,9 +56,26 @@ class AdminGardenController extends Controller
             'status' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'established_at' => 'nullable|date',
+            'photo' => 'nullable|image|max:4096',
+            'photos.*' => 'nullable|image|max:4096',
         ]);
 
         $garden = Garden::create($validated);
+
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('garden-photos', 'public');
+            $garden->photo_path = $path;
+            $garden->save();
+        }
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $path = $file->store('garden-photos', 'public');
+                GardenPhoto::create([
+                    'garden_id' => $garden->id,
+                    'path' => $path,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.gardens.index')->with('success', 'Kebun berhasil dibuat.');
     }
@@ -93,9 +111,26 @@ class AdminGardenController extends Controller
             'status' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'established_at' => 'nullable|date',
+            'photo' => 'nullable|image|max:4096',
+            'photos.*' => 'nullable|image|max:4096',
         ]);
 
         $garden->update($validated);
+
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('garden-photos', 'public');
+            $garden->photo_path = $path;
+            $garden->save();
+        }
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $path = $file->store('garden-photos', 'public');
+                GardenPhoto::create([
+                    'garden_id' => $garden->id,
+                    'path' => $path,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.gardens.index')->with('success', 'Kebun berhasil diperbarui.');
     }

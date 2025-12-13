@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Region;
+use App\Models\RegionPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +39,7 @@ class AdminRegionController extends Controller
             'province' => 'required|string|max:255',
             'coordinates' => 'nullable|string',
             'photo' => 'nullable|image|max:4096',
+            'photos.*' => 'nullable|image|max:4096',
         ]);
 
         $region = new Region($validated);
@@ -48,6 +50,16 @@ class AdminRegionController extends Controller
         }
 
         $region->save();
+
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $path = $file->store('region-photos', 'public');
+                RegionPhoto::create([
+                    'region_id' => $region->id,
+                    'path' => $path,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.regions.index')->with('success', 'Wilayah berhasil dibuat.');
     }
@@ -67,6 +79,7 @@ class AdminRegionController extends Controller
             'province' => 'required|string|max:255',
             'coordinates' => 'nullable|string',
             'photo' => 'nullable|image|max:4096',
+            'photos.*' => 'nullable|image|max:4096',
         ]);
 
         $region->fill($validated);
@@ -77,6 +90,16 @@ class AdminRegionController extends Controller
         }
 
         $region->save();
+
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $path = $file->store('region-photos', 'public');
+                RegionPhoto::create([
+                    'region_id' => $region->id,
+                    'path' => $path,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.regions.index')->with('success', 'Wilayah berhasil diperbarui.');
     }

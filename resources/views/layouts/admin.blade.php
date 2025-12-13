@@ -27,6 +27,10 @@
                     class="flex items-center px-3 py-2 rounded hover:bg-green-50 {{ request()->routeIs('admin.regions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700' }}">
                     <span class="material-icons mr-2">map</span> Wilayah
                 </a>
+                <a href="{{ route('admin.pages.about.edit') }}"
+                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 {{ request()->routeIs('admin.pages.about.*') ? 'bg-green-100 text-green-800' : 'text-gray-700' }}">
+                    <span class="material-icons mr-2">info</span> Halaman Tentang
+                </a>
                 <a href="{{ route('admin.gardens.index') }}"
                     class="flex items-center px-3 py-2 rounded hover:bg-green-50 {{ request()->routeIs('admin.gardens.*') ? 'bg-green-100 text-green-800' : 'text-gray-700' }}">
                     <span class="material-icons mr-2">park</span> Kebun

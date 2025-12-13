@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\GardenPhoto;
 
 class Garden extends Model
 {
@@ -28,6 +29,7 @@ class Garden extends Model
         'soil_type',
         'drainage',
         'status',
+        'photo_path',
     ];
 
     protected $casts = [
@@ -57,5 +59,10 @@ class Garden extends Model
     public function insights(): HasMany
     {
         return $this->hasMany(Insight::class);
+    }
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany(GardenPhoto::class);
     }
 }

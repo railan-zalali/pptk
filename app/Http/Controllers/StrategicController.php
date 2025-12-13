@@ -16,13 +16,13 @@ class StrategicController extends Controller
 
     public function region(Region $region)
     {
-        $region->load('gardens');
+        $region->load('gardens.photos');
         return view('strategic.region', compact('region'));
     }
 
     public function garden(Region $region, Garden $garden)
     {
-        $garden->load('region');
+        $garden->load('region.photos', 'photos');
 
         // Get latest production data
         $latestProduction = $garden->productionData()->latest()->first();
