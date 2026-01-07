@@ -252,6 +252,22 @@ class PPTKSeeder extends Seeder
                     'created_at' => now()->subDays(rand(1, 30))
                 ]);
             }
+
+            // Ensure at least one HIGH alert per garden (dummy, clear and consistent)
+            Insight::create([
+                'garden_id' => $garden->id,
+                'title' => 'Peringatan Produktivitas Rendah',
+                'description' => 'Produktivitas kebun berada di bawah ambang batas, perlu intervensi segera.',
+                'insight_type' => 'productivity_alert',
+                'message' => 'Produktivitas rendah terdeteksi pada ' . $garden->name,
+                'alert_level' => 'high',
+                'recommendations' => json_encode([
+                    'Tingkatkan dosis pemupukan nitrogen',
+                    'Evaluasi sistem drainase dan kelembaban tanah',
+                    'Lakukan pemangkasan peremajaan pada blok terkait'
+                ]),
+                'created_at' => now()->subDays(rand(1, 10))
+            ]);
         }
     }
 }

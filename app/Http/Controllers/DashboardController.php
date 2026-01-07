@@ -6,6 +6,7 @@ use App\Models\Garden;
 use App\Models\ProductionData;
 use App\Models\Region;
 use App\Models\Insight;
+use App\Models\Visit;
 use App\Services\InsightService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -138,8 +139,8 @@ class DashboardController extends Controller
         $optimalPh = number_format($gardens->avg('soil_ph') ?? 0, 1);
 
         $researchCount = Insight::count();
-        $publicationCount = 0;
-        $collaborationCount = 0;
+        $publicationCount = Insight::count();
+        $collaborationCount = Visit::count();
         $datasetCount = ProductionData::when($regionId && $regionId !== 'all', function ($q) use ($regionId) {
             $q->whereHas('garden', fn($g) => $g->where('region_id', $regionId));
         })->count();
@@ -176,43 +177,198 @@ class DashboardController extends Controller
             ->avg('rkap_percentage') ?? 0;
         $sustainabilityTrend = $sustainOlder > 0 ? (($sustainRecent - $sustainOlder) / $sustainOlder) * 100 : 0;
 
+        $recordsQuery = ProductionData::with('garden');
+        if ($regionId && $regionId !== 'all') {
+            $recordsQuery->whereHas('garden', fn($g) => $g->where('region_id', $regionId));
+        }
+        if ($months) {
+            $recordsQuery->where('record_date', '>=', now()->subMonths($months));
+        }
+        $records = $recordsQuery->get();
+
+        $corr = function (array $xs, array $ys) {
+            $n = min(count($xs), count($ys));
+            if ($n < 3) return 0.0;
+            $xs = array_slice($xs, 0, $n);
+            $ys = array_slice($ys, 0, $n);
+            $meanX = array_sum($xs) / $n;
+            $meanY = array_sum($ys) / $n;
+            $num = 0.0;
+            $denX = 0.0;
+            $denY = 0.0;
+            for ($i = 0; $i < $n; $i++) {
+                $dx = $xs[$i] - $meanX;
+                $dy = $ys[$i] - $meanY;
+                $num += $dx * $dy;
+                $denX += $dx * $dx;
+                $denY += $dy * $dy;
+            }
+            if ($denX == 0.0 || $denY == 0.0) return 0.0;
+            return max(-1.0, min(1.0, $num / (sqrt($denX) * sqrt($denY))));
+        };
+
+        $collectPairs = function ($getterX, $getterY) use ($records) {
+            $xs = [];
+            $ys = [];
+            foreach ($records as $r) {
+                $x = $getterX($r);
+                $y = $getterY($r);
+                if ($x !== null && $y !== null) {
+                    $xs[] = (float)$x;
+                    $ys[] = (float)$y;
+                }
+            }
+            return [$xs, $ys];
+        };
+
+        [$prod_vs_quality_x, $prod_vs_quality_y] = $collectPairs(
+            fn($r) => $r->productivity,
+            fn($r) => $r->quality_score
+        );
+        [$prod_vs_ph_x, $prod_vs_ph_y] = $collectPairs(
+            fn($r) => $r->productivity,
+            fn($r) => optional($r->garden)->soil_ph
+        );
+        [$prod_vs_rain_x, $prod_vs_rain_y] = $collectPairs(
+            fn($r) => $r->productivity,
+            fn($r) => $r->rainfall_mm
+        );
+        [$prod_vs_elev_x, $prod_vs_elev_y] = $collectPairs(
+            fn($r) => $r->productivity,
+            fn($r) => optional($r->garden)->elevation
+        );
+
+        [$quality_vs_ph_x, $quality_vs_ph_y] = $collectPairs(
+            fn($r) => $r->quality_score,
+            fn($r) => optional($r->garden)->soil_ph
+        );
+        [$quality_vs_rain_x, $quality_vs_rain_y] = $collectPairs(
+            fn($r) => $r->quality_score,
+            fn($r) => $r->rainfall_mm
+        );
+        [$quality_vs_elev_x, $quality_vs_elev_y] = $collectPairs(
+            fn($r) => $r->quality_score,
+            fn($r) => optional($r->garden)->elevation
+        );
+
+        [$ph_vs_rain_x, $ph_vs_rain_y] = $collectPairs(
+            fn($r) => optional($r->garden)->soil_ph,
+            fn($r) => $r->rainfall_mm
+        );
+        [$ph_vs_elev_x, $ph_vs_elev_y] = $collectPairs(
+            fn($r) => optional($r->garden)->soil_ph,
+            fn($r) => optional($r->garden)->elevation
+        );
+        [$rain_vs_elev_x, $rain_vs_elev_y] = $collectPairs(
+            fn($r) => $r->rainfall_mm,
+            fn($r) => optional($r->garden)->elevation
+        );
+
+        $corr_prod_quality = $corr($prod_vs_quality_x, $prod_vs_quality_y);
+        $corr_prod_ph = $corr($prod_vs_ph_x, $prod_vs_ph_y);
+        $corr_prod_rain = $corr($prod_vs_rain_x, $prod_vs_rain_y);
+        $corr_prod_elev = $corr($prod_vs_elev_x, $prod_vs_elev_y);
+
+        $corr_quality_ph = $corr($quality_vs_ph_x, $quality_vs_ph_y);
+        $corr_quality_rain = $corr($quality_vs_rain_x, $quality_vs_rain_y);
+        $corr_quality_elev = $corr($quality_vs_elev_x, $quality_vs_elev_y);
+
+        $corr_ph_rain = $corr($ph_vs_rain_x, $ph_vs_rain_y);
+        $corr_ph_elev = $corr($ph_vs_elev_x, $ph_vs_elev_y);
+        $corr_rain_elev = $corr($rain_vs_elev_x, $rain_vs_elev_y);
+
         $correlationMatrix = [
             'Produktivitas' => [
-                'Kualitas' => 0.45,
-                'pH Tanah' => 0.30,
-                'Curah Hujan' => 0.25,
-                'Elevasi' => 0.15,
+                'Kualitas' => $corr_prod_quality,
+                'pH Tanah' => $corr_prod_ph,
+                'Curah Hujan' => $corr_prod_rain,
+                'Elevasi' => $corr_prod_elev,
             ],
             'Kualitas' => [
-                'Produktivitas' => 0.45,
-                'pH Tanah' => 0.20,
-                'Curah Hujan' => 0.10,
-                'Elevasi' => -0.05,
+                'Produktivitas' => $corr_prod_quality,
+                'pH Tanah' => $corr_quality_ph,
+                'Curah Hujan' => $corr_quality_rain,
+                'Elevasi' => $corr_quality_elev,
             ],
             'pH Tanah' => [
-                'Produktivitas' => 0.30,
-                'Kualitas' => 0.20,
-                'Curah Hujan' => -0.10,
-                'Elevasi' => -0.20,
+                'Produktivitas' => $corr_prod_ph,
+                'Kualitas' => $corr_quality_ph,
+                'Curah Hujan' => $corr_ph_rain,
+                'Elevasi' => $corr_ph_elev,
             ],
             'Curah Hujan' => [
-                'Produktivitas' => 0.25,
-                'Kualitas' => 0.10,
-                'pH Tanah' => -0.10,
-                'Elevasi' => 0.05,
+                'Produktivitas' => $corr_prod_rain,
+                'Kualitas' => $corr_quality_rain,
+                'pH Tanah' => $corr_ph_rain,
+                'Elevasi' => $corr_rain_elev,
             ],
             'Elevasi' => [
-                'Produktivitas' => 0.15,
-                'Kualitas' => -0.05,
-                'pH Tanah' => -0.20,
-                'Curah Hujan' => 0.05,
+                'Produktivitas' => $corr_prod_elev,
+                'Kualitas' => $corr_quality_elev,
+                'pH Tanah' => $corr_ph_elev,
+                'Curah Hujan' => $corr_rain_elev,
             ],
         ];
 
-        $recentPublications = [];
-        $collaborationInstitutions = [];
-        $topResearchers = [];
-        $researchAreas = [];
+        $recentPublications = Insight::with('garden')
+            ->orderByDesc('generated_at')
+            ->orderByDesc('created_at')
+            ->take(5)
+            ->get()
+            ->map(function ($insight) {
+                return (object) [
+                    'title' => $insight->title ?? ('Insight: ' . ($insight->insight_type ?? 'Umum')),
+                    'authors' => 'Tim Penelitian PPTK',
+                    'journal' => 'Laporan Internal',
+                    'keywords' => array_values(array_filter([
+                        $insight->insight_type,
+                        $insight->alert_level,
+                        optional($insight->garden)->tea_variety,
+                    ])),
+                    'published_date' => $insight->generated_at ?? $insight->created_at,
+                ];
+            });
+
+        $collaborationInstitutions = Region::with(['gardens.visits'])
+            ->get()
+            ->map(function ($region) {
+                $projects = $region->gardens->sum(function ($g) {
+                    return $g->visits->count();
+                });
+                return (object) [
+                    'name' => $region->name,
+                    'projects' => $projects,
+                ];
+            })
+            ->sortByDesc('projects')
+            ->take(5)
+            ->values();
+
+        $topResearchers = Visit::select('visitor_name', DB::raw('COUNT(*) as publications'))
+            ->whereNotNull('visitor_name')
+            ->groupBy('visitor_name')
+            ->orderByDesc('publications')
+            ->take(5)
+            ->get()
+            ->map(function ($row) {
+                return (object) [
+                    'name' => $row->visitor_name,
+                    'publications' => (int) $row->publications,
+                ];
+            });
+
+        $researchAreas = Insight::select('insight_type', DB::raw('COUNT(*) as studies'))
+            ->groupBy('insight_type')
+            ->orderByDesc('studies')
+            ->take(5)
+            ->get()
+            ->map(function ($row) {
+                $label = $row->insight_type ? ucwords(str_replace('_', ' ', $row->insight_type)) : 'Umum';
+                return (object) [
+                    'name' => $label,
+                    'studies' => (int) $row->studies,
+                ];
+            });
 
         $chartData = [
             'productivityComparison' => [

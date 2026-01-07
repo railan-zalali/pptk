@@ -218,7 +218,7 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Publikasi Penelitian Terbaru</h3>
-                <a href="#"
+                <a href="{{ route('admin.insights.index') }}"
                     class="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium">
                     Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
                 </a>
