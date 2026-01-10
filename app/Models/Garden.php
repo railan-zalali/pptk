@@ -46,6 +46,11 @@ class Garden extends Model
         return $this->belongsTo(Region::class);
     }
 
+    public function afdelings(): HasMany
+    {
+        return $this->hasMany(Afdeling::class);
+    }
+
     public function productionData(): HasMany
     {
         return $this->hasMany(ProductionData::class);

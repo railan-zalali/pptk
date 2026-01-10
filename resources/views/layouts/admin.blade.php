@@ -35,9 +35,21 @@
                     class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.gardens.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                     <span class="material-icons mr-2">park</span> Kebun
                 </a>
-                <a href="{{ route('admin.production.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.production.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">precision_manufacturing</span> Produksi
+                <a href="{{ route('admin.afdelings.index') }}"
+                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.afdelings.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                    <span class="material-icons mr-2">grid_view</span> Afdeling
+                </a>
+                <a href="{{ route('admin.blocks.index') }}"
+                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.blocks.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                    <span class="material-icons mr-2">crop_square</span> Blok
+                </a>
+                <a href="{{ route('admin.production-realizations.index') }}"
+                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.production-realizations.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                    <span class="material-icons mr-2">precision_manufacturing</span> Produksi Realisasi
+                </a>
+                <a href="{{ route('admin.strategic-actions.index') }}"
+                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.strategic-actions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                    <span class="material-icons mr-2">agriculture</span> Strategic Action
                 </a>
                 <a href="{{ route('admin.insights.index') }}"
                     class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.insights.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">

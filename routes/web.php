@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StrategicController;
+use App\Http\Controllers\StrategicDashboardController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminRegionController;
@@ -13,6 +14,10 @@ use App\Http\Controllers\Admin\AdminProductionController;
 use App\Http\Controllers\Admin\AdminInsightController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\AdminVisitController;
+use App\Http\Controllers\Admin\AdminAfdelingController;
+use App\Http\Controllers\Admin\AdminBlockController;
+use App\Http\Controllers\Admin\AdminProductionRealizationController;
+use App\Http\Controllers\Admin\AdminStrategicActionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -31,7 +36,7 @@ Route::delete('/kunjungan-dinas/{visit}', [VisitController::class, 'destroy'])->
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'user'])->name('dashboard');
-    Route::get('/dashboard/kebun-model', [DashboardController::class, 'garden'])->name('dashboard.garden');
+    Route::get('/dashboard/kebun-model', [StrategicDashboardController::class, 'index'])->name('dashboard.garden');
     Route::get('/dashboard/penelitian', [DashboardController::class, 'research'])->name('dashboard.research');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -87,4 +92,16 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/visits/{visit}/edit', [AdminVisitController::class, 'edit'])->name('visits.edit');
     Route::put('/visits/{visit}', [AdminVisitController::class, 'update'])->name('visits.update');
     Route::delete('/visits/{visit}', [AdminVisitController::class, 'destroy'])->name('visits.destroy');
+
+    // Afdeling CRUD
+    Route::resource('afdelings', AdminAfdelingController::class);
+
+    // Block CRUD
+    Route::resource('blocks', AdminBlockController::class);
+
+    // Production Realization CRUD
+    Route::resource('production-realizations', AdminProductionRealizationController::class);
+
+    // Strategic Action CRUD
+    Route::resource('strategic-actions', AdminStrategicActionController::class);
 });

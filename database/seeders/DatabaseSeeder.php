@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         // Call the PPTK seeder to populate the portal with realistic data
         $this->call([
             PPTKSeeder::class,
+            StrategicSeeder::class,
         ]);
 
         // Create additional test users if needed
