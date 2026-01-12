@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Garden;
+use App\Models\ProductionRealization;
 use App\Models\Region;
 use Illuminate\Http\Request;
 
@@ -22,16 +23,22 @@ class StrategicController extends Controller
 
     public function garden(Region $region, Garden $garden)
     {
-        $garden->load('region.photos', 'photos');
+        $garden->load(['region.photos', 'photos', 'strategicActions' => function($q) {
+            $q->where('year', now()->year);
+        }, 'performanceTargets' => function($q) {
+            $q->where('year', now()->year);
+        }]);
 
         // Get latest production data
-        $latestProduction = $garden->productionData()->latest()->first();
+        $latestRealization = $garden->productionRealizations()->where('year', now()->year)->latest('month')->first();
 
-        // Get average productivity
-        $avgProductivity = $garden->productionData()->avg('productivity') ?? 0;
+        // Get average productivity (YTD)
+        $totalWet = $garden->productionRealizations()->where('year', now()->year)->sum('wet_production_kg');
+        $avgArea = $garden->productionRealizations()->where('year', now()->year)->avg('active_picking_area_ha');
+        $avgProductivity = $avgArea > 0 ? $totalWet / $avgArea : 0;
 
         // Get total production
-        $totalProduction = $garden->productionData()->sum('production') ?? 0;
+        $totalProduction = $totalWet;
 
         // Get visit count
         $visitCount = $garden->visits()->count();
@@ -41,7 +48,7 @@ class StrategicController extends Controller
 
         return view('strategic.garden', compact(
             'garden',
-            'latestProduction',
+            'latestRealization',
             'avgProductivity',
             'totalProduction',
             'visitCount',

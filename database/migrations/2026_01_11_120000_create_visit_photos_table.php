@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('regions', function (Blueprint $table) {
+        Schema::create('visit_photos', function (Blueprint $table) {
             $table->id();
-            $table->string('regional_code')->unique();
-            $table->string('regional_name');
-            $table->string('province')->nullable();
-            $table->string('coordinates')->nullable();
-            $table->string('photo_path')->nullable();
+            $table->foreignId('visit_id')->constrained()->onDelete('cascade');
+            $table->string('path');
+            $table->string('caption')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('regions');
+        Schema::dropIfExists('visit_photos');
     }
 };

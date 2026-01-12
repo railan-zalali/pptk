@@ -1,83 +1,101 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Strategic Action')
+@section('title', 'Kelola Aksi Strategis')
 
 @section('content')
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Daftar Strategic Action</h2>
-            <a href="{{ route('admin.strategic-actions.create') }}"
-                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center">
-                <span class="material-icons mr-2">add</span> Tambah Action
-            </a>
-        </div>
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">Daftar Aksi Strategis</h3>
+        <a href="{{ route('admin.strategic-actions.create') }}"
+            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Tambah Aksi</a>
+    </div>
 
+    <div class="bg-white rounded-lg shadow overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-700">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Periode</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Blok</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Tipe Aksi</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Target</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Realisasi</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                            Aksi</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tahun</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kebun</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Jenis Aksi</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Detail Utama</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($actions as $action)
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                {{ $action->period->format('d M Y') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                {{ $action->block->name }} <span class="text-xs text-gray-500">({{ $action->block->afdeling->name }})</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                {{ ucfirst(str_replace('_', ' ', $action->action_type)) }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                {{ number_format($action->target_volume, 2) }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                {{ number_format($action->realization_volume, 2) }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex space-x-2">
-                                    <a href="{{ route('admin.strategic-actions.edit', $action) }}"
-                                        class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">
-                                        <span class="material-icons">edit</span>
-                                    </a>
-                                    <form action="{{ route('admin.strategic-actions.destroy', $action) }}" method="POST"
-                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300">
-                                            <span class="material-icons">delete</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                                Belum ada data strategic action.
+                            <td class="px-6 py-4">{{ $action->year }}</td>
+                            <td class="px-6 py-4">{{ $action->garden->kebun_name ?? '-' }}</td>
+                            <td class="px-6 py-4">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                    {{ $action->action_type }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-600">
+                                @switch($action->action_type)
+                                    @case('Pemupukan Akar')
+                                        Dosis N: {{ $action->dosis_n_kg_ha }} kg/ha<br>
+                                        Freq: {{ $action->application_frequency }}x
+                                    @break
+
+                                    @case('Pemupukan Daun')
+                                        Target: {{ $action->coverage_target_percent }}%<br>
+                                        Interval: {{ $action->application_interval }}
+                                    @break
+
+                                    @case('Penyiangan Gulma')
+                                        Rotasi: {{ $action->rotation_per_year }}x/thn<br>
+                                        Metode: {{ $action->method }}
+                                    @break
+
+                                    @case('Kultivator / Pengolahan Tanah')
+                                        Target: {{ $action->coverage_target_percent }}%<br>
+                                        Fokus: {{ $action->focus_area }}
+                                    @break
+
+                                    @case('Pemetikan')
+                                        Sistem: {{ $action->picking_system }}<br>
+                                        Konsistensi: {{ $action->cushion_consistency }}
+                                    @break
+
+                                    @case('Mesin Petik')
+                                        Total: {{ $action->total_machine }} unit<br>
+                                        Umur Rata2: {{ $action->avg_machine_age }} thn
+                                    @break
+
+                                    @case('Pengendalian OPT')
+                                        Status: {{ $action->opt_status }}<br>
+                                        Normalisasi: {{ $action->tp_normalization ? 'Ya' : 'Tidak' }}
+                                    @break
+
+                                    @default
+                                        -
+                                @endswitch
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{{ route('admin.strategic-actions.edit', $action) }}"
+                                    class="text-yellow-600 hover:text-yellow-800 mr-3">Edit</a>
+                                <form action="{{ route('admin.strategic-actions.destroy', $action) }}" method="POST"
+                                    class="inline" onsubmit="return confirm('Hapus aksi strategis ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-800">Hapus</button>
+                                </form>
                             </td>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">Belum ada data aksi strategis.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
+
         <div class="mt-4">
             {{ $actions->links() }}
         </div>
-    </div>
-@endsection
+    @endsection

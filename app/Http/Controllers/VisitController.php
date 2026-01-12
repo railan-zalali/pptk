@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Garden;
 use App\Models\Visit;
+use App\Models\VisitPhoto;
 use Illuminate\Http\Request;
 
 class VisitController extends Controller
@@ -62,7 +63,11 @@ class VisitController extends Controller
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
                 $path = $photo->store('visit-photos/' . $visit->id, 'public');
-                // You can create a VisitPhoto model later if needed
+                VisitPhoto::create([
+                    'visit_id' => $visit->id,
+                    'path' => $path,
+                    'caption' => $photo->getClientOriginalName(),
+                ]);
             }
         }
 
@@ -113,7 +118,11 @@ class VisitController extends Controller
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
                 $path = $photo->store('visit-photos/' . $visit->id, 'public');
-                // You can create a VisitPhoto model later if needed
+                VisitPhoto::create([
+                    'visit_id' => $visit->id,
+                    'path' => $path,
+                    'caption' => $photo->getClientOriginalName(),
+                ]);
             }
         }
 

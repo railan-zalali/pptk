@@ -9,8 +9,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nama Wilayah *</label>
-                    <input name="name" type="text" required class="w-full border rounded px-3 py-2"
-                        placeholder="Contoh: Jawa Barat" value="{{ old('name') }}">
+                    <input name="regional_name" type="text" required class="w-full border rounded px-3 py-2"
+                        placeholder="Contoh: Jawa Barat" value="{{ old('regional_name') }}">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Provinsi *</label>

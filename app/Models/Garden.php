@@ -10,40 +10,40 @@ use App\Models\GardenPhoto;
 class Garden extends Model
 {
     protected $fillable = [
-        'name',
+        'kebun_name',
+        'regional_id',
+        'luas_total_ha',
+        'kebun_type',
+        'agro_climate_note',
         'location',
-        'region_id',
-        'area_hectares',
+        'photo_path',
         'description',
         'established_at',
-        'address',
-        'area',
-        'elevation',
-        'rainfall',
-        'tea_variety',
-        'garden_type',
-        'coordinates',
-        'latitude',
-        'longitude',
-        'soil_ph',
-        'soil_type',
-        'drainage',
-        'status',
-        'photo_path',
     ];
 
     protected $casts = [
         'established_at' => 'date',
-        'area_hectares' => 'decimal:2',
-        'area' => 'decimal:2',
-        'latitude' => 'decimal:6',
-        'longitude' => 'decimal:6',
-        'soil_ph' => 'decimal:1',
+        'luas_total_ha' => 'decimal:2',
     ];
 
     public function region(): BelongsTo
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(Region::class, 'regional_id');
+    }
+
+    public function strategicActions(): HasMany
+    {
+        return $this->hasMany(StrategicAction::class, 'kebun_id');
+    }
+
+    public function performanceTargets(): HasMany
+    {
+        return $this->hasMany(PerformanceTarget::class, 'kebun_id');
+    }
+
+    public function productionRealizations(): HasMany
+    {
+        return $this->hasMany(ProductionRealization::class, 'kebun_id');
     }
 
     public function afdelings(): HasMany

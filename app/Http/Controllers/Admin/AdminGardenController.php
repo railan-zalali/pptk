@@ -13,7 +13,8 @@ class AdminGardenController extends Controller
 {
     private function ensureAdmin()
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
+        // Ideally handled by middleware, but keeping for consistency
+        if (Auth::check() && Auth::user()->role !== 'admin') {
             abort(403);
         }
     }
@@ -21,14 +22,14 @@ class AdminGardenController extends Controller
     public function index()
     {
         $this->ensureAdmin();
-        $gardens = Garden::with('region')->orderBy('name')->paginate(12);
+        $gardens = Garden::with('region')->orderBy('kebun_name')->paginate(12);
         return view('admin.gardens.index', compact('gardens'));
     }
 
     public function create()
     {
         $this->ensureAdmin();
-        $regions = Region::orderBy('name')->get();
+        $regions = Region::orderBy('regional_name')->get();
         return view('admin.gardens.create', compact('regions'));
     }
 
@@ -37,27 +38,15 @@ class AdminGardenController extends Controller
         $this->ensureAdmin();
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'address' => 'nullable|string',
-            'region_id' => 'required|exists:regions,id',
-            'area_hectares' => 'required|numeric|min:0',
-            'area' => 'nullable|numeric|min:0',
-            'elevation' => 'nullable|integer',
-            'rainfall' => 'nullable|integer',
-            'tea_variety' => 'nullable|string|max:255',
-            'garden_type' => 'nullable|string|max:255',
-            'coordinates' => 'nullable|string',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
-            'soil_ph' => 'nullable|numeric',
-            'soil_type' => 'nullable|string|max:255',
-            'drainage' => 'nullable|string|max:255',
-            'status' => 'nullable|string|max:255',
+            'kebun_name' => 'required|string|max:255',
+            'regional_id' => 'required|exists:regions,id',
+            'luas_total_ha' => 'required|numeric|min:0',
+            'kebun_type' => 'required|in:Model,Pengembangan',
+            'agro_climate_note' => 'nullable|string',
+            'location' => 'nullable|string',
             'description' => 'nullable|string',
             'established_at' => 'nullable|date',
             'photo' => 'nullable|image|max:4096',
-            'photos.*' => 'nullable|image|max:4096',
         ]);
 
         $garden = Garden::create($validated);
@@ -67,15 +56,6 @@ class AdminGardenController extends Controller
             $garden->photo_path = $path;
             $garden->save();
         }
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $file) {
-                $path = $file->store('garden-photos', 'public');
-                GardenPhoto::create([
-                    'garden_id' => $garden->id,
-                    'path' => $path,
-                ]);
-            }
-        }
 
         return redirect()->route('admin.gardens.index')->with('success', 'Kebun berhasil dibuat.');
     }
@@ -83,7 +63,7 @@ class AdminGardenController extends Controller
     public function edit(Garden $garden)
     {
         $this->ensureAdmin();
-        $regions = Region::orderBy('name')->get();
+        $regions = Region::orderBy('regional_name')->get();
         return view('admin.gardens.edit', compact('garden', 'regions'));
     }
 
@@ -92,27 +72,15 @@ class AdminGardenController extends Controller
         $this->ensureAdmin();
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'address' => 'nullable|string',
-            'region_id' => 'required|exists:regions,id',
-            'area_hectares' => 'required|numeric|min:0',
-            'area' => 'nullable|numeric|min:0',
-            'elevation' => 'nullable|integer',
-            'rainfall' => 'nullable|integer',
-            'tea_variety' => 'nullable|string|max:255',
-            'garden_type' => 'nullable|string|max:255',
-            'coordinates' => 'nullable|string',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
-            'soil_ph' => 'nullable|numeric',
-            'soil_type' => 'nullable|string|max:255',
-            'drainage' => 'nullable|string|max:255',
-            'status' => 'nullable|string|max:255',
+            'kebun_name' => 'required|string|max:255',
+            'regional_id' => 'required|exists:regions,id',
+            'luas_total_ha' => 'required|numeric|min:0',
+            'kebun_type' => 'required|in:Model,Pengembangan',
+            'agro_climate_note' => 'nullable|string',
+            'location' => 'nullable|string',
             'description' => 'nullable|string',
             'established_at' => 'nullable|date',
             'photo' => 'nullable|image|max:4096',
-            'photos.*' => 'nullable|image|max:4096',
         ]);
 
         $garden->update($validated);
@@ -121,15 +89,6 @@ class AdminGardenController extends Controller
             $path = $request->file('photo')->store('garden-photos', 'public');
             $garden->photo_path = $path;
             $garden->save();
-        }
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $file) {
-                $path = $file->store('garden-photos', 'public');
-                GardenPhoto::create([
-                    'garden_id' => $garden->id,
-                    'path' => $path,
-                ]);
-            }
         }
 
         return redirect()->route('admin.gardens.index')->with('success', 'Kebun berhasil diperbarui.');

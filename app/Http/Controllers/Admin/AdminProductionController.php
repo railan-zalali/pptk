@@ -20,7 +20,7 @@ class AdminProductionController extends Controller
     public function index(Request $request)
     {
         $this->ensureAdmin();
-        $gardens = Garden::orderBy('name')->get();
+        $gardens = Garden::orderBy('kebun_name')->get();
         $query = ProductionData::with('garden.region')->orderByDesc('record_date');
 
         if ($request->filled('garden_id')) {

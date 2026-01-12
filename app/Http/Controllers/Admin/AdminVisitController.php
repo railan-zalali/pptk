@@ -20,7 +20,7 @@ class AdminVisitController extends Controller
     public function index(Request $request)
     {
         $this->ensureAdmin();
-        $gardens = Garden::orderBy('name')->get();
+        $gardens = Garden::orderBy('kebun_name')->get();
         $query = Visit::with(['garden.region'])->orderByDesc('visit_date');
         if ($request->filled('garden_id')) {
             $query->where('garden_id', $request->get('garden_id'));

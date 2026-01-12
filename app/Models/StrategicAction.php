@@ -8,24 +8,43 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class StrategicAction extends Model
 {
     protected $fillable = [
-        'block_id',
-        'period',
+        'kebun_id',
+        'year',
         'action_type',
-        'target_volume',
-        'realization_volume',
-        'nitrogen_content',
-        'notes',
+        'dosis_n_kg_ha',
+        'n_protas_percent',
+        'application_frequency',
+        'fertilizer_type',
+        'technical_note',
+        'coverage_target_percent',
+        'application_interval',
+        'rotation_per_year',
+        'method',
+        'focus_area',
+        'picking_system',
+        'cushion_consistency',
+        'kandas_risk',
+        'total_machine',
+        'avg_machine_age',
+        'renewal_status',
+        'opt_status',
+        'tp_normalization',
+        'treatment_note',
+        'note',
     ];
 
     protected $casts = [
-        'period' => 'date',
-        'target_volume' => 'decimal:2',
-        'realization_volume' => 'decimal:2',
-        'nitrogen_content' => 'decimal:2',
+        'year' => 'integer',
+        'dosis_n_kg_ha' => 'decimal:2',
+        'n_protas_percent' => 'decimal:2',
+        'coverage_target_percent' => 'decimal:2',
+        'avg_machine_age' => 'decimal:2',
+        'kandas_risk' => 'boolean',
+        'tp_normalization' => 'boolean',
     ];
 
-    public function block(): BelongsTo
+    public function garden(): BelongsTo
     {
-        return $this->belongsTo(Block::class);
+        return $this->belongsTo(Garden::class, 'kebun_id');
     }
 }

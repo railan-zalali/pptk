@@ -23,6 +23,14 @@
                     class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                     <span class="material-icons mr-2">dashboard</span> Dashboard
                 </a>
+                <a href="{{ route('admin.programs.index') }}"
+                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.programs.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                    <span class="material-icons mr-2">list_alt</span> Program
+                </a>
+                <a href="{{ route('admin.performance-targets.index') }}"
+                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.performance-targets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                    <span class="material-icons mr-2">track_changes</span> Target Kinerja
+                </a>
                 <a href="{{ route('admin.regions.index') }}"
                     class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.regions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                     <span class="material-icons mr-2">map</span> Wilayah

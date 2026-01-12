@@ -2,10 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Models\Afdeling;
+use App\Models\Block;
 use App\Models\Garden;
+use App\Models\GardenPhoto;
 use App\Models\Insight;
+use App\Models\Page;
 use App\Models\ProductionData;
 use App\Models\Region;
+use App\Models\RegionPhoto;
 use App\Models\User;
 use App\Models\Visit;
 use Illuminate\Database\Seeder;
@@ -20,15 +25,15 @@ class PPTKSeeder extends Seeder
     {
         // Create regions
         $regions = [
-            ['name' => 'Jawa Barat', 'province' => 'Jawa Barat', 'coordinates' => '-6.9175,107.6191'],
-            ['name' => 'Sumatera Barat', 'province' => 'Sumatera Barat', 'coordinates' => '-0.7893,100.6500'],
-            ['name' => 'Daerah Istimewa Yogyakarta', 'province' => 'DI Yogyakarta', 'coordinates' => '-7.7972,110.3688'],
+            ['regional_name' => 'Jawa Barat', 'regional_code' => 'REG-JB', 'province' => 'Jawa Barat', 'coordinates' => '-6.9175,107.6191'],
+            ['regional_name' => 'Sumatera Barat', 'regional_code' => 'REG-SB', 'province' => 'Sumatera Barat', 'coordinates' => '-0.7893,100.6500'],
+            ['regional_name' => 'Daerah Istimewa Yogyakarta', 'regional_code' => 'REG-DIY', 'province' => 'DI Yogyakarta', 'coordinates' => '-7.7972,110.3688'],
         ];
 
         foreach ($regions as $regionData) {
-            Region::create($regionData);
+            Region::firstOrCreate(['regional_code' => $regionData['regional_code']], $regionData);
         }
-        $regionMap = Region::all()->keyBy('name');
+        $regionMap = Region::all()->keyBy('regional_name');
 
         // Create users with different roles
         $users = [
@@ -56,132 +61,62 @@ class PPTKSeeder extends Seeder
         ];
 
         foreach ($users as $userData) {
-            User::create($userData);
+            User::firstOrCreate(['email' => $userData['email']], $userData);
         }
 
         // Create gardens with realistic data
         $gardens = [
             // Jawa Barat gardens
             [
-                'region_id' => $regionMap['Jawa Barat']->id,
-                'name' => 'Kebun Cikawao',
+                'regional_id' => $regionMap['Jawa Barat']->id,
+                'kebun_name' => 'Kebun Cikawao',
                 'location' => 'Bandung',
-                'address' => 'Jl. Raya Cikawao KM 45, Kecamatan Pasirjambu',
-                'area' => 125.5,
-                'area_hectares' => 125.5,
-                'elevation' => 1200,
-                'rainfall' => 2800,
-                'tea_variety' => 'Assamica',
-                'garden_type' => 'perkebunan',
-                'coordinates' => '-7.1234,107.5678',
-                'latitude' => -7.1234,
-                'longitude' => 107.5678,
-                'soil_ph' => 5.8,
-                'soil_type' => 'Andosol',
-                'drainage' => 'Baik',
-                'status' => 'active'
+                'luas_total_ha' => 125.5,
+                'kebun_type' => 'Model',
+                'agro_climate_note' => 'Elevation 1200m, Rainfall 2800mm, Soil Andosol',
+                'description' => 'Kebun teh model dengan produktivitas tinggi',
+                'established_at' => '1980-01-01',
             ],
             [
-                'region_id' => $regionMap['Jawa Barat']->id,
-                'name' => 'Kebun Malabar',
+                'regional_id' => $regionMap['Jawa Barat']->id,
+                'kebun_name' => 'Kebun Malabar',
                 'location' => 'Bandung',
-                'address' => 'Jl. Malabar No. 123, Kecamatan Pangalengan',
-                'area' => 98.7,
-                'area_hectares' => 98.7,
-                'elevation' => 1500,
-                'rainfall' => 3200,
-                'tea_variety' => 'Sinensis',
-                'garden_type' => 'perkebunan',
-                'coordinates' => '-7.2345,107.6789',
-                'latitude' => -7.2345,
-                'longitude' => 107.6789,
-                'soil_ph' => 6.2,
-                'soil_type' => 'Latosol',
-                'drainage' => 'Sedang',
-                'status' => 'active'
+                'luas_total_ha' => 98.7,
+                'kebun_type' => 'Pengembangan',
+                'agro_climate_note' => 'Elevation 1500m, Rainfall 3200mm, Soil Latosol',
+                'description' => 'Kebun pengembangan varietas baru',
+                'established_at' => '1990-01-01',
             ],
             // Sumatera Barat gardens
             [
-                'region_id' => $regionMap['Sumatera Barat']->id,
-                'name' => 'Kebun Gunung Talang',
+                'regional_id' => $regionMap['Sumatera Barat']->id,
+                'kebun_name' => 'Kebun Gunung Talang',
                 'location' => 'Solok',
-                'address' => 'Jl. Solok-Akabiluru KM 67, Kecamatan Lembah Gumanti',
-                'area' => 156.3,
-                'area_hectares' => 156.3,
-                'elevation' => 1100,
-                'rainfall' => 3500,
-                'tea_variety' => 'Cambodiensis',
-                'garden_type' => 'perkebunan',
-                'coordinates' => '-0.8912,100.4567',
-                'latitude' => -0.8912,
-                'longitude' => 100.4567,
-                'soil_ph' => 5.5,
-                'soil_type' => 'Podsolik',
-                'drainage' => 'Baik',
-                'status' => 'active'
+                'luas_total_ha' => 156.3,
+                'kebun_type' => 'Model',
+                'agro_climate_note' => 'Elevation 1100m, Rainfall 3500mm, Soil Podsolik',
+                'description' => 'Kebun model di dataran tinggi Sumatera',
+                'established_at' => '1985-01-01',
             ],
             // Yogyakarta gardens
             [
-                'region_id' => $regionMap['Daerah Istimewa Yogyakarta']->id,
-                'name' => 'Kebun Pakem',
+                'regional_id' => $regionMap['Daerah Istimewa Yogyakarta']->id,
+                'kebun_name' => 'Kebun Pakem',
                 'location' => 'Sleman',
-                'address' => 'Jl. Kaliurang KM 25, Kecamatan Pakem',
-                'area' => 87.4,
-                'area_hectares' => 87.4,
-                'elevation' => 800,
-                'rainfall' => 2400,
-                'tea_variety' => 'Hybrid',
-                'garden_type' => 'penelitian',
-                'coordinates' => '-7.6512,110.4234',
-                'latitude' => -7.6512,
-                'longitude' => 110.4234,
-                'soil_ph' => 6.0,
-                'soil_type' => 'Regosol',
-                'drainage' => 'Baik',
-                'status' => 'active'
+                'luas_total_ha' => 87.4,
+                'kebun_type' => 'Pengembangan',
+                'agro_climate_note' => 'Elevation 800m, Rainfall 2400mm, Soil Regosol',
+                'description' => 'Kebun penelitian klon',
+                'established_at' => '2000-01-01',
             ],
         ];
 
         foreach ($gardens as $gardenData) {
-            Garden::create($gardenData);
-        }
-
-        // Create production data for each garden
-        $gardens = Garden::all();
-        foreach ($gardens as $garden) {
-            // Create 12 months of production data
-            for ($month = 1; $month <= 12; $month++) {
-                $baseProductivity = rand(2000, 3500); // kg/ha/year
-                $seasonalFactor = sin(($month - 1) * M_PI / 6) * 0.3 + 1; // Seasonal variation
-                $productivity = $baseProductivity * $seasonalFactor;
-                $production = $productivity * ($garden->area ?? 0) / 1000; // Convert to tons
-
-                ProductionData::create([
-                    'garden_id' => $garden->id,
-                    'record_date' => now()->subMonths(12 - $month),
-                    'month' => date('F', mktime(0, 0, 0, $month, 1)),
-                    'year' => now()->subMonths(12 - $month)->format('Y'),
-                    'production' => round($production, 2),
-                    'wet_production_kg' => round($production, 2),
-                    'productivity' => round($productivity, 2),
-                    'productivity_kg_ha_year' => round($productivity, 2),
-                    'rkap_percentage' => rand(90, 110),
-                    'quality_score' => rand(75, 95),
-                    'weather_condition' => ['Cerah', 'Berawan', 'Hujan Ringan'][rand(0, 2)],
-                    'temperature_avg' => rand(20, 28),
-                    'rainfall_mm' => rand(150, 400),
-                    'humidity_percent' => rand(70, 90),
-                    'soil_moisture_percent' => rand(40, 70),
-                    'pest_incidence' => rand(0, 3),
-                    'disease_incidence' => rand(0, 2),
-                    'fertilizer_used' => rand(50, 150),
-                    'labor_hours' => rand(200, 400),
-                    'notes' => 'Data produksi bulan ' . date('F', mktime(0, 0, 0, $month, 1))
-                ]);
-            }
+            Garden::firstOrCreate(['kebun_name' => $gardenData['kebun_name']], $gardenData);
         }
 
         // Create visits
+        $gardens = Garden::all();
         $visitTitles = [
             'Monitoring Produktivitas',
             'Kunjungan Dinas Pemerintah',
@@ -199,75 +134,108 @@ class PPTKSeeder extends Seeder
             for ($i = 0; $i < $visitCount; $i++) {
                 $daysAgo = rand(1, 90);
                 $visitDate = now()->subDays($daysAgo);
-
                 Visit::create([
                     'garden_id' => $garden->id,
+                    'title' => $visitTitles[rand(0, count($visitTitles) - 1)],
                     'visit_date' => $visitDate,
-                    'visitor_name' => 'Dinas Pertanian',
-                    'purpose' => $visitTitles[array_rand($visitTitles)],
+                    'duration' => rand(1, 5),
+                    'visitor_name' => 'Visitor ' . rand(1, 100),
+                    'purpose' => 'Kunjungan rutin dan evaluasi',
+                    'participants_count' => rand(2, 10),
+                    'participants_list' => 'Peserta A, Peserta B, Peserta C',
+                    'description' => 'Detail kunjungan dan observasi lapangan mengenai kondisi tanaman dan infrastruktur.',
+                    'objectives' => 'Mengevaluasi kinerja kebun dan memberikan rekomendasi perbaikan.',
+                    'findings' => 'Kondisi tanaman baik, namun perlu perbaikan sistem irigasi di blok A.',
+                    'recommendations' => 'Lakukan perbaikan irigasi segera dan tingkatkan pemupukan.',
+                    'rating' => rand(3, 5),
                     'status' => 'completed'
+                ]);
+            }
+
+            // Create Afdeling and Blocks
+            $afdelingCount = rand(2, 3);
+            for ($a = 0; $a < $afdelingCount; $a++) {
+                $afdeling = Afdeling::create([
+                    'garden_id' => $garden->id,
+                    'name' => 'Afdeling ' . ($a + 1),
+                    'total_area_ha' => $garden->luas_total_ha / $afdelingCount,
+                    'tm_area_ha' => ($garden->luas_total_ha / $afdelingCount) * 0.8,
+                    'manager_name' => 'Manager Afdeling ' . ($a + 1),
+                ]);
+
+                // Create Blocks for each Afdeling
+                $blockCount = rand(3, 5);
+                for ($b = 0; $b < $blockCount; $b++) {
+                    Block::create([
+                        'afdeling_id' => $afdeling->id,
+                        'name' => 'Blok ' . chr(65 + $b),
+                        'code' => 'BL-' . $afdeling->id . '-' . chr(65 + $b),
+                        'plant_type' => ['seedling', 'klon_gmb', 'klon_tri'][rand(0, 2)],
+                        'planting_year' => rand(1990, 2020),
+                        'initial_class' => ['A', 'B', 'C', 'D', 'E'][rand(0, 4)],
+                        'topography' => ['datar', 'gelombang', 'curam'][rand(0, 2)],
+                    ]);
+                }
+            }
+
+            // Create Insights
+            $insightTypes = ['productivity', 'weather', 'pest_disease', 'cost_efficiency'];
+            $alertLevels = ['low', 'medium', 'high'];
+
+            for ($j = 0; $j < rand(2, 4); $j++) {
+                Insight::create([
+                    'garden_id' => $garden->id,
+                    'title' => 'Insight ' . ($j + 1) . ' for ' . $garden->kebun_name,
+                    'description' => 'Detailed analysis and observation for this insight.',
+                    'insight_type' => $insightTypes[rand(0, count($insightTypes) - 1)],
+                    'message' => 'Insight message content regarding current conditions.',
+                    'alert_level' => $alertLevels[rand(0, count($alertLevels) - 1)],
+                    'recommendations' => ['Check soil moisture', 'Increase fertilizer dosage', 'Monitor pest activity'],
+                    'generated_at' => now()->subDays(rand(1, 30)),
+                ]);
+            }
+
+            // Create Garden Photos
+            for ($k = 0; $k < rand(2, 3); $k++) {
+                GardenPhoto::create([
+                    'garden_id' => $garden->id,
+                    'path' => 'gardens/default_garden.jpg', // Placeholder path
+                    'title' => 'Photo ' . ($k + 1),
+                    'description' => 'View of the tea plantation block ' . chr(65 + $k),
                 ]);
             }
         }
 
-        // Create insights
-        $insightTitles = [
-            'Produktivitas Tinggi Terdeteksi',
-            'Kebutuhan Pemangkasan Mendesak',
-            'Kualitas Daun Menurun',
-            'Optimalisasi Pemupukan Diperlukan',
-            'Sistem Drainase Perlu Perbaikan',
-            'Hama Penggerek Daun Teridentifikasi',
-            'Kelembaban Tanah Tidak Optimal',
-            'Temperatur Melebihi Ambang Batas'
-        ];
-
-        $recommendations = [
-            'Tingkatkan dosis pupuk nitrogen',
-            'Lakukan pemangkasan secara teratur',
-            'Evaluasi sistem irigasi',
-            'Monitor kelembaban tanah harian',
-            'Terapkan pengendalian hama terpadu',
-            'Perbaiki sistem drainase',
-            'Tambahkan pupuk organik',
-            'Naikkan frekuensi monitoring'
-        ];
-
-        foreach ($gardens as $garden) {
-            // Create 2-4 insights per garden
-            $insightCount = rand(2, 4);
-            for ($i = 0; $i < $insightCount; $i++) {
-                $alertLevels = ['low', 'medium', 'high'];
-                $alertLevel = $alertLevels[array_rand($alertLevels)];
-                $title = $insightTitles[array_rand($insightTitles)];
-
-                Insight::create([
-                    'garden_id' => $garden->id,
-                    'title' => $title,
-                    'description' => 'Analisis data menunjukkan ' . strtolower($title) . ' di kebun ' . $garden->name,
-                    'insight_type' => \Illuminate\Support\Str::slug($title, '_'),
-                    'message' => 'Analisis: ' . $title . ' pada ' . $garden->name,
-                    'alert_level' => $alertLevel,
-                    'recommendations' => json_encode([$recommendations[array_rand($recommendations)]]),
-                    'created_at' => now()->subDays(rand(1, 30))
+        // Create Region Photos
+        foreach (Region::all() as $region) {
+            for ($m = 0; $m < rand(1, 2); $m++) {
+                RegionPhoto::create([
+                    'region_id' => $region->id,
+                    'path' => 'regions/default_region.jpg', // Placeholder path
                 ]);
             }
+        }
 
-            // Ensure at least one HIGH alert per garden (dummy, clear and consistent)
-            Insight::create([
-                'garden_id' => $garden->id,
-                'title' => 'Peringatan Produktivitas Rendah',
-                'description' => 'Produktivitas kebun berada di bawah ambang batas, perlu intervensi segera.',
-                'insight_type' => 'productivity_alert',
-                'message' => 'Produktivitas rendah terdeteksi pada ' . $garden->name,
-                'alert_level' => 'high',
-                'recommendations' => json_encode([
-                    'Tingkatkan dosis pemupukan nitrogen',
-                    'Evaluasi sistem drainase dan kelembaban tanah',
-                    'Lakukan pemangkasan peremajaan pada blok terkait'
-                ]),
-                'created_at' => now()->subDays(rand(1, 10))
-            ]);
+        // Create Pages
+        $pages = [
+            [
+                'slug' => 'about',
+                'title' => 'Tentang Kami',
+                'subtitle' => 'Sejarah dan Visi Misi PPTK',
+                'content_html' => '<p>Pusat Penelitian Teh dan Kina (PPTK) Gambung adalah lembaga penelitian...</p>',
+                'hero_photo_path' => 'pages/about-hero.jpg',
+            ],
+            [
+                'slug' => 'contact',
+                'title' => 'Hubungi Kami',
+                'subtitle' => 'Informasi Kontak dan Lokasi',
+                'content_html' => '<p>Hubungi kami melalui email atau telepon...</p>',
+                'hero_photo_path' => 'pages/contact-hero.jpg',
+            ],
+        ];
+
+        foreach ($pages as $pageData) {
+            Page::firstOrCreate(['slug' => $pageData['slug']], $pageData);
         }
     }
 }

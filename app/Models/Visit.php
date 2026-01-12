@@ -32,4 +32,9 @@ class Visit extends Model
     {
         return $this->belongsTo(Garden::class);
     }
+
+    public function photos()
+    {
+        return $this->hasMany(VisitPhoto::class);
+    }
 }

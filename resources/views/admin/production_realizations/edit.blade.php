@@ -1,109 +1,134 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Produksi Realisasi')
+@section('title', 'Edit Realisasi Produksi')
 
 @section('content')
-    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+    <div class="bg-white rounded-lg shadow p-6">
         <div class="mb-6">
-            <a href="{{ route('admin.production-realizations.index') }}" class="text-green-600 hover:text-green-800 flex items-center mb-4">
-                <span class="material-icons mr-1">arrow_back</span> Kembali ke Daftar
-            </a>
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Form Edit Produksi</h2>
+            <h3 class="text-lg font-semibold text-gray-800">Edit Data Realisasi & Monitoring</h3>
+            <p class="text-sm text-gray-600">Perbarui data produksi bulanan.</p>
         </div>
 
         <form action="{{ route('admin.production-realizations.update', $productionRealization) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Afdeling Selection -->
-                <div class="col-span-2 md:col-span-1">
-                    <label for="afdeling_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Afdeling</label>
-                    <select name="afdeling_id" id="afdeling_id"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                        <option value="">Pilih Afdeling</option>
-                        @foreach ($afdelings as $afdeling)
-                            <option value="{{ $afdeling->id }}" {{ old('afdeling_id', $productionRealization->afdeling_id) == $afdeling->id ? 'selected' : '' }}>
-                                {{ $afdeling->name }} ({{ $afdeling->garden->name }})
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <!-- Identitas -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Kebun</label>
+                    <select name="kebun_id"
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        <option value="">-- Pilih Kebun --</option>
+                        @foreach ($gardens as $garden)
+                            <option value="{{ $garden->id }}"
+                                {{ old('kebun_id', $productionRealization->kebun_id) == $garden->id ? 'selected' : '' }}>
+                                {{ $garden->kebun_name }}
                             </option>
                         @endforeach
                     </select>
-                    @error('afdeling_id')
+                    @error('kebun_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Date -->
-                <div class="col-span-2 md:col-span-1">
-                    <label for="date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tanggal/Bulan</label>
-                    <input type="date" name="date" id="date" value="{{ old('date', $productionRealization->date->format('Y-m-d')) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                    @error('date')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Harvested Area -->
                 <div>
-                    <label for="harvested_area_ha" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Luas Petik (Ha)</label>
-                    <input type="number" step="0.01" name="harvested_area_ha" id="harvested_area_ha" value="{{ old('harvested_area_ha', $productionRealization->harvested_area_ha) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                    @error('harvested_area_ha')
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Bulan</label>
+                    <select name="month"
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        @for ($i = 1; $i <= 12; $i++)
+                            <option value="{{ $i }}"
+                                {{ old('month', $productionRealization->month) == $i ? 'selected' : '' }}>
+                                {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                            </option>
+                        @endfor
+                    </select>
+                    @error('month')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Wet Yield -->
                 <div>
-                    <label for="wet_yield_kg" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Produksi Basah (Kg)</label>
-                    <input type="number" step="0.01" name="wet_yield_kg" id="wet_yield_kg" value="{{ old('wet_yield_kg', $productionRealization->wet_yield_kg) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                    @error('wet_yield_kg')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Dry Yield -->
-                <div>
-                    <label for="dry_yield_kg" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Rendemen / Prod. Kering (Kg)</label>
-                    <input type="number" step="0.01" name="dry_yield_kg" id="dry_yield_kg" value="{{ old('dry_yield_kg', $productionRealization->dry_yield_kg) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                    @error('dry_yield_kg')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Manpower Count -->
-                <div>
-                    <label for="manpower_count" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jumlah HK (Orang)</label>
-                    <input type="number" name="manpower_count" id="manpower_count" value="{{ old('manpower_count', $productionRealization->manpower_count) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                    @error('manpower_count')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Effective Days -->
-                <div>
-                    <label for="effective_days" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hari Kerja Efektif</label>
-                    <input type="number" name="effective_days" id="effective_days" value="{{ old('effective_days', $productionRealization->effective_days) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                    @error('effective_days')
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tahun</label>
+                    <input type="number" name="year" value="{{ old('year', $productionRealization->year) }}"
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    @error('year')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
 
-            <div class="mt-8 flex justify-end">
-                <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Luasan Efektif -->
+                <div class="bg-gray-50 p-4 rounded-md border">
+                    <h4 class="font-medium text-gray-800 mb-3">Luasan Efektif</h4>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Luas Area Petik (Ha)</label>
+                        <input type="number" step="0.01" name="active_picking_area_ha"
+                            value="{{ old('active_picking_area_ha', $productionRealization->active_picking_area_ha) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        @error('active_picking_area_ha')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Produksi Basah -->
+                <div class="bg-gray-50 p-4 rounded-md border">
+                    <h4 class="font-medium text-gray-800 mb-3">Produksi Basah</h4>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Total Produksi Basah (Kg)</label>
+                        <input type="number" step="0.01" name="wet_production_kg"
+                            value="{{ old('wet_production_kg', $productionRealization->wet_production_kg) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        @error('wet_production_kg')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Kapasitas Pemetikan -->
+                <div class="bg-gray-50 p-4 rounded-md border">
+                    <h4 class="font-medium text-gray-800 mb-3">Kapasitas Pemetikan</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Kapasitas per Ha</label>
+                            <input type="number" step="0.01" name="capacity_per_ha"
+                                value="{{ old('capacity_per_ha', $productionRealization->capacity_per_ha) }}"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Rata-rata Kapasitas</label>
+                            <input type="number" step="0.01" name="avg_capacity"
+                                value="{{ old('avg_capacity', $productionRealization->avg_capacity) }}"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forecast -->
+                <div class="bg-gray-50 p-4 rounded-md border">
+                    <h4 class="font-medium text-gray-800 mb-3">Forecast Produksi</h4>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Estimasi Produksi (Kg)</label>
+                        <input type="number" step="0.01" name="estimated_production"
+                            value="{{ old('estimated_production', $productionRealization->estimated_production) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Asumsi / Catatan</label>
+                        <textarea name="assumption_note" rows="2"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ old('assumption_note', $productionRealization->assumption_note) }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-3">
+                <a href="{{ route('admin.production-realizations.index') }}"
+                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    Batal
+                </a>
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
                     Update Data
                 </button>
             </div>

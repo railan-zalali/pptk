@@ -7,6 +7,7 @@ use App\Models\Region;
 use App\Models\RegionPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AdminRegionController extends Controller
 {
@@ -20,7 +21,7 @@ class AdminRegionController extends Controller
     public function index()
     {
         $this->ensureAdmin();
-        $regions = Region::orderBy('name')->paginate(12);
+        $regions = Region::orderBy('regional_name')->paginate(12);
         return view('admin.regions.index', compact('regions'));
     }
 
@@ -35,7 +36,7 @@ class AdminRegionController extends Controller
         $this->ensureAdmin();
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'regional_name' => 'required|string|max:255',
             'province' => 'required|string|max:255',
             'coordinates' => 'nullable|string',
             'photo' => 'nullable|image|max:4096',
@@ -43,6 +44,7 @@ class AdminRegionController extends Controller
         ]);
 
         $region = new Region($validated);
+        $region->regional_code = Str::upper(Str::slug($request->regional_name));
 
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('region-photos', 'public');
@@ -75,7 +77,7 @@ class AdminRegionController extends Controller
         $this->ensureAdmin();
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'regional_name' => 'required|string|max:255',
             'province' => 'required|string|max:255',
             'coordinates' => 'nullable|string',
             'photo' => 'nullable|image|max:4096',
@@ -83,6 +85,9 @@ class AdminRegionController extends Controller
         ]);
 
         $region->fill($validated);
+        if ($region->isDirty('regional_name')) {
+             $region->regional_code = Str::upper(Str::slug($request->regional_name));
+        }
 
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('region-photos', 'public');

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Block;
+use App\Models\Garden;
 use App\Models\StrategicAction;
 use Illuminate\Http\Request;
 
@@ -11,52 +11,86 @@ class AdminStrategicActionController extends Controller
 {
     public function index()
     {
-        $actions = StrategicAction::with('block.afdeling.garden')->orderBy('period', 'desc')->paginate(10);
+        $actions = StrategicAction::with('garden')->orderBy('year', 'desc')->paginate(10);
         return view('admin.strategic_actions.index', compact('actions'));
     }
 
     public function create()
     {
-        $blocks = Block::with('afdeling.garden')->get();
-        return view('admin.strategic_actions.create', compact('blocks'));
+        $gardens = Garden::orderBy('kebun_name')->get();
+        return view('admin.strategic_actions.create', compact('gardens'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'block_id' => 'required|exists:blocks,id',
-            'period' => 'required|date',
-            'action_type' => 'required|in:fertilizer_root,fertilizer_leaf,cultivator,weed_control',
-            'target_volume' => 'required|numeric|min:0',
-            'realization_volume' => 'required|numeric|min:0',
-            'nitrogen_content' => 'nullable|numeric|min:0',
-            'notes' => 'nullable|string',
+        $validated = $request->validate([
+            'kebun_id' => 'required|exists:gardens,id',
+            'year' => 'required|integer|min:2000|max:2099',
+            'action_type' => 'required|string',
+
+            'dosis_n_kg_ha' => 'nullable|numeric',
+            'n_protas_percent' => 'nullable|numeric',
+            'application_frequency' => 'nullable|integer',
+            'fertilizer_type' => 'nullable|string',
+            'technical_note' => 'nullable|string',
+            'coverage_target_percent' => 'nullable|numeric',
+            'application_interval' => 'nullable|string',
+            'rotation_per_year' => 'nullable|integer',
+            'method' => 'nullable|string',
+            'focus_area' => 'nullable|string',
+            'picking_system' => 'nullable|string',
+            'cushion_consistency' => 'nullable|string',
+            'kandas_risk' => 'nullable|boolean',
+            'total_machine' => 'nullable|integer',
+            'avg_machine_age' => 'nullable|numeric',
+            'renewal_status' => 'nullable|string',
+            'opt_status' => 'nullable|string',
+            'tp_normalization' => 'nullable|boolean',
+            'treatment_note' => 'nullable|string',
+            'note' => 'nullable|string',
         ]);
 
-        StrategicAction::create($request->all());
+        StrategicAction::create($validated);
 
         return redirect()->route('admin.strategic-actions.index')->with('success', 'Strategic Action recorded successfully.');
     }
 
     public function edit(StrategicAction $strategicAction)
     {
-        $blocks = Block::with('afdeling.garden')->get();
-        return view('admin.strategic_actions.edit', compact('strategicAction', 'blocks'));
+        $gardens = Garden::orderBy('kebun_name')->get();
+        return view('admin.strategic_actions.edit', compact('strategicAction', 'gardens'));
     }
 
     public function update(Request $request, StrategicAction $strategicAction)
     {
-        $request->validate([
-            'block_id' => 'required|exists:blocks,id',
-            'period' => 'required|date',
-            'action_type' => 'required|in:fertilizer_root,fertilizer_leaf,cultivator,weed_control',
-            'target_volume' => 'required|numeric|min:0',
-            'realization_volume' => 'required|numeric|min:0',
-            'nitrogen_content' => 'nullable|numeric|min:0',
-            'notes' => 'nullable|string',
+        $validated = $request->validate([
+            'kebun_id' => 'required|exists:gardens,id',
+            'year' => 'required|integer|min:2000|max:2099',
+            'action_type' => 'required|string',
+
+            'dosis_n_kg_ha' => 'nullable|numeric',
+            'n_protas_percent' => 'nullable|numeric',
+            'application_frequency' => 'nullable|integer',
+            'fertilizer_type' => 'nullable|string',
+            'technical_note' => 'nullable|string',
+            'coverage_target_percent' => 'nullable|numeric',
+            'application_interval' => 'nullable|string',
+            'rotation_per_year' => 'nullable|integer',
+            'method' => 'nullable|string',
+            'focus_area' => 'nullable|string',
+            'picking_system' => 'nullable|string',
+            'cushion_consistency' => 'nullable|string',
+            'kandas_risk' => 'nullable|boolean',
+            'total_machine' => 'nullable|integer',
+            'avg_machine_age' => 'nullable|numeric',
+            'renewal_status' => 'nullable|string',
+            'opt_status' => 'nullable|string',
+            'tp_normalization' => 'nullable|boolean',
+            'treatment_note' => 'nullable|string',
+            'note' => 'nullable|string',
         ]);
 
-        $strategicAction->update($request->all());
+        $strategicAction->update($validated);
 
         return redirect()->route('admin.strategic-actions.index')->with('success', 'Strategic Action updated successfully.');
     }

@@ -49,6 +49,24 @@
                 @endif
             </div>
         </div>
+
+        @if($visit->photos->count() > 0)
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Dokumentasi Foto</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    @foreach($visit->photos as $photo)
+                        <div class="relative group">
+                            <img src="{{ asset('storage/' . $photo->path) }}" alt="{{ $photo->caption }}" class="w-full h-48 object-cover rounded-lg shadow-md">
+                            @if($photo->caption)
+                                <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                                    {{ $photo->caption }}
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
 
     <div class="flex gap-3">

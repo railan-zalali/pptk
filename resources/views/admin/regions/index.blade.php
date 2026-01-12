@@ -23,7 +23,7 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @foreach ($regions as $region)
                     <tr>
-                        <td class="px-6 py-4">{{ $region->name }}</td>
+                        <td class="px-6 py-4">{{ $region->regional_name }}</td>
                         <td class="px-6 py-4">{{ $region->province }}</td>
                         <td class="px-6 py-4">{{ $region->coordinates }}</td>
                         <td class="px-6 py-4">

@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\AdminAfdelingController;
 use App\Http\Controllers\Admin\AdminBlockController;
 use App\Http\Controllers\Admin\AdminProductionRealizationController;
 use App\Http\Controllers\Admin\AdminStrategicActionController;
+use App\Http\Controllers\Admin\AdminProgramController;
+use App\Http\Controllers\Admin\AdminPerformanceTargetController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -34,9 +36,11 @@ Route::get('/kunjungan-dinas/{visit}/edit', [VisitController::class, 'edit'])->n
 Route::put('/kunjungan-dinas/{visit}', [VisitController::class, 'update'])->name('visits.update');
 Route::delete('/kunjungan-dinas/{visit}', [VisitController::class, 'destroy'])->name('visits.destroy');
 
+// Public Dashboard (Executive)
+Route::get('/dashboard/kebun-model', [StrategicDashboardController::class, 'index'])->name('dashboard.garden');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'user'])->name('dashboard');
-    Route::get('/dashboard/kebun-model', [StrategicDashboardController::class, 'index'])->name('dashboard.garden');
     Route::get('/dashboard/penelitian', [DashboardController::class, 'research'])->name('dashboard.research');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -104,4 +108,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Strategic Action CRUD
     Route::resource('strategic-actions', AdminStrategicActionController::class);
+
+    // Program CRUD
+    Route::resource('programs', AdminProgramController::class);
+
+    // Performance Target CRUD
+    Route::resource('performance-targets', AdminPerformanceTargetController::class);
 });

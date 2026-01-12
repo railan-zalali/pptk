@@ -13,13 +13,24 @@ return new class extends Migration
     {
         Schema::create('production_realizations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('afdeling_id')->constrained()->onDelete('cascade');
-            $table->date('date');
-            $table->decimal('harvested_area_ha', 10, 2)->comment('Luas petik realisasi');
-            $table->decimal('wet_yield_kg', 10, 2)->comment('Produksi basah');
-            $table->decimal('dry_yield_kg', 10, 2)->comment('Kalkulasi rendemen');
-            $table->integer('manpower_count')->comment('Jumlah HK pemetik');
-            $table->integer('effective_days');
+            $table->foreignId('kebun_id')->constrained('gardens')->onDelete('cascade');
+            $table->integer('month');
+            $table->year('year');
+
+            // 6.1 Luasan Efektif
+            $table->decimal('active_picking_area_ha', 10, 2)->nullable();
+
+            // 6.2 Produksi Basah
+            $table->decimal('wet_production_kg', 10, 2)->nullable();
+
+            // 6.3 Kapasitas Pemetikan
+            $table->decimal('capacity_per_ha', 10, 2)->nullable();
+            $table->decimal('avg_capacity', 10, 2)->nullable();
+
+            // 6.4 Forecast Produksi
+            $table->decimal('estimated_production', 10, 2)->nullable();
+            $table->text('assumption_note')->nullable();
+
             $table->timestamps();
         });
     }

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('performance_targets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kebun_id')->constrained('gardens')->onDelete('cascade');
             $table->year('year');
-            $table->foreignId('afdeling_id')->constrained()->onDelete('cascade');
-            $table->decimal('target_protas_kg_ha', 10, 2);
-            $table->decimal('target_yield_kg', 10, 2);
+            $table->decimal('target_protas_min', 10, 2);
+            $table->decimal('target_protas_max', 10, 2);
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

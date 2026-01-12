@@ -8,20 +8,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PerformanceTarget extends Model
 {
     protected $fillable = [
+        'kebun_id',
         'year',
-        'afdeling_id',
-        'target_protas_kg_ha',
-        'target_yield_kg',
+        'target_protas_min',
+        'target_protas_max',
+        'note',
     ];
 
     protected $casts = [
         'year' => 'integer',
-        'target_protas_kg_ha' => 'decimal:2',
-        'target_yield_kg' => 'decimal:2',
+        'target_protas_min' => 'decimal:2',
+        'target_protas_max' => 'decimal:2',
     ];
 
-    public function afdeling(): BelongsTo
+    public function garden(): BelongsTo
     {
-        return $this->belongsTo(Afdeling::class);
+        return $this->belongsTo(Garden::class, 'kebun_id');
     }
 }

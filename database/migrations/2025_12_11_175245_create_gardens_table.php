@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('gardens', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('location');
-            $table->foreignId('region_id')->constrained();
-            $table->decimal('area_hectares', 10, 2);
+            $table->string('kebun_name');
+            $table->foreignId('regional_id')->constrained('regions')->onDelete('cascade');
+            $table->decimal('luas_total_ha', 10, 2);
+            $table->enum('kebun_type', ['Model', 'Pengembangan']);
+            $table->text('agro_climate_note')->nullable();
+            $table->string('location')->nullable();
+            $table->string('photo_path')->nullable();
             $table->text('description')->nullable();
             $table->date('established_at')->nullable();
             $table->timestamps();

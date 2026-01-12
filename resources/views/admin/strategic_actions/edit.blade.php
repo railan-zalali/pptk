@@ -1,116 +1,310 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Strategic Action')
+@section('title', 'Edit Aksi Strategis')
 
 @section('content')
-    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+    <div class="bg-white rounded-lg shadow p-6">
         <div class="mb-6">
-            <a href="{{ route('admin.strategic-actions.index') }}" class="text-green-600 hover:text-green-800 flex items-center mb-4">
-                <span class="material-icons mr-1">arrow_back</span> Kembali ke Daftar
-            </a>
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Form Edit Strategic Action</h2>
+            <h3 class="text-lg font-semibold text-gray-800">Edit Aksi Strategis</h3>
+            <p class="text-sm text-gray-600">Perbarui rencana aksi strategis.</p>
         </div>
 
         <form action="{{ route('admin.strategic-actions.update', $strategicAction) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Block Selection -->
-                <div class="col-span-2 md:col-span-1">
-                    <label for="block_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Blok</label>
-                    <select name="block_id" id="block_id"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                        <option value="">Pilih Blok</option>
-                        @foreach ($blocks as $block)
-                            <option value="{{ $block->id }}" {{ old('block_id', $strategicAction->block_id) == $block->id ? 'selected' : '' }}>
-                                {{ $block->name }} ({{ $block->afdeling->name }})
+            <!-- Common Fields -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 pb-6 border-b">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Kebun</label>
+                    <select name="kebun_id"
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        <option value="">-- Pilih Kebun --</option>
+                        @foreach ($gardens as $garden)
+                            <option value="{{ $garden->id }}"
+                                {{ old('kebun_id', $strategicAction->kebun_id) == $garden->id ? 'selected' : '' }}>
+                                {{ $garden->kebun_name }}
                             </option>
                         @endforeach
                     </select>
-                    @error('block_id')
+                    @error('kebun_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Period -->
-                <div class="col-span-2 md:col-span-1">
-                    <label for="period" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Periode</label>
-                    <input type="date" name="period" id="period" value="{{ old('period', $strategicAction->period->format('Y-m-d')) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                    @error('period')
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tahun</label>
+                    <input type="number" name="year" value="{{ old('year', $strategicAction->year) }}"
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    @error('year')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Action Type -->
-                <div class="col-span-2">
-                    <label for="action_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipe Aksi</label>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Aksi</label>
+                    <!-- Action Type usually shouldn't be changed easily as it changes schema, but we allow it here if user made mistake -->
                     <select name="action_type" id="action_type"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                        <option value="">Pilih Tipe Aksi</option>
-                        <option value="fertilizer_root" {{ old('action_type', $strategicAction->action_type) == 'fertilizer_root' ? 'selected' : '' }}>Pemupukan Akar</option>
-                        <option value="fertilizer_leaf" {{ old('action_type', $strategicAction->action_type) == 'fertilizer_leaf' ? 'selected' : '' }}>Pemupukan Daun</option>
-                        <option value="cultivator" {{ old('action_type', $strategicAction->action_type) == 'cultivator' ? 'selected' : '' }}>Kultivator</option>
-                        <option value="weed_control" {{ old('action_type', $strategicAction->action_type) == 'weed_control' ? 'selected' : '' }}>Pengendalian Gulma</option>
+                        class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        <option value="">-- Pilih Jenis Aksi --</option>
+                        <option value="Pemupukan Akar"
+                            {{ old('action_type', $strategicAction->action_type) == 'Pemupukan Akar' ? 'selected' : '' }}>
+                            Pemupukan Akar</option>
+                        <option value="Pemupukan Daun"
+                            {{ old('action_type', $strategicAction->action_type) == 'Pemupukan Daun' ? 'selected' : '' }}>
+                            Pemupukan Daun</option>
+                        <option value="Penyiangan Gulma"
+                            {{ old('action_type', $strategicAction->action_type) == 'Penyiangan Gulma' ? 'selected' : '' }}>
+                            Penyiangan Gulma</option>
+                        <option value="Kultivator / Pengolahan Tanah"
+                            {{ old('action_type', $strategicAction->action_type) == 'Kultivator / Pengolahan Tanah' ? 'selected' : '' }}>
+                            Kultivator / Pengolahan Tanah</option>
+                        <option value="Pemetikan"
+                            {{ old('action_type', $strategicAction->action_type) == 'Pemetikan' ? 'selected' : '' }}>
+                            Pemetikan</option>
+                        <option value="Mesin Petik"
+                            {{ old('action_type', $strategicAction->action_type) == 'Mesin Petik' ? 'selected' : '' }}>
+                            Mesin Petik</option>
+                        <option value="Pengendalian OPT"
+                            {{ old('action_type', $strategicAction->action_type) == 'Pengendalian OPT' ? 'selected' : '' }}>
+                            Pengendalian OPT</option>
                     </select>
                     @error('action_type')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+            </div>
 
-                <!-- Target Volume -->
-                <div>
-                    <label for="target_volume" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Volume</label>
-                    <input type="number" step="0.01" name="target_volume" id="target_volume" value="{{ old('target_volume', $strategicAction->target_volume) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                    @error('target_volume')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+            <!-- Specific Fields Container -->
+            <div id="specific_fields" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Fields will be shown here via JS -->
+            </div>
+
+            <!-- Hidden Templates for Fields -->
+            <!-- We need to populate values from DB into templates so when they are shown, they have data -->
+            <div id="templates" class="hidden">
+                <!-- Pemupukan Akar -->
+                <div data-type="Pemupukan Akar" class="contents">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Dosis N (kg/ha)</label>
+                        <input type="number" step="0.01" name="dosis_n_kg_ha"
+                            value="{{ old('dosis_n_kg_ha', $strategicAction->dosis_n_kg_ha) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">% N thd Protas</label>
+                        <input type="number" step="0.01" name="n_protas_percent"
+                            value="{{ old('n_protas_percent', $strategicAction->n_protas_percent) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Frekuensi Aplikasi</label>
+                        <input type="number" name="application_frequency"
+                            value="{{ old('application_frequency', $strategicAction->application_frequency) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Pupuk</label>
+                        <input type="text" name="fertilizer_type"
+                            value="{{ old('fertilizer_type', $strategicAction->fertilizer_type) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Catatan Teknis</label>
+                        <textarea name="technical_note" rows="2"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ old('technical_note', $strategicAction->technical_note) }}</textarea>
+                    </div>
                 </div>
 
-                <!-- Realization Volume -->
-                <div>
-                    <label for="realization_volume" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Realisasi Volume</label>
-                    <input type="number" step="0.01" name="realization_volume" id="realization_volume" value="{{ old('realization_volume', $strategicAction->realization_volume) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-                        required>
-                    @error('realization_volume')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                <!-- Pemupukan Daun -->
+                <div data-type="Pemupukan Daun" class="contents">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Target Cakupan (%)</label>
+                        <input type="number" step="0.01" name="coverage_target_percent"
+                            value="{{ old('coverage_target_percent', $strategicAction->coverage_target_percent) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Interval Aplikasi</label>
+                        <input type="text" name="application_interval"
+                            value="{{ old('application_interval', $strategicAction->application_interval) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+                            placeholder="Contoh: 2 minggu sekali">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
+                        <textarea name="note" rows="2"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ old('note', $strategicAction->note) }}</textarea>
+                    </div>
                 </div>
 
-                <!-- Nitrogen Content -->
-                <div>
-                    <label for="nitrogen_content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kandungan Nitrogen (%) (Opsional)</label>
-                    <input type="number" step="0.01" name="nitrogen_content" id="nitrogen_content" value="{{ old('nitrogen_content', $strategicAction->nitrogen_content) }}"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200">
-                    @error('nitrogen_content')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                <!-- Penyiangan Gulma -->
+                <div data-type="Penyiangan Gulma" class="contents">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Target Cakupan (%)</label>
+                        <input type="number" step="0.01" name="coverage_target_percent"
+                            value="{{ old('coverage_target_percent', $strategicAction->coverage_target_percent) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Rotasi per Tahun</label>
+                        <input type="number" name="rotation_per_year"
+                            value="{{ old('rotation_per_year', $strategicAction->rotation_per_year) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Metode</label>
+                        <input type="text" name="method" value="{{ old('method', $strategicAction->method) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"
+                            placeholder="Manual / Kimia / Mekanis">
+                    </div>
                 </div>
 
-                <!-- Notes -->
-                <div class="col-span-2">
-                    <label for="notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Catatan</label>
-                    <textarea name="notes" id="notes" rows="3"
-                        class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200">{{ old('notes', $strategicAction->notes) }}</textarea>
-                    @error('notes')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                <!-- Kultivator -->
+                <div data-type="Kultivator / Pengolahan Tanah" class="contents">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Target Cakupan (%)</label>
+                        <input type="number" step="0.01" name="coverage_target_percent"
+                            value="{{ old('coverage_target_percent', $strategicAction->coverage_target_percent) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Area Fokus</label>
+                        <input type="text" name="focus_area"
+                            value="{{ old('focus_area', $strategicAction->focus_area) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Metode</label>
+                        <input type="text" name="method" value="{{ old('method', $strategicAction->method) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <!-- Pemetikan -->
+                <div data-type="Pemetikan" class="contents">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Sistem Pemetikan</label>
+                        <input type="text" name="picking_system"
+                            value="{{ old('picking_system', $strategicAction->picking_system) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Konsistensi Cushion</label>
+                        <input type="text" name="cushion_consistency"
+                            value="{{ old('cushion_consistency', $strategicAction->cushion_consistency) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Risiko Kandas?</label>
+                        <select name="kandas_risk"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                            <option value="0"
+                                {{ old('kandas_risk', $strategicAction->kandas_risk) == '0' ? 'selected' : '' }}>Tidak
+                            </option>
+                            <option value="1"
+                                {{ old('kandas_risk', $strategicAction->kandas_risk) == '1' ? 'selected' : '' }}>Ya
+                            </option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
+                        <textarea name="note" rows="2"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ old('note', $strategicAction->note) }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Mesin Petik -->
+                <div data-type="Mesin Petik" class="contents">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Total Mesin (Unit)</label>
+                        <input type="number" name="total_machine"
+                            value="{{ old('total_machine', $strategicAction->total_machine) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Rata-rata Umur Mesin (Thn)</label>
+                        <input type="number" step="0.1" name="avg_machine_age"
+                            value="{{ old('avg_machine_age', $strategicAction->avg_machine_age) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status Peremajaan</label>
+                        <input type="text" name="renewal_status"
+                            value="{{ old('renewal_status', $strategicAction->renewal_status) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
+                        <textarea name="note" rows="2"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ old('note', $strategicAction->note) }}</textarea>
+                    </div>
+                </div>
+
+                <!-- Pengendalian OPT -->
+                <div data-type="Pengendalian OPT" class="contents">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status OPT</label>
+                        <input type="text" name="opt_status"
+                            value="{{ old('opt_status', $strategicAction->opt_status) }}"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Normalisasi Pucuk?</label>
+                        <select name="tp_normalization"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                            <option value="0"
+                                {{ old('tp_normalization', $strategicAction->tp_normalization) == '0' ? 'selected' : '' }}>
+                                Tidak</option>
+                            <option value="1"
+                                {{ old('tp_normalization', $strategicAction->tp_normalization) == '1' ? 'selected' : '' }}>
+                                Ya</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Catatan Perlakuan</label>
+                        <textarea name="treatment_note" rows="2"
+                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ old('treatment_note', $strategicAction->treatment_note) }}</textarea>
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-8 flex justify-end">
-                <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
-                    Update Action
+            <div class="mt-6 flex justify-end space-x-3">
+                <a href="{{ route('admin.strategic-actions.index') }}"
+                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    Batal
+                </a>
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
+                    Update Aksi
                 </button>
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const typeSelect = document.getElementById('action_type');
+            const specificContainer = document.getElementById('specific_fields');
+            const templates = document.getElementById('templates');
+
+            function updateFields() {
+                const selectedType = typeSelect.value;
+                specificContainer.innerHTML = ''; // Clear current fields
+
+                if (selectedType) {
+                    const template = templates.querySelector(`[data-type="${selectedType}"]`);
+                    if (template) {
+                        specificContainer.innerHTML = template.innerHTML;
+                    }
+                }
+            }
+
+            typeSelect.addEventListener('change', updateFields);
+
+            // Initial run
+            if (typeSelect.value) {
+                updateFields();
+            }
+        });
+    </script>
 @endsection

@@ -2,15 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Afdeling;
-use App\Models\Block;
 use App\Models\Garden;
 use App\Models\PerformanceTarget;
 use App\Models\ProductionRealization;
-use App\Models\Region;
+use App\Models\Program;
 use App\Models\StrategicAction;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class StrategicSeeder extends Seeder
 {
@@ -19,105 +17,134 @@ class StrategicSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Ensure Region Exists
-        $region = Region::firstOrCreate(
-            ['name' => 'Jawa Barat'],
-            ['province' => 'Jawa Barat', 'coordinates' => '-7.123, 107.456']
-        );
-
-        // 2. Create Garden (Kebun Malabar)
-        $garden = Garden::firstOrCreate(
-            ['name' => 'Kebun Malabar'],
+        // 1. Create Programs
+        $programs = [
             [
-                'region_id' => $region->id,
-                'location' => 'Pangalengan',
-                'area_hectares' => 500.00,
-                'description' => 'Kebun teh historis di Pangalengan',
-                'established_at' => '1900-01-01',
-                'status' => 'active',
-                'tea_variety' => 'Assamica',
-                'elevation' => 1500,
-                'soil_ph' => 5.5,
-            ]
-        );
+                'program_name' => 'RKAP 2024',
+                'year' => 2024,
+                'program_type' => 'Model',
+                'status' => false,
+            ],
+            [
+                'program_name' => 'RKAP 2025',
+                'year' => 2025,
+                'program_type' => 'Pengembangan',
+                'status' => true,
+            ],
+        ];
 
-        // 3. Create Afdelings
-        $afdelingNames = ['Afdeling Tanara', 'Afdeling Kertasari', 'Afdeling Purbasari'];
-        foreach ($afdelingNames as $index => $name) {
-            $afdeling = Afdeling::create([
-                'garden_id' => $garden->id,
-                'name' => $name,
-                'total_area_ha' => 150.00,
-                'tm_area_ha' => 120.00, // 80% TM
-                'manager_name' => 'Manager ' . ($index + 1),
-            ]);
+        foreach ($programs as $prog) {
+            Program::firstOrCreate(
+                ['year' => $prog['year'], 'program_name' => $prog['program_name']],
+                $prog
+            );
+        }
 
-            // 4. Create Blocks
-            $classes = ['A', 'B', 'C', 'D', 'E'];
-            $topographies = ['datar', 'gelombang', 'curam'];
-            
-            for ($i = 1; $i <= 5; $i++) {
-                $block = Block::create([
-                    'afdeling_id' => $afdeling->id,
-                    'name' => 'Blok ' . $afdeling->id . '-' . $i,
-                    'code' => 'BLK-' . $afdeling->id . '-' . $i,
-                    'plant_type' => ['seedling', 'klon_gmb', 'klon_tri'][rand(0, 2)],
-                    'planting_year' => rand(1990, 2015),
-                    'initial_class' => $classes[rand(0, 4)],
-                    'topography' => $topographies[rand(0, 2)],
-                ]);
+        // 2. Get Gardens (created by PPTKSeeder)
+        $gardens = Garden::all();
 
-                // 5. Create Strategic Actions (Randomly)
-                if (rand(0, 1)) {
-                    StrategicAction::create([
-                        'block_id' => $block->id,
-                        'period' => now()->subMonths(rand(1, 6)),
-                        'action_type' => 'fertilizer_root',
-                        'target_volume' => 500,
-                        'realization_volume' => rand(400, 500),
-                        'nitrogen_content' => 46, // Urea
-                        'notes' => 'Pemupukan rutin semester 1',
-                    ]);
-                }
-                
-                if (rand(0, 1)) {
-                     StrategicAction::create([
-                        'block_id' => $block->id,
-                        'period' => now()->subMonths(rand(1, 3)),
-                        'action_type' => 'cultivator',
-                        'target_volume' => 10, // Ha
-                        'realization_volume' => rand(5, 10),
-                        'notes' => 'Penggemburan tanah',
-                    ]);
-                }
+        if ($gardens->isEmpty()) {
+            $this->command->info('No gardens found. Please run PPTKSeeder first.');
+            return;
+        }
+
+        foreach ($gardens as $garden) {
+            // 3. Create Performance Targets (2025)
+            PerformanceTarget::updateOrCreate(
+                ['kebun_id' => $garden->id, 'year' => 2025],
+                [
+                    'target_protas_min' => 2000,
+                    'target_protas_max' => 2500,
+                    'note' => 'Target peningkatan produktivitas 2025',
+                ]
+            );
+
+            // 4. Create Strategic Actions (7 Types) for 2025
+            $actionTypes = [
+                'fertilizer_root' => [
+                    'dosis_n_kg_ha' => 120,
+                    'n_protas_percent' => 2.5,
+                    'application_frequency' => 4,
+                    'fertilizer_type' => 'Urea',
+                    'technical_note' => 'Aplikasi saat tanah lembab',
+                ],
+                'fertilizer_leaf' => [
+                    'coverage_target_percent' => 95,
+                    'application_interval' => '2 Minggu',
+                    'note' => 'Fokus pada pucuk peka',
+                ],
+                'weed_control' => [
+                    'coverage_target_percent' => 100,
+                    'rotation_per_year' => 6,
+                    'method' => 'Manual & Kimia Terbatas',
+                ],
+                'cultivator' => [
+                    'coverage_target_percent' => 20,
+                    'focus_area' => 'Tanah Padat',
+                    'method' => 'Garpu Tanah',
+                ],
+                'picking' => [
+                    'picking_system' => 'Petik Murni',
+                    'cushion_consistency' => 'Medium',
+                    'kandas_risk' => false,
+                    'note' => 'Jaga kualitas pucuk',
+                ],
+                'machine' => [
+                    'total_machine' => 15,
+                    'avg_machine_age' => 3.5,
+                    'renewal_status' => 'Good',
+                    'note' => 'Perawatan rutin tiap bulan',
+                ],
+                'opt' => [
+                    'opt_status' => 'Terkendali',
+                    'tp_normalization' => true,
+                    'treatment_note' => 'Monitoring Helopeltis',
+                ],
+            ];
+
+            foreach ($actionTypes as $type => $data) {
+                StrategicAction::updateOrCreate(
+                    [
+                        'kebun_id' => $garden->id,
+                        'year' => 2025,
+                        'action_type' => $type
+                    ],
+                    $data
+                );
             }
 
-            // 6. Create Production Realization (Last 12 Months)
-            for ($m = 0; $m < 12; $m++) {
-                $date = now()->subMonths($m)->startOfMonth();
-                $harvestedArea = 120; // Full TM area
-                $productivity = rand(100, 200); // Kg/Ha/Month (approx)
-                $wetYield = $harvestedArea * $productivity;
-                $dryYield = $wetYield * 0.22; // 22% rendemen
-                
-                ProductionRealization::create([
-                    'afdeling_id' => $afdeling->id,
-                    'date' => $date,
-                    'harvested_area_ha' => $harvestedArea,
-                    'wet_yield_kg' => $wetYield,
-                    'dry_yield_kg' => $dryYield,
-                    'manpower_count' => rand(50, 80),
-                    'effective_days' => 24,
-                ]);
-            }
+            // 5. Create Production Realization (Jan - Dec 2025)
+            // Some past months with data, future months maybe empty or forecasted
+            for ($month = 1; $month <= 12; $month++) {
+                // Skip future months if needed, but for dummy data we can fill up to current month or all year
+                // Let's fill Jan-Oct 2025 as realized, Nov-Dec as forecast only?
+                // Or just fill all for demo purposes.
 
-            // 7. Create Performance Target
-            PerformanceTarget::create([
-                'year' => now()->year,
-                'afdeling_id' => $afdeling->id,
-                'target_protas_kg_ha' => 2500, // Annual
-                'target_yield_kg' => 2500 * 120,
-            ]);
+                $isRealized = $month <= 10;
+
+                ProductionRealization::updateOrCreate(
+                    [
+                        'kebun_id' => $garden->id,
+                        'year' => 2025,
+                        'month' => $month
+                    ],
+                    [
+                        // 6.1 Luasan Efektif
+                        'active_picking_area_ha' => $garden->luas_total_ha ?? 100,
+
+                        // 6.2 Produksi Basah (Random variation)
+                        'wet_production_kg' => $isRealized ? rand(15000, 25000) : null,
+
+                        // 6.3 Kapasitas Pemetikan
+                        'capacity_per_ha' => $isRealized ? rand(15, 25) : null,
+                        'avg_capacity' => $isRealized ? rand(30, 45) : null,
+
+                        // 6.4 Forecast Produksi (Always present usually)
+                        'estimated_production' => rand(18000, 22000),
+                        'assumption_note' => 'Asumsi cuaca normal',
+                    ]
+                );
+            }
         }
     }
 }
