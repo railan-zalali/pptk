@@ -165,6 +165,42 @@ class StrategicDashboardController extends Controller
             ];
         })->sortByDesc('avg_protas');
 
+        // 3. Additional Charts Data
+        // 3.1 Regional Performance Chart
+        $regionalChartData = $gardenDetails->groupBy('region')->map(function ($gardens, $region) {
+            return [
+                'region' => $region,
+                'avg_protas' => $gardens->avg('protas_achievement')
+            ];
+        })->values();
+
+        // 3.2 Machine Age vs Quantity (Operational Insight)
+        $machineActions = StrategicAction::where('year', $currentYear)
+            ->where('action_type', 'machine')
+            ->with('garden')
+            ->get();
+
+        $machineChartData = $machineActions->map(function ($action) {
+            return [
+                'garden' => $action->garden->kebun_name,
+                'avg_age' => $action->avg_machine_age,
+                'total' => $action->total_machine
+            ];
+        });
+
+        // 3.3 Fertilizer Dosage Comparison
+        $fertilizerActions = StrategicAction::where('year', $currentYear)
+            ->where('action_type', 'fertilizer_root')
+            ->with('garden')
+            ->get();
+
+        $fertilizerChartData = $fertilizerActions->map(function ($action) {
+            return [
+                'garden' => $action->garden->kebun_name,
+                'dosage' => $action->dosis_n_kg_ha
+            ];
+        });
+
         return view('dashboard.garden', compact(
             'productionYtd',
             'targetYtdProrated',
@@ -180,7 +216,10 @@ class StrategicDashboardController extends Controller
             'gardenDetails',
             'bestPerformer',
             'underPerformer',
-            'regionalComparison'
+            'regionalComparison',
+            'regionalChartData',
+            'machineChartData',
+            'fertilizerChartData'
         ));
     }
 }

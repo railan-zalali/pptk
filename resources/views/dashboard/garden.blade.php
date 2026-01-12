@@ -265,6 +265,92 @@
                         }
                     }
                 });
+
+                // Regional Chart
+                const regCtx = document.getElementById('regionalChart').getContext('2d');
+                new Chart(regCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: @json($regionalChartData->pluck('region')),
+                        datasets: [{
+                            data: @json($regionalChartData->pluck('avg_protas')),
+                            backgroundColor: [
+                                'rgba(34, 197, 94, 0.7)',
+                                'rgba(59, 130, 246, 0.7)',
+                                'rgba(249, 115, 22, 0.7)',
+                                'rgba(168, 85, 247, 0.7)'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    boxWidth: 12,
+                                    font: { size: 10 }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Machine Chart
+                const macCtx = document.getElementById('machineChart').getContext('2d');
+                new Chart(macCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: @json($machineChartData->pluck('garden')),
+                        datasets: [{
+                            label: 'Umur Mesin',
+                            data: @json($machineChartData->pluck('avg_age')),
+                            backgroundColor: 'rgba(107, 114, 128, 0.7)',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                        }
+                    }
+                });
+
+                // Fertilizer Chart
+                const fertCtx = document.getElementById('fertilizerChart').getContext('2d');
+                new Chart(fertCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: @json($fertilizerChartData->pluck('garden')),
+                        datasets: [{
+                            label: 'Dosis N',
+                            data: @json($fertilizerChartData->pluck('dosage')),
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            r: {
+                                angleLines: { color: 'rgba(156, 163, 175, 0.2)' },
+                                grid: { color: 'rgba(156, 163, 175, 0.2)' },
+                                pointLabels: { font: { size: 10 } }
+                            }
+                        }
+                    }
+                });
+
             });
         </script>
 
