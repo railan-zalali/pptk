@@ -58,6 +58,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/pages/about', [AdminPageController::class, 'editAbout'])->name('pages.about.edit');
     Route::put('/pages/about', [AdminPageController::class, 'updateAbout'])->name('pages.about.update');
 
+    Route::get('/pages/research', [AdminPageController::class, 'editResearch'])->name('pages.research.edit');
+    Route::put('/pages/research', [AdminPageController::class, 'updateResearch'])->name('pages.research.update');
+
     // Regions CRUD
     Route::get('/regions', [AdminRegionController::class, 'index'])->name('regions.index');
     Route::get('/regions/create', [AdminRegionController::class, 'create'])->name('regions.create');
@@ -114,4 +117,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Performance Target CRUD
     Route::resource('performance-targets', AdminPerformanceTargetController::class);
+
+    // Users CRUD
+    Route::resource('users', \App\Http\Controllers\Admin\AdminUserController::class);
 });

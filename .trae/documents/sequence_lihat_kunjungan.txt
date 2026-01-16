@@ -1,0 +1,27 @@
+@startuml
+title Lihat Data Kunjungan (Manajemen)
+
+actor "Manajemen PPTK" as Manager
+
+participant "Visit List View" as View
+participant "VisitController" as Controller
+participant "Visit Model" as Model
+database Database
+
+Manager -> View : Akses Menu Kunjungan
+View -> Controller : GET /kunjungan-dinas
+
+Controller -> Model : Ambil daftar kunjungan (public/authorized)
+Model -> Database : Select * from visits where status='completed'
+Database --> Model : List visits history
+Controller --> View : Tampilkan daftar kunjungan
+
+Manager -> View : Pilih detail kunjungan
+View -> Controller : GET /kunjungan-dinas/{id}
+Controller -> Model : Find visit by ID
+Model -> Database : Select visit details & photos
+Database --> Model : Visit Data
+Controller --> View : Tampilkan Detail & Dokumentasi
+View --> Manager : Halaman Detail Kunjungan
+
+@enduml

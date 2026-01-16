@@ -1,0 +1,40 @@
+@startuml
+title Kelola Pengguna (User Management)
+
+actor "Admin PPTK" as Admin
+
+participant "User Form" as Form
+participant "AdminController" as Controller
+participant "User Model" as Model
+database Database
+
+Admin -> Form : Akses Menu Pengguna
+Form -> Controller : GET /admin/users
+Controller -> Model : Ambil daftar user
+Model -> Database : Select * from users
+Database --> Model : List users
+Controller --> Form : Tampilkan daftar pengguna
+
+Admin -> Form : Klik "Tambah Pengguna Baru"
+Form -> Controller : GET /admin/users/create
+Controller --> Form : Tampilkan form register user
+
+Admin -> Form : Input (Nama, Email, Password, Role)
+Form -> Controller : POST /admin/users
+
+Controller -> Controller : Validasi input & Cek Email Unik
+
+alt Validasi Sukses
+    Controller -> Controller : Hash Password
+    Controller -> Model : Create User (Role: Admin/Manager/Viewer)
+    Model -> Database : Insert user data
+    Database --> Model : Konfirmasi
+    Model --> Controller : User Created
+    Controller --> Form : Redirect ke List User
+    Form --> Admin : Notifikasi "Pengguna Berhasil Ditambahkan"
+else Validasi Gagal
+    Controller --> Form : Kembali ke form
+    Form --> Admin : Tampilkan error (e.g. Email duplicate)
+end
+
+@enduml

@@ -17,5 +17,12 @@ class Page extends Model
         'tujuan_html',
         'manfaat_html',
         'lokasi_html',
+        'meta',
+        'files',
+    ];
+
+    protected $casts = [
+        'meta' => 'array',
+        'files' => 'array',
     ];
 }

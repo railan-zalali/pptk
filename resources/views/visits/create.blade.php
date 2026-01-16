@@ -27,14 +27,16 @@
             <form action="{{ route('visits.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @if ($errors->any())
-                    <div class="mb-4 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded">
-                        <div class="font-semibold mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Terjadi kesalahan
-                            validasi</div>
-                        <ul class="list-disc pl-5 text-sm">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                    <div class="mb-4 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded flex items-center">
+                        <span class="material-icons text-base mr-2">warning</span>
+                        <div>
+                            <div class="font-semibold mb-2">Terjadi kesalahan validasi</div>
+                            <ul class="list-disc pl-5 text-sm">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 @endif
 
@@ -58,7 +60,7 @@
                             <label for="garden_id" class="block text-sm font-medium text-gray-700 mb-2">Kebun Model
                                 *</label>
                             <select name="garden_id" id="garden_id" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 appearance-none">
                                 <option value="">Pilih Kebun</option>
                                 @foreach ($gardens as $garden)
                                     <option value="{{ $garden->id }}"
@@ -184,7 +186,7 @@
                             <label for="rating" class="block text-sm font-medium text-gray-700 mb-2">Rating Kunjungan
                                 *</label>
                             <select name="rating" id="rating" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 appearance-none">
                                 <option value="">Pilih Rating</option>
                                 @for ($i = 1; $i <= 5; $i++)
                                     <option value="{{ $i }}" {{ old('rating') == $i ? 'selected' : '' }}>
@@ -202,7 +204,7 @@
                             <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status Kunjungan
                                 *</label>
                             <select name="status" id="status" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 appearance-none">
                                 <option value="scheduled" {{ old('status') == 'scheduled' ? 'selected' : '' }}>Dijadwalkan
                                 </option>
                                 <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Selesai
@@ -243,12 +245,12 @@
                 <div class="flex flex-wrap gap-4">
                     <button type="submit"
                         class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center transition-colors">
-                        <i class="fas fa-save mr-2"></i>
+                        <span class="material-icons text-base mr-2">save</span>
                         Simpan Kunjungan
                     </button>
                     <a href="{{ route('visits.index') }}"
                         class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg flex items-center transition-colors">
-                        <i class="fas fa-times mr-2"></i>
+                        <span class="material-icons text-base mr-2">close</span>
                         Batal
                     </a>
                 </div>

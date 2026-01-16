@@ -1,0 +1,36 @@
+@startuml
+title Kelola Halaman Web (CMS)
+
+actor "Admin PPTK" as Admin
+
+participant "Page Editor" as Form
+participant "AdminPageController" as Controller
+participant "Page Model" as Model
+database Database
+
+Admin -> Form : Pilih Halaman untuk Diedit (misal: About)
+Form -> Controller : GET /admin/pages/about
+Controller -> Model : Ambil konten halaman 'about'
+Model -> Database : Select * from pages where slug='about'
+Database --> Model : Content Data
+Controller --> Form : Tampilkan Editor dengan konten saat ini
+
+Admin -> Form : Ubah konten (Judul, Isi HTML, Foto)
+Form -> Controller : PUT /admin/pages/about
+
+Controller -> Controller : Validasi konten
+
+alt Update Sukses
+    Controller -> Controller : Proses upload foto (jika ada)
+    Controller -> Model : Update data halaman
+    Model -> Database : Update pages table
+    Database --> Model : Konfirmasi update
+    Model --> Controller : Updated
+    Controller --> Form : Redirect back dengan pesan sukses
+    Form --> Admin : Notifikasi "Halaman Berhasil Diperbarui"
+else Update Gagal
+    Controller --> Form : Kembali ke editor
+    Form --> Admin : Pesan Error
+end
+
+@enduml

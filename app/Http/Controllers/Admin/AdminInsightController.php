@@ -35,7 +35,7 @@ class AdminInsightController extends Controller
     public function create()
     {
         $this->ensureAdmin();
-        $gardens = Garden::orderBy('name')->get();
+        $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.insights.create', compact('gardens'));
     }
 
@@ -65,7 +65,7 @@ class AdminInsightController extends Controller
     public function edit(Insight $insight)
     {
         $this->ensureAdmin();
-        $gardens = Garden::orderBy('name')->get();
+        $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.insights.edit', compact('insight', 'gardens'));
     }
 
@@ -99,4 +99,3 @@ class AdminInsightController extends Controller
         return redirect()->route('admin.insights.index')->with('success', 'Insight berhasil dihapus.');
     }
 }
-

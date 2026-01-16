@@ -1,0 +1,26 @@
+@startuml
+title Lihat Dashboard Penelitian (Strategic)
+
+actor "Manajemen PPTK" as Manager
+
+participant "Dashboard View" as View
+participant "DashboardController" as Controller
+participant "Insight Model" as Insight
+participant "StrategicAction Model" as Action
+database Database
+
+Manager -> View : Akses Dashboard Penelitian
+View -> Controller : GET /dashboard/penelitian
+
+Controller -> Insight : Ambil insight strategis
+Insight -> Database : Query insights (type: research/climate)
+Database --> Insight : List insights
+
+Controller -> Action : Ambil progress aksi strategis
+Action -> Database : Query strategic_actions stats
+Database --> Action : Action progress data
+
+Controller -> View : Render dashboard riset
+View --> Manager : Tampilkan Grafik Insight & Progress Aksi
+
+@enduml

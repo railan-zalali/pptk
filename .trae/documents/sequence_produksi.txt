@@ -1,0 +1,33 @@
+@startuml
+title Kelola Data Produksi (Input Realisasi Bulanan)
+
+actor "Admin PPTK" as Admin
+
+participant "Production Form" as Form
+participant "AdminProductionController" as Controller
+participant "ProductionData Model" as Model
+database Database
+
+Admin -> Form : Pilih Kebun & Bulan
+Form -> Controller : GET /admin/production/create
+Controller --> Form : Tampilkan form input produksi
+
+Admin -> Form : Input data (Produksi Basah, Kualitas, Cuaca)
+Form -> Controller : POST /admin/production
+
+Controller -> Controller : Validasi format data
+
+alt Data Valid
+    Controller -> Model : Hitung produktivitas (kg/ha)
+    Model -> Model : Kalkulasi score kualitas
+    Model -> Database : Simpan data produksi harian/bulanan
+    Database --> Model : Konfirmasi penyimpanan
+    Model --> Controller : Data berhasil disimpan
+    Controller --> Form : Redirect ke Index Produksi
+    Form --> Admin : Tampilkan notifikasi "Data Berhasil Disimpan"
+else Data Tidak Valid
+    Controller --> Form : Kembali ke form dengan error
+    Form --> Admin : Tampilkan highlight field error
+end
+
+@enduml

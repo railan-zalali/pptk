@@ -1,0 +1,261 @@
+@startuml UC_Login
+|Actor|
+start
+:Buka Halaman Login;
+|System|
+:Tampilkan Form Login;
+|Actor|
+:Input Email & Password;
+:Klik Login;
+|System|
+:Validasi Kredensial;
+if (Valid?) then (Ya)
+  :Regenerate Session;
+  :Redirect ke Dashboard;
+else (Tidak)
+  :Tampilkan Pesan Error;
+endif
+stop
+@enduml
+
+@startuml UC_MasterKebun
+|Admin|
+start
+:Buka Menu Data Master (Wilayah/Kebun/Afdeling/Blok);
+|System|
+:Tampilkan Daftar Data;
+|Admin|
+if (Aksi?) then (Tambah)
+  :Klik Tombol Tambah;
+  |System|
+  :Tampilkan Form Tambah;
+  |Admin|
+  :Input Data (Nama, Luas, Tipe, dll);
+  :Upload Foto (Opsional);
+  :Simpan;
+  |System|
+  :Validasi Data;
+  if (Valid?) then (Ya)
+    :Simpan ke Database;
+    :Tampilkan Pesan Sukses;
+  else (Tidak)
+    :Tampilkan Error Validasi;
+  endif
+else (Edit/Hapus)
+  :Pilih Data;
+  if (Edit) then (Ya)
+    |System|
+    :Tampilkan Form Edit;
+    |Admin|
+    :Update Data;
+    :Simpan Perubahan;
+    |System|
+    :Validasi & Update Database;
+  else (Hapus)
+    :Konfirmasi Hapus;
+    |System|
+    :Hapus Data dari Database;
+  endif
+endif
+stop
+@enduml
+
+@startuml UC_Produksi
+|Admin|
+start
+:Buka Menu Data Produksi (Target/Realisasi);
+|System|
+:Tampilkan Tabel Data Produksi;
+|Admin|
+:Pilih Tambah Data Produksi;
+|System|
+:Tampilkan Form Input (Tanggal, Jumlah, Kualitas);
+|Admin|
+:Input Data Produksi;
+:Simpan;
+|System|
+:Validasi Input;
+if (Valid?) then (Ya)
+  :Hitung Produktivitas & Yield;
+  :Simpan ke Database;
+  :Redirect ke Daftar;
+else (Tidak)
+  :Tampilkan Error;
+endif
+stop
+@enduml
+
+@startuml UC_Strategis
+|Admin|
+start
+:Buka Menu Data Strategis (Program/Aksi/Insight);
+|System|
+:Tampilkan Daftar Program Strategis;
+|Admin|
+:Klik Tambah Program/Aksi;
+|System|
+:Tampilkan Form;
+|Admin|
+:Input Judul, Deskripsi, Status;
+:Simpan;
+|System|
+:Simpan Data Strategis;
+stop
+@enduml
+
+@startuml UC_KelolaKunjungan
+|Admin|
+start
+:Buka Menu Kelola Kunjungan;
+|System|
+:Tampilkan Daftar Kunjungan Masuk;
+|Admin|
+:Pilih Kunjungan;
+if (Aksi?) then (Verifikasi)
+  :Ubah Status (Disetujui/Ditolak);
+  |System|
+  :Update Status Kunjungan;
+  :Kirim Notifikasi (Email/Sistem);
+else (Edit)
+  :Update Detail Kunjungan;
+  |System|
+  :Simpan Perubahan;
+endif
+stop
+@enduml
+
+@startuml UC_Users
+|Admin|
+start
+:Buka Daftar Pengguna;
+|System|
+:Tampilkan Tabel User;
+|Admin|
+if (Tambah/Edit?) then (Tambah)
+  :Klik Tambah User;
+  |System|
+  :Tampilkan Form Registrasi;
+  |Admin|
+  :Input Nama, Email, Role, Password;
+  :Simpan;
+  |System|
+  :Validasi & Create User;
+else (Edit)
+  :Pilih User -> Edit;
+  |System|
+  :Tampilkan Data User;
+  |Admin|
+  :Ubah Role/Password;
+  :Simpan;
+  |System|
+  :Update User;
+endif
+stop
+@enduml
+
+@startuml UC_Pages
+|Admin|
+start
+:Buka Kelola Halaman Web;
+|System|
+:Tampilkan Daftar Halaman Statis;
+|Admin|
+:Pilih Halaman (mis: About, Research);
+:Edit Konten (Judul, Meta Data);
+:Simpan;
+|System|
+:Update Konten Halaman di Database;
+stop
+@enduml
+
+@startuml UC_DashKebun
+|User/Manager|
+start
+:Akses Dashboard Kebun Model;
+|System|
+:Load Data Kebun (Garden Model);
+:Hitung Total Produksi & Produktivitas;
+:Hitung Tren Pertumbuhan (Month-over-Month);
+:Generate Grafik (Produksi & Regional);
+:Render View Dashboard;
+|User/Manager|
+:Lihat Statistik & Grafik;
+if (Filter?) then (Ya)
+  :Pilih Kebun / Periode;
+  |System|
+  :Reload Data sesuai Filter;
+  :Update Tampilan;
+else (Tidak)
+endif
+stop
+@enduml
+
+@startuml UC_DashRiset
+|User/Manager|
+start
+:Akses Dashboard Penelitian;
+|System|
+:Ambil Data Halaman 'Research';
+:Ambil Data Statistik (Comparative Data);
+:Hitung Matriks Korelasi & Tren;
+:Render View Research Dashboard;
+|User/Manager|
+:Lihat Insight & Data Komparatif;
+stop
+@enduml
+
+@startuml UC_LihatKunjungan
+|User/Manager|
+start
+:Buka Menu Data Kunjungan;
+|System|
+:Ambil Data Kunjungan (Public/Approved);
+:Tampilkan Kalender/Daftar Kunjungan;
+|User/Manager|
+:Lihat Detail Kunjungan;
+|System|
+:Tampilkan Detail (Tanggal, Instansi, Topik);
+stop
+@enduml
+
+@startuml UC_Laporan
+|Manager|
+start
+:Buka Menu Laporan Produksi;
+|System|
+:Tampilkan Filter Laporan (Periode, Kebun);
+|Manager|
+:Pilih Periode & Klik Tampilkan;
+|System|
+:Query Data Agregat Produksi;
+:Generate Tabel Laporan;
+:Tampilkan Laporan;
+if (Export?) then (Ya)
+  |Manager|
+  :Klik Export (PDF/Excel);
+  |System|
+  :Generate File;
+  :Download File;
+endif
+stop
+@enduml
+
+@startuml UC_Profil
+|User|
+start
+:Buka Halaman Profil;
+|System|
+:Tampilkan Form Edit Profil;
+|User|
+:Ubah Nama / Email / Password;
+:Simpan Perubahan;
+|System|
+:Validasi Input;
+if (Valid?) then (Ya)
+  :Update Data User;
+  :Tampilkan Pesan Sukses;
+else (Tidak)
+  :Tampilkan Error;
+endif
+stop
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+title Proses Login Sistem PPTK
+
+actor User
+participant "Login Form" as Form
+participant "AuthenticatedSessionController" as Controller
+participant "User Model" as Model
+database Database
+
+User -> Form : Input email dan password
+Form -> Controller : POST /login
+
+Controller -> Controller : Validasi input
+Controller -> Model : Cek kredensial
+Model -> Database : Query user by email
+Database --> Model : Data user
+Model --> Controller : Hasil verifikasi password
+
+alt Kredensial Valid
+    Controller -> Controller : Regenerate Session
+    Controller -> Model : Cek Role User
+    
+    alt Role = Admin
+        Controller --> Form : Redirect ke /admin/dashboard
+    else Role = Manager/Viewer
+        Controller --> Form : Redirect ke /dashboard
+    end
+    
+    Form --> User : Tampilkan Dashboard Utama
+else Kredensial Tidak Valid
+    Controller --> Form : Kembali dengan error
+    Form --> User : Tampilkan pesan "Login Gagal"
+end
+
+@enduml

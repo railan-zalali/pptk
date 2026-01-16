@@ -5,14 +5,30 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Afdeling;
 use App\Models\Block;
+use App\Models\Garden;
 use Illuminate\Http\Request;
 
 class AdminBlockController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $blocks = Block::with('afdeling.garden')->paginate(10);
-        return view('admin.blocks.index', compact('blocks'));
+        $query = Block::with('afdeling.garden');
+
+        if ($request->filled('garden_id')) {
+            $query->whereHas('afdeling', function ($q) use ($request) {
+                $q->where('garden_id', $request->garden_id);
+            });
+        }
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('code', 'like', '%' . $request->search . '%');
+        }
+
+        $blocks = $query->paginate(10);
+        $gardens = Garden::orderBy('kebun_name')->get();
+
+        return view('admin.blocks.index', compact('blocks', 'gardens'));
     }
 
     public function create()

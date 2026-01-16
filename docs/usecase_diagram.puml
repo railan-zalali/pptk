@@ -1,0 +1,57 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Admin PPTK" as Admin
+actor "Manajemen PPTK" as Manager
+
+package "Sistem Informasi PPTK (Kebun Model)" {
+
+    usecase "Login" as UC_Login
+
+    ' Group Master Data & Operasional (Admin)
+    usecase "Kelola Data Master Kebun\n(Wilayah, Kebun, Afdeling, Blok)" as UC_MasterKebun
+    usecase "Kelola Data Produksi\n(Target & Realisasi)" as UC_Produksi
+    usecase "Kelola Data Strategis\n(Program, Aksi, Insight)" as UC_Strategis
+    usecase "Kelola Data Kunjungan" as UC_KelolaKunjungan
+    usecase "Kelola Pengguna" as UC_Users
+    usecase "Kelola Halaman Web" as UC_Pages
+
+    ' Group Monitoring (Manajemen/User)
+    usecase "Lihat Dashboard Kebun Model" as UC_DashKebun
+    usecase "Lihat Dashboard Penelitian\n(Strategic)" as UC_DashRiset
+    usecase "Lihat Data Kunjungan" as UC_LihatKunjungan
+    usecase "Lihat Laporan Produksi" as UC_Laporan
+    usecase "Kelola Profil Akun" as UC_Profil
+
+    ' Relasi Admin
+    Admin --> UC_MasterKebun
+    Admin --> UC_Produksi
+    Admin --> UC_Strategis
+    Admin --> UC_KelolaKunjungan
+    Admin --> UC_Users
+    Admin --> UC_Pages
+    Admin --> UC_DashKebun : (Juga bisa melihat)
+
+    ' Relasi Manajemen
+    Manager --> UC_DashKebun
+    Manager --> UC_DashRiset
+    Manager --> UC_LihatKunjungan
+    Manager --> UC_Laporan
+    Manager --> UC_Profil
+
+    ' Include Login
+    UC_MasterKebun ..> UC_Login : <<include>>
+    UC_Produksi ..> UC_Login : <<include>>
+    UC_Strategis ..> UC_Login : <<include>>
+    UC_KelolaKunjungan ..> UC_Login : <<include>>
+    UC_Users ..> UC_Login : <<include>>
+    UC_Pages ..> UC_Login : <<include>>
+
+    UC_DashKebun ..> UC_Login : <<include>>
+    UC_DashRiset ..> UC_Login : <<include>>
+    UC_LihatKunjungan ..> UC_Login : <<include>>
+    UC_Laporan ..> UC_Login : <<include>>
+    UC_Profil ..> UC_Login : <<include>>
+}
+@enduml

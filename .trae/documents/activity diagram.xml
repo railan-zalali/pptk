@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.1.2 Chrome/138.0.7204.243 Electron/37.4.0 Safari/537.36" version="28.1.2">
+  <diagram name="Page-1" id="pV_BK1YH5TEcRJtvYyrL">
+    <mxGraphModel dx="3595" dy="1225" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="" style="swimlane;startSize=30;horizontal=0;fillColor=#fff9cc;direction=south;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="90" y="960" width="470" height="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="3" style="ellipse;fillColor=#000000;fontSize=16;fontStyle=1" vertex="1" parent="2">
+          <mxGeometry x="215" y="60" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Buka daftar pengguna" style="rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="2">
+          <mxGeometry x="115" y="120" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="Tambah / Ubah / Hapus?" style="rhombus;fontSize=16;fontStyle=1" vertex="1" parent="2">
+          <mxGeometry x="110" y="240" width="260" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="Hapus pengguna" style="rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="2">
+          <mxGeometry x="140" y="550" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="Hapus" style="fontSize=16;fontStyle=1" edge="1" parent="2" source="5" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="Admin" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="2">
+          <mxGeometry x="195" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="9" style="fontSize=16;fontStyle=1" edge="1" source="3" target="4" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="" style="swimlane;startSize=30;horizontal=0;fillColor=#fff9cc;direction=south;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="560" y="960" width="860" height="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="Tampilkan daftar pengguna" style="rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry x="310" y="130" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="Tampilkan formulir tambah" style="rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry x="330" y="230" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="Simpan pengguna baru" style="rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry x="280" y="310" width="320" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="Berhasil?" style="rhombus;fontSize=16;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry x="360" y="400" width="160" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="Kembali ke daftar (berhasil)" style="rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry x="320" y="595" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="Tampilkan kesalahan pengisian" style="rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry x="600" y="430" width="240" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="Simpan perubahan" style="rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry x="355" y="730" width="170" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="Tampilkan formulir ubah" style="rounded=1;fontSize=16;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry x="40" y="730" width="220" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="19" style="fontSize=16;fontStyle=1" edge="1" parent="10" source="18" target="17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="Sistem" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="10">
+          <mxGeometry x="330" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="21" style="fontSize=16;fontStyle=1" edge="1" source="4" target="11" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" style="fontSize=16;fontStyle=1" edge="1" source="11" target="5" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="Tambah" style="fontSize=16;fontStyle=1" edge="1" source="5" target="12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" style="fontSize=16;fontStyle=1" edge="1" source="12" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="25" style="fontSize=16;fontStyle=1" edge="1" source="13" target="14" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="26" value="Ya" style="fontSize=16;fontStyle=1" edge="1" source="14" target="15" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="27" value="Tidak" style="fontSize=16;fontStyle=1" edge="1" source="14" target="16" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="28" style="fontSize=16;fontStyle=1" edge="1" source="17" target="15" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="29" value="Ubah" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=1;exitDx=0;exitDy=0;fontSize=16;fontStyle=1" edge="1" source="5" target="18" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="490" y="1320" />
+              <mxPoint x="490" y="1715" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="30" style="edgeStyle=orthogonalEdgeStyle;entryX=0.642;entryY=0.4;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=16;fontStyle=1" edge="1" source="15" target="34" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="1980" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1160" y="1580" />
+              <mxPoint x="1160" y="1910" />
+              <mxPoint x="346" y="1910" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="31" style="edgeStyle=orthogonalEdgeStyle;entryX=0.807;entryY=0.64;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=16;fontStyle=1" edge="1" source="16" target="34" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="289.99958676832193" y="1990.0909090909086" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1290" y="1940" />
+              <mxPoint x="375" y="1940" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="32" style="ellipse;fillColor=#000000;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="310" y="2040" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="33" value="" style="group;fontSize=16;fontStyle=1" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="230" y="1970" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="" style="shape=line;html=1;strokeWidth=6;strokeColor=#000000;fontSize=16;fontStyle=1" vertex="1" parent="33">
+          <mxGeometry width="180" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;verticalAlign=bottom;endArrow=open;endSize=8;strokeColor=#000000;rounded=0;fontSize=16;fontStyle=1" edge="1" parent="33" source="34">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=16;fontStyle=1" edge="1" source="6" target="34" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

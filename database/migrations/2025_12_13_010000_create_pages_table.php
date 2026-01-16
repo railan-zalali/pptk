@@ -14,6 +14,8 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('subtitle')->nullable();
             $table->longText('content_html')->nullable();
+            $table->json('meta')->nullable(); // Untuk menyimpan data terstruktur (anggaran, list kegiatan, dll)
+            $table->json('files')->nullable(); // Untuk menyimpan path dokumen/laporan
             $table->string('hero_photo_path')->nullable();
             $table->timestamps();
         });
@@ -24,4 +26,3 @@ return new class extends Migration
         Schema::dropIfExists('pages');
     }
 };
-

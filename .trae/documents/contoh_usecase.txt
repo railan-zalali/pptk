@@ -1,0 +1,51 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Admin
+actor Pegawai
+
+usecase "Login" as UC_Login
+
+usecase "Kelola Pengguna" as UC_KelolaPengguna
+usecase "Kelola Tunjangan &\nPotongan" as UC_Tunjangan
+usecase "Kelola Perangkat\nDesa" as UC_Perangkat
+usecase "Buat Laporan" as UC_Laporan
+usecase "Tutup Bulan" as UC_TutupBulan
+usecase "Kelola Pengajian" as UC_Pengajian
+usecase "Kelola Kehadiran" as UC_Kehadiran
+usecase "Lihat Dashboard" as UC_Dashboard
+usecase "Lihat Profil" as UC_Profil
+usecase "Lihat Catatan\nKehadiran" as UC_Catatan
+usecase "Lihat Informasi\nGaji" as UC_Gaji
+
+' Relasi Admin
+Admin --> UC_KelolaPengguna
+Admin --> UC_Tunjangan
+Admin --> UC_Perangkat
+Admin --> UC_Laporan
+Admin --> UC_TutupBulan
+Admin --> UC_Pengajian
+Admin --> UC_Kehadiran
+Admin --> UC_Dashboard
+
+' Relasi Pegawai
+Pegawai --> UC_Dashboard
+Pegawai --> UC_Profil
+Pegawai --> UC_Catatan
+Pegawai --> UC_Gaji
+
+' Include Login
+UC_KelolaPengguna ..> UC_Login : <<include>>
+UC_Tunjangan ..> UC_Login : <<include>>
+UC_Perangkat ..> UC_Login : <<include>>
+UC_Laporan ..> UC_Login : <<include>>
+UC_TutupBulan ..> UC_Login : <<include>>
+UC_Pengajian ..> UC_Login : <<include>>
+UC_Kehadiran ..> UC_Login : <<include>>
+UC_Dashboard ..> UC_Login : <<include>>
+UC_Profil ..> UC_Login : <<include>>
+UC_Catatan ..> UC_Login : <<include>>
+UC_Gaji ..> UC_Login : <<include>>
+
+@enduml

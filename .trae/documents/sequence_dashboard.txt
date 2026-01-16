@@ -1,0 +1,26 @@
+@startuml
+title Lihat Dashboard Kebun Model
+
+actor "Manajemen PPTK" as Manager
+
+participant "Dashboard View" as View
+participant "StrategicDashboardController" as Controller
+participant "ProductionRealization Model" as ProdModel
+participant "Insight Model" as InsightModel
+database Database
+
+Manager -> View : Akses Menu Dashboard
+View -> Controller : GET /dashboard/kebun-model
+
+Controller -> ProdModel : Ambil data realisasi produksi
+ProdModel -> Database : Query agregat produksi per wilayah
+Database --> ProdModel : Data statistik produksi
+
+Controller -> InsightModel : Ambil insight terbaru
+InsightModel -> Database : Query active insights
+Database --> InsightModel : List insight
+
+Controller -> View : Render view dengan data chart & tabel
+View --> Manager : Tampilkan Grafik Produksi & Peta Sebaran
+
+@enduml

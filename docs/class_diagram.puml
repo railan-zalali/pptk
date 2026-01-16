@@ -1,0 +1,224 @@
+@startuml PPTK_Class_Diagram
+
+package "System Access" {
+    class User {
+        +id : integer
+        +name : string
+        +email : string
+        +password : string
+        +role : string
+        --
+        +isAdmin() : bool
+        +isManager() : bool
+        +isViewer() : bool
+    }
+}
+
+package "Master Data (Wilayah & Kebun)" {
+    class Region {
+        +id : integer
+        +regional_code : string
+        +regional_name : string
+        +province : string
+        +coordinates : string
+        +photo_path : string
+        --
+        +gardens() : HasMany
+        +photos() : HasMany
+    }
+
+    class Garden {
+        +id : integer
+        +regional_id : integer
+        +kebun_name : string
+        +luas_total_ha : decimal
+        +kebun_type : string
+        +agro_climate_note : text
+        +location : string
+        +photo_path : string
+        +description : text
+        +established_at : date
+        --
+        +region() : BelongsTo
+        +afdelings() : HasMany
+        +productionData() : HasMany
+        +visits() : HasMany
+        +insights() : HasMany
+        +photos() : HasMany
+    }
+
+    class Afdeling {
+        +id : integer
+        +garden_id : integer
+        +name : string
+        +total_area_ha : decimal
+        +tm_area_ha : decimal
+        +manager_name : string
+        --
+        +garden() : BelongsTo
+        +blocks() : HasMany
+    }
+
+    class Block {
+        +id : integer
+        +afdeling_id : integer
+        +name : string
+        +code : string
+        +plant_type : string
+        +planting_year : integer
+        +initial_class : string
+        +topography : string
+        --
+        +afdeling() : BelongsTo
+        +strategicActions() : HasMany
+    }
+}
+
+package "Production Module" {
+    class ProductionData {
+        +id : integer
+        +garden_id : integer
+        +record_date : date
+        +production : decimal
+        +productivity : decimal
+        +productivity_kg_ha_year : decimal
+        +rkap_percentage : decimal
+        +wet_production_kg : decimal
+        +quality_score : decimal
+        +weather_condition : string
+        +temperature_avg : decimal
+        +rainfall_mm : decimal
+        +humidity_percent : decimal
+        +soil_moisture_percent : decimal
+        +pest_incidence : string
+        +disease_incidence : string
+        +fertilizer_used : text
+        +labor_hours : decimal
+        +month : integer
+        +year : integer
+        --
+        +garden() : BelongsTo
+    }
+
+    class ProductionRealization {
+        +id : integer
+        +kebun_id : integer
+        +month : integer
+        +year : integer
+        +active_picking_area_ha : decimal
+        +wet_production_kg : decimal
+        +capacity_per_ha : decimal
+        +avg_capacity : decimal
+        +estimated_production : decimal
+        +assumption_note : text
+        --
+        +garden() : BelongsTo
+        +getProductivityWetAttribute()
+        +getProductivityDryAttribute()
+    }
+
+    class PerformanceTarget {
+        +id : integer
+        +kebun_id : integer
+        +year : integer
+        +target_protas_min : decimal
+        +target_protas_max : decimal
+        +note : text
+        --
+        +garden() : BelongsTo
+    }
+}
+
+package "Strategic Module" {
+    class Program {
+        +id : integer
+        +program_name : string
+        +year : integer
+        +program_type : string
+        +status : boolean
+    }
+
+    class StrategicAction {
+        +id : integer
+        +kebun_id : integer
+        +program_id : integer
+        +year : integer
+        +action_type : string
+        +dosis_n_kg_ha : decimal
+        +n_protas_percent : decimal
+        +application_frequency : string
+        +fertilizer_type : string
+        +technical_note : text
+        +coverage_target_percent : decimal
+        +application_interval : string
+        +rotation_per_year : string
+        +method : string
+        +focus_area : string
+        +picking_system : string
+        +cushion_consistency : string
+        +kandas_risk : boolean
+        +total_machine : integer
+        +avg_machine_age : decimal
+        +renewal_status : string
+        +opt_status : string
+        +tp_normalization : boolean
+        +treatment_note : text
+        --
+        +garden() : BelongsTo
+        +program() : BelongsTo
+    }
+
+    class Insight {
+        +id : integer
+        +garden_id : integer
+        +title : string
+        +description : text
+        +insight_type : string
+        +message : text
+        +alert_level : string
+        +recommendations : json
+        +generated_at : datetime
+        --
+        +garden() : BelongsTo
+    }
+}
+
+package "Visit Module" {
+    class Visit {
+        +id : integer
+        +garden_id : integer
+        +title : string
+        +visit_date : date
+        +duration : string
+        +participants_count : integer
+        +participants_list : text
+        +description : text
+        +objectives : text
+        +findings : text
+        +recommendations : text
+        +rating : integer
+        +visitor_name : string
+        +purpose : string
+        +status : string
+        --
+        +garden() : BelongsTo
+        +photos() : HasMany
+    }
+}
+
+' Relationships
+Region "1" -- "0..*" Garden : Has >
+Garden "1" -- "0..*" Afdeling : Has >
+Afdeling "1" -- "0..*" Block : Has >
+
+Garden "1" -- "0..*" ProductionData : Has >
+Garden "1" -- "0..*" ProductionRealization : Has >
+Garden "1" -- "0..*" PerformanceTarget : Has >
+
+Garden "1" -- "0..*" StrategicAction : Has >
+Program "1" -- "0..*" StrategicAction : Defines >
+Garden "1" -- "0..*" Insight : Generates >
+
+Garden "1" -- "0..*" Visit : Hosts >
+
+@enduml

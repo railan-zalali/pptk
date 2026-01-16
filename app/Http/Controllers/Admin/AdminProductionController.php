@@ -41,7 +41,7 @@ class AdminProductionController extends Controller
     public function create()
     {
         $this->ensureAdmin();
-        $gardens = Garden::orderBy('name')->get();
+        $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.production.create', compact('gardens'));
     }
 
@@ -79,7 +79,7 @@ class AdminProductionController extends Controller
     public function edit(ProductionData $production)
     {
         $this->ensureAdmin();
-        $gardens = Garden::orderBy('name')->get();
+        $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.production.edit', compact('production', 'gardens'));
     }
 
@@ -121,4 +121,3 @@ class AdminProductionController extends Controller
         return redirect()->route('admin.production.index')->with('success', 'Data produksi berhasil dihapus.');
     }
 }
-

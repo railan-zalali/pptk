@@ -9,10 +9,22 @@ use Illuminate\Http\Request;
 
 class AdminAfdelingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $afdelings = Afdeling::with('garden')->paginate(10);
-        return view('admin.afdelings.index', compact('afdelings'));
+        $query = Afdeling::with('garden');
+
+        if ($request->filled('garden_id')) {
+            $query->where('garden_id', $request->garden_id);
+        }
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $afdelings = $query->paginate(10);
+        $gardens = Garden::orderBy('kebun_name')->get();
+
+        return view('admin.afdelings.index', compact('afdelings', 'gardens'));
     }
 
     public function create()

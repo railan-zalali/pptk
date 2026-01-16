@@ -22,7 +22,7 @@
                         </p>
                     </div>
                     <div class="bg-green-100 dark:bg-green-900/50 p-3 rounded-full">
-                        <i class="fas fa-chart-line text-green-600 dark:text-green-400 text-xl"></i>
+                        <span class="material-icons text-green-600 dark:text-green-400 text-xl">show_chart</span>
                     </div>
                 </div>
                 <div class="mt-4 text-sm">
@@ -46,7 +46,7 @@
                         </p>
                     </div>
                     <div class="bg-blue-100 dark:bg-blue-900/50 p-3 rounded-full">
-                        <i class="fas fa-leaf text-blue-600 dark:text-blue-400 text-xl"></i>
+                        <span class="material-icons text-blue-600 dark:text-blue-400 text-xl">spa</span>
                     </div>
                 </div>
                 <div class="mt-4 text-sm">
@@ -64,7 +64,7 @@
                         </p>
                     </div>
                     <div class="bg-purple-100 dark:bg-purple-900/50 p-3 rounded-full">
-                        <i class="fas fa-users text-purple-600 dark:text-purple-400 text-xl"></i>
+                        <span class="material-icons text-purple-600 dark:text-purple-400 text-xl">groups</span>
                     </div>
                 </div>
                 <div class="mt-4 text-sm">
@@ -82,7 +82,7 @@
                         </p>
                     </div>
                     <div class="bg-orange-100 dark:bg-orange-900/50 p-3 rounded-full">
-                        <i class="fas fa-tractor text-orange-600 dark:text-orange-400 text-xl"></i>
+                        <span class="material-icons text-orange-600 dark:text-orange-400 text-xl">agriculture</span>
                     </div>
                 </div>
                 <div class="mt-4 text-sm">
@@ -128,7 +128,7 @@
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-semibold uppercase text-green-600 dark:text-green-400">Best
                                 Performer</span>
-                            <i class="fas fa-trophy text-yellow-500"></i>
+                            <span class="material-icons text-yellow-500">emoji_events</span>
                         </div>
                         <p class="font-bold text-gray-800 dark:text-gray-100">{{ $bestPerformer['name'] }}</p>
                         <p class="text-sm text-gray-600 dark:text-gray-400">{{ $bestPerformer['region'] }}</p>
@@ -145,7 +145,7 @@
                         <div class="flex items-center justify-between mb-2">
                             <span class="text-xs font-semibold uppercase text-red-600 dark:text-red-400">Needs
                                 Improvement</span>
-                            <i class="fas fa-exclamation-circle text-red-500"></i>
+                            <span class="material-icons text-red-500 text-sm">error</span>
                         </div>
                         <p class="font-bold text-gray-800 dark:text-gray-100">{{ $underPerformer['name'] }}</p>
                         <p class="text-sm text-gray-600 dark:text-gray-400">{{ $underPerformer['region'] }}</p>
@@ -291,7 +291,9 @@
                                 position: 'right',
                                 labels: {
                                     boxWidth: 12,
-                                    font: { size: 10 }
+                                    font: {
+                                        size: 10
+                                    }
                                 }
                             }
                         }
@@ -315,10 +317,27 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         indexAxis: 'y',
-                        plugins: { legend: { display: false } },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
                         scales: {
-                            x: { grid: { display: false } },
-                            y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 10
+                                    }
+                                }
+                            }
                         }
                     }
                 });
@@ -340,12 +359,24 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
                         scales: {
                             r: {
-                                angleLines: { color: 'rgba(156, 163, 175, 0.2)' },
-                                grid: { color: 'rgba(156, 163, 175, 0.2)' },
-                                pointLabels: { font: { size: 10 } }
+                                angleLines: {
+                                    color: 'rgba(156, 163, 175, 0.2)'
+                                },
+                                grid: {
+                                    color: 'rgba(156, 163, 175, 0.2)'
+                                },
+                                pointLabels: {
+                                    font: {
+                                        size: 10
+                                    }
+                                }
                             }
                         }
                     }
@@ -360,6 +391,16 @@
             <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Detail Performa Kebun</h3>
+                    <div class="mt-3 md:mt-0 md:ml-4 flex gap-2">
+                        <button
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm flex items-center">
+                            <span class="material-icons mr-1 text-sm">visibility</span>View
+                        </button>
+                        <button
+                            class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm flex items-center">
+                            <span class="material-icons mr-1 text-sm">download</span>PDF
+                        </button>
+                    </div>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">

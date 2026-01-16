@@ -9,6 +9,7 @@ class StrategicAction extends Model
 {
     protected $fillable = [
         'kebun_id',
+        'program_id',
         'year',
         'action_type',
         'dosis_n_kg_ha',

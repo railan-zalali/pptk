@@ -1,0 +1,39 @@
+@startuml
+title Kelola Data Kunjungan (Admin)
+
+actor "Admin PPTK" as Admin
+
+participant "Visit Form" as Form
+participant "AdminVisitController" as Controller
+participant "Visit Model" as Model
+database Database
+
+Admin -> Form : Akses Menu Kunjungan
+Form -> Controller : GET /admin/visits
+Controller -> Model : Ambil semua data kunjungan
+Model -> Database : Select * from visits
+Database --> Model : List visits
+Controller --> Form : Tampilkan tabel kunjungan
+
+Admin -> Form : Klik "Tambah Kunjungan"
+Form -> Controller : GET /admin/visits/create
+Controller --> Form : Tampilkan form
+
+Admin -> Form : Input data (Judul, Kebun, Tanggal, Peserta)
+Form -> Controller : POST /admin/visits
+
+Controller -> Controller : Validasi data kunjungan
+
+alt Validasi Sukses
+    Controller -> Model : Create Visit baru
+    Model -> Database : Insert data kunjungan
+    Database --> Model : Konfirmasi ID
+    Model --> Controller : Object Created
+    Controller --> Form : Redirect ke Index
+    Form --> Admin : Pesan "Kunjungan Berhasil Dijadwalkan"
+else Validasi Gagal
+    Controller --> Form : Show Validation Errors
+    Form --> Admin : Pesan Error
+end
+
+@enduml

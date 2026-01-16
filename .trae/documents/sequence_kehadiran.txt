@@ -1,0 +1,37 @@
+@startuml
+title Import Kehadiran dari Excel
+
+actor Admin
+
+participant "Kehadiran Form" as Form
+participant "KehadiransController" as Controller
+participant "KehadiransImport" as Import
+participant "Tutup Bulan" as TutupBulan
+participant "Kehadirans Model" as Model
+database Database
+
+Admin -> Form : Unggah file Excel
+Form -> Controller : POST /Kehadirans/import
+
+Controller -> Controller : Validasi format file
+Controller -> Import : Proses file Excel
+
+Import -> Import : Baca data Excel
+Import -> TutupBulan : Periksa apakah bulan sudah ditutup
+TutupBulan --> Import : Kembalikan status bulan
+
+alt Bulan belum ditutup
+    Import -> Model : Validasi data kehadiran
+    Model -> Database : Masukkan data kehadiran
+    Database --> Model : Konfirmasi penyimpanan
+    Model --> Import
+    Import --> Controller : Kembalikan sukses
+    Controller --> Form : Arahkan ulang dengan pesan sukses
+    Form --> Admin : Tampilkan notifikasi sukses
+else Bulan sudah ditutup
+    Import --> Controller : Kembalikan error
+    Controller --> Form : Arahkan ulang dengan pesan error
+    Form --> Admin : Tampilkan notifikasi error
+end
+
+@enduml

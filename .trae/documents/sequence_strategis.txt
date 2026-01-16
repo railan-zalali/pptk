@@ -1,0 +1,40 @@
+@startuml
+title Kelola Data Strategis (Tambah Program & Aksi)
+
+actor "Admin PPTK" as Admin
+
+participant "Strategic Form" as Form
+participant "AdminStrategicActionController" as Controller
+participant "StrategicAction Model" as Model
+participant "Program Model" as ProgModel
+database Database
+
+Admin -> Form : Akses Menu Strategic Action
+Form -> Controller : GET /admin/strategic-actions
+Controller -> Model : Ambil data aksi strategis
+Model -> Database : Select all strategic actions
+Database --> Model : List actions
+Controller --> Form : Tampilkan daftar aksi
+
+Admin -> Form : Klik "Tambah Aksi Strategis"
+Form -> Controller : GET /admin/strategic-actions/create
+Controller --> Form : Tampilkan form input
+
+Admin -> Form : Input (Kebun, Tahun, Jenis Aksi, Target)
+Form -> Controller : POST /admin/strategic-actions
+
+Controller -> Controller : Validasi input
+
+alt Input Valid
+    Controller -> Model : Buat instance aksi baru
+    Model -> Database : Simpan data aksi
+    Database --> Model : Konfirmasi simpan
+    Model --> Controller : Data tersimpan
+    Controller --> Form : Redirect ke Index dengan sukses
+    Form --> Admin : Notifikasi "Aksi Strategis Berhasil Ditambahkan"
+else Input Invalid
+    Controller --> Form : Kembali ke form dengan error
+    Form --> Admin : Tampilkan pesan error validasi
+end
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+title Lihat Laporan Produksi
+
+actor "Manajemen PPTK" as Manager
+
+participant "Report View" as View
+participant "AdminProductionController" as Controller
+participant "ProductionData Model" as Model
+database Database
+
+Manager -> View : Akses Menu Laporan Produksi
+View -> Controller : GET /admin/production (Read Only Access)
+
+Controller -> Model : Ambil data produksi historis
+Model -> Database : Query production_data with filters
+Database --> Model : Production dataset
+
+Controller -> Controller : Agregasi data (Total, Rata-rata)
+Controller --> View : Render tabel laporan & chart
+
+Manager -> View : Filter Berdasarkan Bulan/Kebun
+View -> Controller : GET /admin/production?filter=...
+Controller -> Model : Query filtered data
+Model -> Database : Execute filtered query
+Database --> Model : Filtered data
+Controller --> View : Update tampilan laporan
+View --> Manager : Laporan Produksi Terkini
+
+@enduml

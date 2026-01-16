@@ -397,6 +397,47 @@ class DatabaseSeeder extends Seeder
             Program::create($program);
         }
 
+        // Add Research Page Seeding with Meta Data
+        $researchMeta = [
+            'summary' => [
+                'total_activities' => 12,
+                'total_budget' => 1250000000,
+                'status' => 'Aktif'
+            ],
+            'info' => [
+                'internal_research' => "1. Efektivitas Penggunaan Drone Sprayer untuk Aplikasi Pupuk Daun\n2. Pengendalian Hama Terpadu Helopeltis\n3. Analisa Global Warming Potensial (GWP) dengan Metode LCA\n4. Pengaruh Tinggi Bidang Petik Terhadap Komponen Hasil Pucuk\n5. Produksi dan Aplikasi Bio-Kompos Plus Agens Hayati",
+                'external_research' => "1. Uji Adaptasi dan Stabilitas Klon Unggul Teh (Kerjasama dengan Riset Perkebunan Nusantara)",
+                'incubation' => "1. Pupuk Daun Boostermax tahun ke 2\n2. Pengembangan Model Sistem Audit Energi Berbasis IoT",
+                'rkap_notes' => "Realisasi anggaran hingga Triwulan III mencapai 85%. Fokus pencairan dana pada bulan Oktober untuk kegiatan inkubasi riset."
+            ],
+            'activities' => [
+                ['title' => 'Efektivitas Penggunaan Drone Sprayer untuk Aplikasi', 'type' => 'Internal', 'year' => 2025],
+                ['title' => 'Pengendalian Hama Terpadu Helopeltis', 'type' => 'Internal', 'year' => 2025],
+                ['title' => 'Analisa Global Warming Potensial (GWP)', 'type' => 'Internal', 'year' => 2025],
+                ['title' => 'Pengaruh Tinggi Bidang Petik', 'type' => 'Internal', 'year' => 2025],
+                ['title' => 'Produksi dan Aplikasi Bio-Kompos', 'type' => 'Internal', 'year' => 2025],
+                ['title' => 'Pupuk Daun Boostermax tahun ke 2', 'type' => 'Inkubasi', 'year' => 2026],
+                ['title' => 'Pengembangan Model Sistem Audit Energi', 'type' => 'Internal', 'year' => 2026],
+                ['title' => 'Suplemen Ekstrak Teh Hijau Rendah Kafein', 'type' => 'Internal', 'year' => 2026],
+                ['title' => 'Kajian Pembaharuan Standar Fisik Budidaya', 'type' => 'Internal', 'year' => 2026],
+                ['title' => 'Model Transformasi Budidaya Kerja Pekerja', 'type' => 'Internal', 'year' => 2026],
+                ['title' => 'Batik Kina', 'type' => 'Internal', 'year' => 2026],
+                ['title' => 'Uji Adaptasi dan Stabilitas Klon Unggul Teh', 'type' => 'Eksternal', 'year' => 2026],
+            ]
+        ];
+
+        // Update or Create Research Page
+        Page::updateOrCreate(
+            ['slug' => 'research'],
+            [
+                'title' => 'Penelitian & Pengembangan',
+                'subtitle' => 'Inovasi dan riset untuk keberlanjutan perkebunan teh',
+                'meta' => $researchMeta,
+                'files' => [],
+                'hero_photo_path' => 'page-photos/riset-hero.jpg',
+            ]
+        );
+
         $cacheExpiration = $now->copy()->addHours(8)->timestamp;
         for ($i = 1; $i <= 10; $i++) {
             DB::table('cache')->insert([

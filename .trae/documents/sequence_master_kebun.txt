@@ -1,0 +1,38 @@
+@startuml
+title Kelola Data Master Kebun (Tambah Kebun)
+
+actor "Admin PPTK" as Admin
+
+participant "Garden Form" as Form
+participant "AdminGardenController" as Controller
+participant "Garden Model" as Model
+participant "Region Model" as Region
+database Database
+
+Admin -> Form : Klik menu "Tambah Kebun"
+Form -> Controller : GET /admin/gardens/create
+Controller -> Region : Ambil daftar wilayah
+Region -> Database : Select all regions
+Database --> Region : List Regions
+Region --> Controller : Data wilayah
+Controller --> Form : Tampilkan form tambah kebun
+
+Admin -> Form : Input data kebun (Nama, Luas, Tipe, Foto)
+Form -> Controller : POST /admin/gardens
+
+Controller -> Controller : Validasi input (Required, Numeric)
+
+alt Validasi Sukses
+    Controller -> Controller : Upload foto kebun
+    Controller -> Model : Buat instance baru
+    Model -> Database : Simpan data kebun
+    Database --> Model : Konfirmasi ID baru
+    Model --> Controller : Data tersimpan
+    Controller --> Form : Redirect ke Index dengan pesan sukses
+    Form --> Admin : Tampilkan daftar kebun & notifikasi
+else Validasi Gagal
+    Controller --> Form : Redirect kembali dengan error input
+    Form --> Admin : Tampilkan pesan validasi error
+end
+
+@enduml

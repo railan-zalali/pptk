@@ -1,0 +1,38 @@
+@startuml
+title Kelola Profil Akun
+
+actor "User (Admin/Manager)" as User
+
+participant "Profile Form" as Form
+participant "ProfileController" as Controller
+participant "User Model" as Model
+database Database
+
+User -> Form : Akses Halaman Profil
+Form -> Controller : GET /profile
+Controller --> Form : Tampilkan data diri
+
+User -> Form : Ubah Nama/Email/Password
+Form -> Controller : PATCH /profile
+
+Controller -> Controller : Validasi input
+
+alt Update Valid
+    Controller -> Model : Update data user
+    Model -> Database : Update users table
+    Database --> Model : Konfirmasi
+    
+    alt Password Berubah
+        Controller -> Model : Hash password baru
+        Model -> Database : Update password
+    end
+    
+    Model --> Controller : Updated
+    Controller --> Form : Redirect dengan pesan sukses
+    Form --> User : Notifikasi "Profil Diperbarui"
+else Input Invalid
+    Controller --> Form : Kembali dengan error
+    Form --> User : Tampilkan pesan error
+end
+
+@enduml

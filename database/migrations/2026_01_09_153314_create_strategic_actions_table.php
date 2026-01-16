@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('strategic_actions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kebun_id')->constrained('gardens')->onDelete('cascade');
+            $table->foreignId('program_id')->nullable()->constrained('programs')->onDelete('set null'); // Added program_id
             $table->year('year');
 
             $table->string('action_type'); // fertilizer_root, fertilizer_leaf, weed_control, cultivator, picking, machine, opt

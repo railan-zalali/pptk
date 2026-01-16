@@ -18,10 +18,20 @@ class AdminRegionController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->ensureAdmin();
-        $regions = Region::orderBy('regional_name')->paginate(12);
+        
+        $query = Region::orderBy('regional_name');
+
+        if ($request->filled('search')) {
+             $query->where(function($q) use ($request) {
+                $q->where('regional_name', 'like', '%' . $request->search . '%')
+                  ->orWhere('province', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $regions = $query->paginate(12);
         return view('admin.regions.index', compact('regions'));
     }
 

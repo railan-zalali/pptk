@@ -9,10 +9,22 @@ use Illuminate\Http\Request;
 
 class AdminPerformanceTargetController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $targets = PerformanceTarget::with('garden')->orderBy('year', 'desc')->paginate(10);
-        return view('admin.performance_targets.index', compact('targets'));
+        $query = PerformanceTarget::with('garden');
+
+        if ($request->filled('garden_id')) {
+            $query->where('garden_id', $request->garden_id);
+        }
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        $targets = $query->orderBy('year', 'desc')->paginate(10);
+        $gardens = Garden::orderBy('kebun_name')->get();
+
+        return view('admin.performance_targets.index', compact('targets', 'gardens'));
     }
 
     public function create()

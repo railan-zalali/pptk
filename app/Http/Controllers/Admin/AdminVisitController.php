@@ -35,7 +35,7 @@ class AdminVisitController extends Controller
     public function create()
     {
         $this->ensureAdmin();
-        $gardens = Garden::orderBy('name')->get();
+        $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.visits.create', compact('gardens'));
     }
 
@@ -72,7 +72,7 @@ class AdminVisitController extends Controller
     public function edit(Visit $visit)
     {
         $this->ensureAdmin();
-        $gardens = Garden::orderBy('name')->get();
+        $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.visits.edit', compact('visit', 'gardens'));
     }
 
@@ -113,4 +113,3 @@ class AdminVisitController extends Controller
         return redirect()->route('admin.visits.index')->with('success', 'Kunjungan berhasil dihapus.');
     }
 }
-
