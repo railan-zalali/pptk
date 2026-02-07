@@ -12,6 +12,8 @@ class Block extends Model
         'afdeling_id',
         'name',
         'code',
+        'area_ha',
+        'population',
         'plant_type',
         'planting_year',
         'initial_class',

@@ -41,9 +41,41 @@
 
         <!-- Scroll Down Indicator -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block">
-            <a href="#features" class="text-white opacity-80 hover:opacity-100 transition-opacity">
+            <a href="#about" class="text-white opacity-80 hover:opacity-100 transition-opacity">
                 <span class="material-icons text-4xl">keyboard_arrow_down</span>
             </a>
+        </div>
+    </section>
+
+    <!-- About Section (Merged) -->
+    <section id="about" class="py-20 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">Tentang Kebun Model</h2>
+                    <div class="h-1 w-20 bg-green-500 rounded-full mb-6"></div>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+                        Pusat Penelitian Teh dan Kina (PPTK) Gambung mengembangkan konsep Kebun Model sebagai
+                        laboratorium lapangan yang mengintegrasikan praktik agrikultur terbaik dengan teknologi terkini.
+                        Tujuan utama kami adalah meningkatkan produktivitas dan kualitas teh nasional melalui riset
+                        aplikatif dan pengembangan varietas unggul.
+                    </p>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
+                        Dengan luas lahan lebih dari 1000 hektar, kami mengelola berbagai klon teh unggulan dan
+                        menerapkan sistem monitoring digital untuk memastikan setiap langkah budidaya terukur dan efisien.
+                    </p>
+                    <a href="{{ route('about') }}"
+                        class="text-green-600 font-semibold hover:text-green-700 inline-flex items-center">
+                        Baca Selengkapnya
+                        <span class="material-icons ml-1">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-green-100 dark:bg-green-900/30 rounded-xl transform rotate-3"></div>
+                    <img src="https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Tea%20research%20center%20building%20indonesia%20gambung%20colonial%20architecture%20surrounded%20by%20tea%20gardens&image_size=landscape_4_3"
+                        alt="Gedung PPTK Gambung" class="relative rounded-xl shadow-lg w-full h-auto object-cover">
+                </div>
+            </div>
         </div>
     </section>
 

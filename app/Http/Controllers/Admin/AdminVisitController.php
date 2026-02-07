@@ -19,7 +19,6 @@ class AdminVisitController extends Controller
 
     public function index(Request $request)
     {
-        $this->ensureAdmin();
         $gardens = Garden::orderBy('kebun_name')->get();
         $query = Visit::with(['garden.region'])->orderByDesc('visit_date');
         if ($request->filled('garden_id')) {
@@ -34,14 +33,12 @@ class AdminVisitController extends Controller
 
     public function create()
     {
-        $this->ensureAdmin();
         $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.visits.create', compact('gardens'));
     }
 
     public function store(Request $request)
     {
-        $this->ensureAdmin();
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'garden_id' => 'required|exists:gardens,id',
@@ -71,14 +68,12 @@ class AdminVisitController extends Controller
 
     public function edit(Visit $visit)
     {
-        $this->ensureAdmin();
         $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.visits.edit', compact('visit', 'gardens'));
     }
 
     public function update(Request $request, Visit $visit)
     {
-        $this->ensureAdmin();
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'garden_id' => 'required|exists:gardens,id',
@@ -108,7 +103,6 @@ class AdminVisitController extends Controller
 
     public function destroy(Visit $visit)
     {
-        $this->ensureAdmin();
         $visit->delete();
         return redirect()->route('admin.visits.index')->with('success', 'Kunjungan berhasil dihapus.');
     }

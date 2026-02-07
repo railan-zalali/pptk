@@ -20,7 +20,6 @@ class AdminRegionController extends Controller
 
     public function index(Request $request)
     {
-        $this->ensureAdmin();
         
         $query = Region::orderBy('regional_name');
 
@@ -37,13 +36,11 @@ class AdminRegionController extends Controller
 
     public function create()
     {
-        $this->ensureAdmin();
         return view('admin.regions.create');
     }
 
     public function store(Request $request)
     {
-        $this->ensureAdmin();
 
         $validated = $request->validate([
             'regional_name' => 'required|string|max:255',
@@ -78,13 +75,11 @@ class AdminRegionController extends Controller
 
     public function edit(Region $region)
     {
-        $this->ensureAdmin();
         return view('admin.regions.edit', compact('region'));
     }
 
     public function update(Request $request, Region $region)
     {
-        $this->ensureAdmin();
 
         $validated = $request->validate([
             'regional_name' => 'required|string|max:255',
@@ -121,7 +116,6 @@ class AdminRegionController extends Controller
 
     public function destroy(Region $region)
     {
-        $this->ensureAdmin();
         $region->delete();
         return redirect()->route('admin.regions.index')->with('success', 'Wilayah berhasil dihapus.');
     }

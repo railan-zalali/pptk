@@ -55,19 +55,19 @@
                     <p class="text-sm text-gray-400 mt-4">Alokasi dana penelitian</p>
                 </div>
 
-                <!-- Card 3: Status -->
+                <!-- Card 3: Sisa Anggaran -->
                 <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-purple-500">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-500 text-sm font-medium uppercase">Status Kegiatan</p>
+                            <p class="text-gray-500 text-sm font-medium uppercase">Sisa Anggaran</p>
                             <p class="text-3xl font-bold text-gray-800 mt-1">
-                                {{ $page->meta['summary']['status'] ?? 'N/A' }}</p>
+                                Rp {{ number_format($page->meta['summary']['remaining_budget'] ?? 0, 0, ',', '.') }}</p>
                         </div>
                         <div class="bg-purple-100 p-3 rounded-full">
-                            <span class="material-icons text-purple-600">info</span>
+                            <span class="material-icons text-purple-600">account_balance_wallet</span>
                         </div>
                     </div>
-                    <p class="text-sm text-gray-400 mt-4">Status operasional saat ini</p>
+                    <p class="text-sm text-gray-400 mt-4">Dana tersisa</p>
                 </div>
             </div>
         </div>

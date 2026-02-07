@@ -54,7 +54,7 @@
                 </div>
                 <div class="text-right">
                     <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
-                        {{ number_format($latestProduction->productivity ?? 0, 1) }} kg/ha
+                        {{ number_format($latestProduction->productivity_wet ?? 0, 1) }} kg/ha
                     </div>
                     <div class="text-sm text-gray-600 dark:text-gray-300">Produktivitas Terakhir</div>
                     <div class="text-xs text-gray-500 dark:text-gray-400">
@@ -245,94 +245,64 @@
             <h2 class="text-xl font-bold text-green-800 dark:text-green-100 mb-6 flex items-center">
                 <span class="material-icons mr-2">precision_manufacturing</span>Aksi Strategis
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Production Optimization -->
-                <div class="border border-green-200 dark:border-green-700 rounded-lg p-4">
-                    <h3 class="font-bold text-green-700 dark:text-green-400 mb-3">Optimasi Produksi</h3>
-                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                        <li class="flex items-start">
-                            <span class="material-icons text-green-500 dark:text-green-400 mt-1 mr-2 text-base">spa</span>
-                            <span>Pemangkasan pohon secara teratur untuk meningkatkan pertumbuhan baru</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-green-500 dark:text-green-400 mt-1 mr-2 text-base">grass</span>
-                            <span>Pemupukan berimbang sesuai analisis tanah</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-green-500 dark:text-green-400 mt-1 mr-2 text-base">water_drop</span>
-                            <span>Sistem irigasi efisien untuk menjaga kelembaban optimal</span>
-                        </li>
-                    </ul>
+            @if($garden->strategicActions->count() > 0)
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($garden->strategicActions as $action)
+                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                            <h3 class="font-bold text-green-700 dark:text-green-400 mb-3 flex items-center capitalize">
+                                @if($action->action_type == 'fertilizer_root')
+                                    <span class="material-icons mr-2">spa</span> Pemupukan
+                                @elseif($action->action_type == 'cultivator')
+                                    <span class="material-icons mr-2">agriculture</span> Kultivator
+                                @elseif($action->action_type == 'weed_control')
+                                    <span class="material-icons mr-2">grass</span> Pengendalian Gulma
+                                @else
+                                    <span class="material-icons mr-2">check_circle</span> {{ str_replace('_', ' ', $action->action_type) }}
+                                @endif
+                            </h3>
+                            
+                            <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                                @if($action->action_type == 'fertilizer_root')
+                                    <div class="flex justify-between">
+                                        <span>Persen Protas:</span>
+                                        <span class="font-semibold">{{ $action->n_protas_percent }}%</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Realisasi:</span>
+                                        <span class="font-semibold">{{ $action->dosis_n_kg_ha }} kg/ha</span>
+                                    </div>
+                                @elseif($action->action_type == 'cultivator')
+                                    <div class="flex justify-between">
+                                        <span>Area Fokus:</span>
+                                        <span class="font-semibold">{{ $action->focus_area }}</span>
+                                    </div>
+                                @elseif($action->action_type == 'weed_control')
+                                     <div class="flex justify-between">
+                                        <span>Metode:</span>
+                                        <span class="font-semibold">{{ $action->method }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Rotasi:</span>
+                                        <span class="font-semibold">{{ $action->rotation_per_year }} / tahun</span>
+                                    </div>
+                                @else
+                                    <p>{{ $action->note ?? 'Tidak ada detail tambahan.' }}</p>
+                                @endif
+                                @if($action->year)
+                                    <div class="text-xs text-gray-400 mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+                                        Tahun: {{ $action->year }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-
-                <!-- Quality Improvement -->
-                <div class="border border-blue-200 dark:border-blue-700 rounded-lg p-4">
-                    <h3 class="font-bold text-blue-700 dark:text-blue-400 mb-3">Peningkatan Kualitas</h3>
-                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-blue-500 dark:text-blue-400 mt-1 mr-2 text-base">biotech</span>
-                            <span>Pemantauan kualitas daun secara berkala</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-blue-500 dark:text-blue-400 mt-1 mr-2 text-base">access_time</span>
-                            <span>Waktu panen optimal untuk memaksimalkan kandungan antioksidan</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-blue-500 dark:text-blue-400 mt-1 mr-2 text-base">thermostat</span>
-                            <span>Kontrol suhu dan kelembaban selama pengolahan</span>
-                        </li>
-                    </ul>
+            @else
+                <div class="text-center py-8 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                    <span class="material-icons text-gray-400 text-4xl mb-2">assignment_off</span>
+                    <p class="text-gray-500 dark:text-gray-400">Belum ada data aksi strategis yang tercatat.</p>
                 </div>
-
-                <!-- Sustainability -->
-                <div class="border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
-                    <h3 class="font-bold text-yellow-700 dark:text-yellow-400 mb-3">Keberlanjutan</h3>
-                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-yellow-500 dark:text-yellow-400 mt-1 mr-2 text-base">recycling</span>
-                            <span>Pemanfaatan limbah organik sebagai pupuk kompos</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-yellow-500 dark:text-yellow-400 mt-1 mr-2 text-base">pest_control</span>
-                            <span>Pengendalian hama terpadu (IPM) untuk mengurangi pestisida kimia</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-yellow-500 dark:text-yellow-400 mt-1 mr-2 text-base">forest</span>
-                            <span>Penanaman pohon pelindung untuk menjaga ekosistem</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Technology Integration -->
-                <div class="border border-purple-200 dark:border-purple-700 rounded-lg p-4">
-                    <h3 class="font-bold text-purple-700 dark:text-purple-400 mb-3">Integrasi Teknologi</h3>
-                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-purple-500 dark:text-purple-400 mt-1 mr-2 text-base">smartphone</span>
-                            <span>Aplikasi monitoring real-time untuk petani</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-purple-500 dark:text-purple-400 mt-1 mr-2 text-base">satellite_alt</span>
-                            <span>Pemanfaatan citra satelit untuk analisis pertumbuhan</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span
-                                class="material-icons text-purple-500 dark:text-purple-400 mt-1 mr-2 text-base">show_chart</span>
-                            <span>Sistem prediksi hasil berbasis data historis</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            @endif
         </div>
 
         <!-- Recent Insights -->

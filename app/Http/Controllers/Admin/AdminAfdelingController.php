@@ -13,8 +13,8 @@ class AdminAfdelingController extends Controller
     {
         $query = Afdeling::with('garden');
 
-        if ($request->filled('garden_id')) {
-            $query->where('garden_id', $request->garden_id);
+        if ($request->filled('kebun_id')) {
+            $query->where('kebun_id', $request->kebun_id);
         }
 
         if ($request->filled('search')) {
@@ -36,7 +36,7 @@ class AdminAfdelingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'garden_id' => 'required|exists:gardens,id',
+            'kebun_id' => 'required|exists:gardens,id',
             'name' => 'required|string|max:255',
             'total_area_ha' => 'required|numeric|min:0',
             'tm_area_ha' => 'required|numeric|min:0|lte:total_area_ha',
@@ -57,7 +57,7 @@ class AdminAfdelingController extends Controller
     public function update(Request $request, Afdeling $afdeling)
     {
         $request->validate([
-            'garden_id' => 'required|exists:gardens,id',
+            'kebun_id' => 'required|exists:gardens,id',
             'name' => 'required|string|max:255',
             'total_area_ha' => 'required|numeric|min:0',
             'tm_area_ha' => 'required|numeric|min:0|lte:total_area_ha',

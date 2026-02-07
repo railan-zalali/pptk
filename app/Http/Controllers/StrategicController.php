@@ -23,10 +23,25 @@ class StrategicController extends Controller
 
     public function garden(Region $region, Garden $garden)
     {
-        $garden->load(['photos', 'strategicActions.program', 'productionRealizations', 'performanceTargets']);
+        $garden->load(['photos', 'strategicActions.program', 'productionRealizations', 'performanceTargets', 'visits']);
 
-        // dd($garden);
+        $currentYear = now()->year;
+        
+        // Filter realizations for current year
+        $realizations = $garden->productionRealizations->where('year', $currentYear);
+        
+        $totalProduction = $realizations->sum('wet_production_kg');
+        
+        // Latest production (by month)
+        $latestProduction = $realizations->sortByDesc('month')->first();
+        
+        // Avg Productivity (Total Production / Avg Area)
+        $avgArea = $realizations->avg('active_picking_area_ha') ?? $garden->luas_total_ha;
+        $avgProductivity = $avgArea > 0 ? $totalProduction / $avgArea : 0;
+        
+        // Visit Count
+        $visitCount = $garden->visits->count();
 
-        return view('strategic.garden', compact('region', 'garden'));
+        return view('strategic.garden', compact('region', 'garden', 'latestProduction', 'avgProductivity', 'totalProduction', 'visitCount'));
     }
 }

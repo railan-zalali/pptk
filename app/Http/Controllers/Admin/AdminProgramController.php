@@ -23,6 +23,7 @@ class AdminProgramController extends Controller
     {
         $validated = $request->validate([
             'program_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'year' => 'required|integer|min:2000|max:2099',
             'program_type' => 'required|in:Model,Pengembangan',
             'status' => 'boolean',
@@ -42,6 +43,7 @@ class AdminProgramController extends Controller
     {
         $validated = $request->validate([
             'program_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'year' => 'required|integer|min:2000|max:2099',
             'program_type' => 'required|in:Model,Pengembangan',
             'status' => 'boolean',

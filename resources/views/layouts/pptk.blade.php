@@ -300,48 +300,57 @@
                     </div>
 
                     <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center space-x-8">
+                    <div class="hidden md:flex items-center space-x-6">
+                        <!-- 1. Beranda (Merged with Tentang) -->
                         <a href="{{ route('home') }}"
-                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Beranda</a>
-                        <a href="{{ route('about') }}"
-                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Tentang</a>
-                        <a href="{{ route('strategic.index') }}"
-                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Strategic
-                            Action</a>
-                        <a href="{{ route('visits.index') }}"
-                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Kunjungan</a>
+                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">
+                            Beranda
+                        </a>
 
-                        @auth
-                            <div class="relative group">
-                                <button
-                                    class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium flex items-center">
-                                    Dashboard
-                                    <span class="material-icons ml-1 text-sm">expand_more</span>
-                                </button>
-                                <div
-                                    class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                                    <a href="{{ route('dashboard.garden') }}"
-                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Dashboard
-                                        Kebun Model</a>
-                                    <a href="{{ route('dashboard.research') }}"
-                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-b-lg">Dashboard
-                                        Penelitian</a>
-                                </div>
+                        <!-- 2. Kebun Model -->
+                        <div class="relative group">
+                            <button
+                                class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium flex items-center">
+                                Kebun Model
+                                <span class="material-icons ml-1 text-sm">expand_more</span>
+                            </button>
+                            <div
+                                class="absolute left-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                <a href="{{ route('dashboard.garden') }}"
+                                    class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Dashboard
+                                    Kebun Model</a>
+                                <a href="{{ route('strategic.index') }}"
+                                    class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-b-lg">Strategic
+                                    Action</a>
                             </div>
-                        @endauth
+                        </div>
+
+                        <!-- 3. Penelitian -->
+                        <div class="relative group">
+                            <button
+                                class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium flex items-center">
+                                Penelitian
+                                <span class="material-icons ml-1 text-sm">expand_more</span>
+                            </button>
+                            <div
+                                class="absolute left-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                <a href="{{ route('dashboard.research') }}"
+                                    class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Dashboard
+                                    Penelitian</a>
+                                <a href="{{ route('visits.index') }}"
+                                    class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-b-lg">Kunjungan</a>
+                            </div>
+                        </div>
+
+                        <!-- 4. Pengabdian Masyarakat -->
+                        <a href="{{ route('community-services.index') }}"
+                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">
+                            Pengabdian Masyarakat
+                        </a>
                     </div>
 
                     <!-- Right Side -->
                     <div class="flex items-center space-x-4">
-                        <!-- Search Bar -->
-                        <div class="hidden lg:block">
-                            <div class="relative">
-                                <input type="text" placeholder="Cari kebun atau indikator..."
-                                    class="w-64 pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-gray-100">
-                                <span
-                                    class="material-icons absolute left-3 top-2.5 text-gray-400 dark:text-gray-500">search</span>
-                            </div>
-                        </div>
                         <button id="themeToggle"
                             class="p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 touch-friendly"
                             title="Toggle tema">
@@ -351,8 +360,8 @@
                         <!-- Auth Links -->
                         @guest
                             <a href="{{ route('login') }}"
-                                class="text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">Masuk</a>
-                            <a href="{{ route('register') }}" class="pptk-btn text-sm">Daftar</a>
+                                class="text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium hidden sm:block">Masuk</a>
+                            <a href="{{ route('register') }}" class="pptk-btn text-sm hidden sm:block">Daftar</a>
                         @else
                             <div class="relative group">
                                 <button
@@ -363,8 +372,11 @@
                                 </button>
                                 <div
                                     class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                    <a href="{{ route('admin.dashboard') }}"
+                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Admin
+                                        Panel</a>
                                     <a href="{{ route('profile.edit') }}"
-                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Profil</a>
+                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700">Profil</a>
                                     <form method="POST" action="{{ route('logout') }}" class="block">
                                         @csrf
                                         <button type="submit"
@@ -385,28 +397,60 @@
             </div>
 
             <!-- Mobile Navigation -->
-            <div id="mobile-menu" class="md:hidden hidden mobile-menu border-t">
+            <div id="mobile-menu" class="md:hidden hidden mobile-menu border-t h-screen overflow-y-auto pb-20">
                 <div class="px-4 py-2 space-y-1">
+                    <!-- Beranda (Merged) -->
                     <a href="{{ route('home') }}"
-                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Beranda</a>
-                    <a href="{{ route('about') }}"
-                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Tentang</a>
-                    <a href="{{ route('strategic.index') }}"
-                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Strategic
-                        Action</a>
-                    <a href="{{ route('visits.index') }}"
-                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700">Kunjungan</a>
-                    @auth
-                        <div class="border-t pt-2 mt-2">
-                            <p class="px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-300">Dashboard</p>
+                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700 font-medium">
+                        Beranda
+                    </a>
+
+                    <!-- Kebun Model Dropdown -->
+                    <div class="py-2">
+                        <button onclick="toggleAccordion('mobile-kebun')"
+                            class="flex items-center justify-between w-full text-left text-gray-700 dark:text-gray-200 hover:text-green-600">
+                            <span class="font-medium">Kebun Model</span>
+                            <span class="material-icons" id="mobile-kebun-icon">expand_more</span>
+                        </button>
+                        <div id="mobile-kebun-content" class="hidden pl-4 mt-2 space-y-2 border-l-2 border-gray-200">
                             <a href="{{ route('dashboard.garden') }}"
-                                class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700 ml-4">Dashboard
-                                Kebun Model</a>
-                            <a href="{{ route('dashboard.research') }}"
-                                class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700 ml-4">Dashboard
-                                Penelitian</a>
+                                class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Dashboard</a>
+                            <a href="{{ route('strategic.index') }}"
+                                class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Strategic
+                                Action</a>
                         </div>
-                    @endauth
+                    </div>
+
+                    <!-- Penelitian Dropdown -->
+                    <div class="py-2">
+                        <button onclick="toggleAccordion('mobile-penelitian')"
+                            class="flex items-center justify-between w-full text-left text-gray-700 dark:text-gray-200 hover:text-green-600">
+                            <span class="font-medium">Penelitian</span>
+                            <span class="material-icons" id="mobile-penelitian-icon">expand_more</span>
+                        </button>
+                        <div id="mobile-penelitian-content"
+                            class="hidden pl-4 mt-2 space-y-2 border-l-2 border-gray-200">
+                            <a href="{{ route('dashboard.research') }}"
+                                class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Dashboard</a>
+                            <a href="{{ route('visits.index') }}"
+                                class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Kunjungan</a>
+                        </div>
+                    </div>
+
+                    <!-- Pengabdian Masyarakat -->
+                    <a href="{{ route('community-services.index') }}"
+                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700 font-medium">
+                        Pengabdian Masyarakat
+                    </a>
+
+                    @guest
+                        <div class="border-t pt-4 mt-2">
+                            <a href="{{ route('login') }}"
+                                class="block w-full text-center px-4 py-2 border border-green-600 text-green-600 rounded-lg mb-2">Masuk</a>
+                            <a href="{{ route('register') }}"
+                                class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg">Daftar</a>
+                        </div>
+                    @endguest
                 </div>
             </div>
         </nav>
@@ -517,8 +561,11 @@
             const menu = document.getElementById('mobile-menu');
             const button = event.target.closest('button');
 
-            if (!menu.contains(event.target) && !button) {
-                menu.classList.add('hidden');
+            if (!menu.contains(event.target) && !button && !menu.classList.contains('hidden')) {
+                // Check if click is on toggle button
+                if (!event.target.closest('[onclick="toggleMobileMenu()"]')) {
+                    menu.classList.add('hidden');
+                }
             }
         });
     </script>

@@ -23,7 +23,7 @@ class Afdeling extends Model
 
     public function garden(): BelongsTo
     {
-        return $this->belongsTo(Garden::class);
+        return $this->belongsTo(Garden::class, 'kebun_id');
     }
 
     public function blocks(): HasMany

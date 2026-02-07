@@ -64,6 +64,7 @@ class AdminPageController extends Controller
                 'summary' => [
                     'total_activities' => 0,
                     'total_budget' => 0,
+                    'remaining_budget' => 0,
                     'status' => 'Aktif'
                 ],
                 'info' => [
@@ -92,6 +93,7 @@ class AdminPageController extends Controller
             // Meta Data Validation
             'meta.summary.total_activities' => 'nullable|integer',
             'meta.summary.total_budget' => 'nullable|numeric',
+            'meta.summary.remaining_budget' => 'nullable|numeric',
             'meta.summary.status' => 'nullable|string',
             
             'meta.info.internal_research' => 'nullable|string',
@@ -127,6 +129,7 @@ class AdminPageController extends Controller
             'summary' => [
                 'total_activities' => $request->input('meta.summary.total_activities', 0),
                 'total_budget' => $request->input('meta.summary.total_budget', 0),
+                'remaining_budget' => $request->input('meta.summary.remaining_budget', 0),
                 'status' => $request->input('meta.summary.status', 'Aktif'),
             ],
             'info' => [

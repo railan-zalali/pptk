@@ -16,7 +16,7 @@ class AdminBlockController extends Controller
 
         if ($request->filled('garden_id')) {
             $query->whereHas('afdeling', function ($q) use ($request) {
-                $q->where('garden_id', $request->garden_id);
+                $q->where('kebun_id', $request->garden_id);
             });
         }
 
@@ -43,6 +43,8 @@ class AdminBlockController extends Controller
             'afdeling_id' => 'required|exists:afdelings,id',
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:50|unique:blocks,code',
+            'area_ha' => 'required|numeric|min:0',
+            'population' => 'required|integer|min:0',
             'plant_type' => 'required|in:seedling,klon_gmb,klon_tri',
             'planting_year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
             'initial_class' => 'required|in:A,B,C,D,E',
@@ -66,6 +68,8 @@ class AdminBlockController extends Controller
             'afdeling_id' => 'required|exists:afdelings,id',
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:50|unique:blocks,code,' . $block->id,
+            'area_ha' => 'required|numeric|min:0',
+            'population' => 'required|integer|min:0',
             'plant_type' => 'required|in:seedling,klon_gmb,klon_tri',
             'planting_year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
             'initial_class' => 'required|in:A,B,C,D,E',

@@ -19,7 +19,6 @@ class AdminInsightController extends Controller
 
     public function index(Request $request)
     {
-        $this->ensureAdmin();
         $gardens = Garden::orderBy('kebun_name')->get();
         $query = Insight::with('garden.region')->orderByDesc('created_at');
         if ($request->filled('garden_id')) {
@@ -34,14 +33,12 @@ class AdminInsightController extends Controller
 
     public function create()
     {
-        $this->ensureAdmin();
         $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.insights.create', compact('gardens'));
     }
 
     public function store(Request $request)
     {
-        $this->ensureAdmin();
         $validated = $request->validate([
             'garden_id' => 'required|exists:gardens,id',
             'title' => 'required|string|max:255',
@@ -64,14 +61,12 @@ class AdminInsightController extends Controller
 
     public function edit(Insight $insight)
     {
-        $this->ensureAdmin();
         $gardens = Garden::orderBy('kebun_name')->get();
         return view('admin.insights.edit', compact('insight', 'gardens'));
     }
 
     public function update(Request $request, Insight $insight)
     {
-        $this->ensureAdmin();
         $validated = $request->validate([
             'garden_id' => 'required|exists:gardens,id',
             'title' => 'required|string|max:255',
@@ -94,7 +89,6 @@ class AdminInsightController extends Controller
 
     public function destroy(Insight $insight)
     {
-        $this->ensureAdmin();
         $insight->delete();
         return redirect()->route('admin.insights.index')->with('success', 'Insight berhasil dihapus.');
     }

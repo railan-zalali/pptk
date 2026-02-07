@@ -16,6 +16,7 @@ class ProductionRealization extends Model
         'capacity_per_ha',
         'avg_capacity',
         'estimated_production',
+        'quality_score',
         'assumption_note',
     ];
 
@@ -27,6 +28,7 @@ class ProductionRealization extends Model
         'capacity_per_ha' => 'decimal:2',
         'avg_capacity' => 'decimal:2',
         'estimated_production' => 'decimal:2',
+        'quality_score' => 'decimal:2',
     ];
 
     /**

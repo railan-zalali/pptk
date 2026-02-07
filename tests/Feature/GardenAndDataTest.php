@@ -14,7 +14,7 @@ class GardenAndDataTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->seed(\Database\Seeders\PPTKSeeder::class);
+        $this->seed(\Database\Seeders\DatabaseSeeder::class);
     }
 
     public function test_home_page_is_accessible(): void

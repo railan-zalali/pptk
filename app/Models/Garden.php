@@ -48,12 +48,7 @@ class Garden extends Model
 
     public function afdelings(): HasMany
     {
-        return $this->hasMany(Afdeling::class);
-    }
-
-    public function productionData(): HasMany
-    {
-        return $this->hasMany(ProductionData::class);
+        return $this->hasMany(Afdeling::class, 'kebun_id');
     }
 
     public function visits(): HasMany

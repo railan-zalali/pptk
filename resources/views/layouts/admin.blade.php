@@ -7,7 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin • {{ config('app.name', 'PPTK Gambung') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
@@ -81,6 +83,10 @@
                 <a href="{{ route('admin.visits.index') }}"
                     class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.visits.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                     <span class="material-icons mr-2">event</span> Kunjungan
+                </a>
+                <a href="{{ route('admin.community-services.index') }}"
+                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.community-services.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                    <span class="material-icons mr-2">volunteer_activism</span> Pengabdian
                 </a>
                 <a href="{{ route('admin.pages.about.edit') }}"
                     class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.pages.about.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">

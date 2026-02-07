@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Garden;
 use App\Models\Region;
-use App\Models\ProductionData;
 use App\Models\ProductionRealization;
 use App\Models\Visit;
 use App\Models\Insight;

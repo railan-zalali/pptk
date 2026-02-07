@@ -64,11 +64,9 @@
                             value="{{ old('meta.summary.total_budget', $page->meta['summary']['total_budget'] ?? 0) }}">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Status Umum</label>
-                        <select name="meta[summary][status]" class="w-full border rounded px-3 py-2">
-                            <option value="Aktif" {{ old('meta.summary.status', $page->meta['summary']['status'] ?? '') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="Selesai" {{ old('meta.summary.status', $page->meta['summary']['status'] ?? '') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
-                        </select>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Sisa Anggaran (Rp)</label>
+                        <input name="meta[summary][remaining_budget]" type="number" class="w-full border rounded px-3 py-2"
+                            value="{{ old('meta.summary.remaining_budget', $page->meta['summary']['remaining_budget'] ?? 0) }}">
                     </div>
                 </div>
             </div>
