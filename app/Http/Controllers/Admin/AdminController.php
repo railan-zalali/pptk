@@ -8,21 +8,11 @@ use App\Models\Region;
 use App\Models\ProductionRealization;
 use App\Models\Visit;
 use App\Models\Insight;
-use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    private function ensureAdmin()
-    {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403);
-        }
-    }
-
     public function index()
     {
-        $this->ensureAdmin();
-
         $currentMonth = now()->month;
         $currentYear = now()->year;
 

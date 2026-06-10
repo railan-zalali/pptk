@@ -10,13 +10,17 @@
                 <h1 class="text-3xl font-bold text-green-800 dark:text-green-100 mb-2">Jadwal Kunjungan</h1>
                 <p class="text-gray-600 dark:text-gray-300">Kalender interaktif kegiatan kunjungan dan penelitian</p>
             </div>
-            <div class="mt-4 md:mt-0 flex space-x-3">
-                <a href="{{ route('visits.create') }}"
-                    class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center transition-colors shadow-sm">
-                    <span class="material-icons mr-2">add</span>
-                    Jadwal Baru
-                </a>
-            </div>
+            @auth
+                @if (Auth::user()->isAdmin())
+                    <div class="mt-4 md:mt-0 flex space-x-3">
+                        <a href="{{ route('admin.visits.create') }}"
+                            class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center transition-colors shadow-sm">
+                            <span class="material-icons mr-2">add</span>
+                            Jadwal Baru
+                        </a>
+                    </div>
+                @endif
+            @endauth
         </div>
 
         @if (session('success'))

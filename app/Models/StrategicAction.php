@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StrategicAction extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'kebun_id',
         'program_id',
@@ -39,20 +42,45 @@ class StrategicAction extends Model
     ];
 
     protected $casts = [
-        'year' => 'integer',
-        'realization_date' => 'date',
-        'dosis_n_kg_ha' => 'decimal:2',
-        'realized_dosis_n_kg_ha' => 'decimal:2',
-        'n_protas_percent' => 'decimal:2',
+        'year'                    => 'integer',
+        'realization_date'        => 'date',
+        'dosis_n_kg_ha'           => 'decimal:2',
+        'realized_dosis_n_kg_ha'  => 'decimal:2',
+        'n_protas_percent'        => 'decimal:2',
         'coverage_target_percent' => 'decimal:2',
-        'realization_percent' => 'decimal:2',
-        'avg_machine_age' => 'decimal:2',
-        'kandas_risk' => 'boolean',
-        'tp_normalization' => 'boolean',
+        'realization_percent'     => 'decimal:2',
+        'avg_machine_age'         => 'decimal:2',
+        'kandas_risk'             => 'boolean',
+        'tp_normalization'        => 'boolean',
     ];
+
+    /**
+     * Gap antara target dan realisasi cakupan dalam persen.
+     * Bernilai positif jika belum tercapai, negatif jika sudah terlampaui.
+     */
+    public function getCoverageGapAttribute(): float
+    {
+        $target = (float) ($this->attributes['coverage_target_percent'] ?? 0);
+        $actual = (float) ($this->attributes['realization_percent'] ?? 0);
+
+        return $target - $actual;
+    }
+
+    /**
+     * Apakah status aksi ini sudah selesai.
+     */
+    public function getIsCompletedAttribute(): bool
+    {
+        return $this->attributes['status'] === 'completed';
+    }
 
     public function garden(): BelongsTo
     {
         return $this->belongsTo(Garden::class, 'kebun_id');
+    }
+
+    public function program(): BelongsTo
+    {
+        return $this->belongsTo(Program::class);
     }
 }

@@ -237,7 +237,7 @@
                             <option value="all">Semua Wilayah</option>
                             @foreach ($regions as $region)
                                 <option value="{{ $region->id }}"
-                                    {{ request('region') == $region->id ? 'selected' : '' }}>{{ $region->name }}</option>
+                                    {{ request('region') == $region->id ? 'selected' : '' }}>{{ $region->regional_name }}</option>
                             @endforeach
                         </select>
                     </div>

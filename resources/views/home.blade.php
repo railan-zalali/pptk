@@ -6,7 +6,7 @@
     <!-- Hero Section -->
     <section class="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0 bg-gray-900">
-            <img src="{{ $heroPhotoUrl ?? 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Beautiful%20tea%20plantation%20landscape%20with%20rolling%20hills%2C%20lush%20green%20tea%20bushes%2C%20morning%20mist%2C%20professional%20photography%2C%20serene%20atmosphere&image_size=landscape_16_9' }}"
+            <img src="{{ $heroPhotoUrl ?? asset('img/tea-placeholder.svg') }}"
                 alt="Kebun Teh PPTK Gambung" loading="lazy" decoding="async" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
         </div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="relative">
                     <div class="absolute -inset-4 bg-green-100 dark:bg-green-900/30 rounded-xl transform rotate-3"></div>
-                    <img src="https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Tea%20research%20center%20building%20indonesia%20gambung%20colonial%20architecture%20surrounded%20by%20tea%20gardens&image_size=landscape_4_3"
+                    <img src="{{ asset('img/tea-placeholder.svg') }}"
                         alt="Gedung PPTK Gambung" class="relative rounded-xl shadow-lg w-full h-auto object-cover">
                 </div>
             </div>
@@ -143,7 +143,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div class="order-2 md:order-1">
                     <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-700">
-                        <img src="{{ $statsPhotoUrl ?? 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Modern%20dashboard%20interface%20on%20tablet%20showing%20tea%20production%20charts%2C%20analytics%2C%20data%20visualization%2C%20clean%20ui%2C%20high%20quality&image_size=landscape_4_3' }}"
+                        <img src="{{ $statsPhotoUrl ?? asset('img/tea-placeholder.svg') }}"
                             alt="Dashboard Analytics"
                             class="w-full h-auto transform hover:scale-105 transition-transform duration-700">
                     </div>

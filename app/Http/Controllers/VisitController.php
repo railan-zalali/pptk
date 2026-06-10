@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Garden;
 use App\Models\Visit;
-use App\Models\VisitPhoto;
 use Illuminate\Http\Request;
 
 class VisitController extends Controller
@@ -18,6 +16,11 @@ class VisitController extends Controller
             $visits = Visit::with(['garden', 'garden.region'])
                 ->whereMonth('visit_date', $month)
                 ->whereYear('visit_date', $year)
+                ->when($request->filled('region') && $request->region !== 'all', function ($query) use ($request) {
+                    $query->whereHas('garden', function ($q) use ($request) {
+                        $q->where('regional_id', $request->region);
+                    });
+                })
                 ->get()
                 ->map(function ($visit) {
                     return [
@@ -26,7 +29,7 @@ class VisitController extends Controller
                         'date' => $visit->visit_date->format('Y-m-d'),
                         'visitor_name' => $visit->visitor_name,
                         'participants_list' => $visit->participants_list,
-                        'location' => $visit->garden->name,
+                        'location' => $visit->garden?->kebun_name ?? '-',
                         'status' => $visit->status,
                         'time' => '09:00 - 15:00', // Default time as it's not in DB
                         'description' => $visit->description,
@@ -39,7 +42,7 @@ class VisitController extends Controller
         $visits = Visit::with(['garden', 'garden.region'])
             ->when(request('region'), function ($query, $regionId) {
                 $query->whereHas('garden', function ($q) use ($regionId) {
-                    $q->where('region_id', $regionId);
+                    $q->where('regional_id', $regionId);
                 });
             })
             ->latest()
@@ -54,93 +57,9 @@ class VisitController extends Controller
         return view('visits.index', compact('visits', 'regions', 'totalVisits', 'thisMonthVisits', 'visitedRegions', 'avgRating'));
     }
 
-    public function create()
-    {
-        $gardens = Garden::all();
-        return view('visits.create', compact('gardens'));
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'garden_id' => 'required|exists:gardens,id',
-            'visit_date' => 'required|date',
-            'duration' => 'required|integer|min:1|max:24',
-            'participants_count' => 'required|integer|min:1',
-            'participants_list' => 'nullable|string',
-            'description' => 'required|string',
-            'objectives' => 'nullable|string',
-            'findings' => 'nullable|string',
-            'recommendations' => 'nullable|string',
-            'rating' => 'required|integer|between:1,5',
-            'status' => 'required|in:scheduled,completed,cancelled',
-            'photos' => 'nullable|array',
-            'photos.*' => 'image|max:2048',
-        ]);
-
-        $validated['visitor_name'] = auth()->user()->name ?? 'Petugas';
-        $validated['purpose'] = $validated['description'] ?? 'Kunjungan dinas';
-
-        $visit = Visit::create($validated);
-
-        // Handle photo uploads if provided
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('visit-photos/' . $visit->id, 'public');
-                VisitPhoto::create([
-                    'visit_id' => $visit->id,
-                    'path' => $path,
-                    'caption' => $photo->getClientOriginalName(),
-                ]);
-            }
-        }
-
-        return redirect()->route('visits.index')->with('success', 'Kunjungan berhasil disimpan.');
-    }
-
     public function show(Visit $visit)
     {
-        $visit->load(['garden', 'garden.region']);
+        $visit->load(['garden.region', 'photos']);
         return view('visits.show', compact('visit'));
-    }
-
-    public function edit(Visit $visit)
-    {
-        $this->authorize('update', $visit);
-
-        $gardens = Garden::all();
-        return view('visits.edit', compact('visit', 'gardens'));
-    }
-
-    public function update(Request $request, Visit $visit)
-    {
-        $this->authorize('update', $visit);
-
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'garden_id' => 'required|exists:gardens,id',
-            'visit_date' => 'required|date',
-            'duration' => 'required|integer|min:1|max:24',
-            'participants_count' => 'required|integer|min:1',
-            'participants_list' => 'nullable|string',
-            'description' => 'required|string',
-            'objectives' => 'nullable|string',
-            'findings' => 'nullable|string',
-            'recommendations' => 'nullable|string',
-            'rating' => 'required|integer|between:1,5',
-            'status' => 'required|in:scheduled,completed,cancelled',
-        ]);
-
-        $visit->update($validated);
-
-        return redirect()->route('visits.index')->with('success', 'Kunjungan berhasil diperbarui.');
-    }
-
-    public function destroy(Visit $visit)
-    {
-        $this->authorize('delete', $visit);
-        $visit->delete();
-        return redirect()->route('visits.index')->with('success', 'Kunjungan berhasil dihapus.');
     }
 }

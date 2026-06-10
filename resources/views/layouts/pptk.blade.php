@@ -25,9 +25,6 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <!-- Material Design Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -361,7 +358,6 @@
                         @guest
                             <a href="{{ route('login') }}"
                                 class="text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium hidden sm:block">Masuk</a>
-                            <a href="{{ route('register') }}" class="pptk-btn text-sm hidden sm:block">Daftar</a>
                         @else
                             <div class="relative group">
                                 <button
@@ -372,9 +368,11 @@
                                 </button>
                                 <div
                                     class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                                    <a href="{{ route('admin.dashboard') }}"
-                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Admin
-                                        Panel</a>
+                                    @if (Auth::user()->isAdmin())
+                                        <a href="{{ route('admin.dashboard') }}"
+                                            class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Admin
+                                            Panel</a>
+                                    @endif
                                     <a href="{{ route('profile.edit') }}"
                                         class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700">Profil</a>
                                     <form method="POST" action="{{ route('logout') }}" class="block">
@@ -447,8 +445,6 @@
                         <div class="border-t pt-4 mt-2">
                             <a href="{{ route('login') }}"
                                 class="block w-full text-center px-4 py-2 border border-green-600 text-green-600 rounded-lg mb-2">Masuk</a>
-                            <a href="{{ route('register') }}"
-                                class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg">Daftar</a>
                         </div>
                     @endguest
                 </div>

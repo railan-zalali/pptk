@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Garden;
 use App\Models\Visit;
+use App\Models\Insight;
 use App\Models\CommunityService;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
@@ -31,6 +32,20 @@ class ResearchSeeder extends Seeder
                     'description' => 'Deskripsi detail kunjungan.',
                 ]);
             }
+
+            Insight::create([
+                'garden_id' => $garden->id,
+                'title' => 'Monitoring Produktivitas ' . $garden->kebun_name,
+                'description' => 'Evaluasi rutin produktivitas dan kualitas pucuk untuk mendukung aksi strategis.',
+                'insight_type' => 'productivity',
+                'message' => 'Produktivitas kebun perlu dipantau terhadap target tahunan.',
+                'alert_level' => 'medium',
+                'recommendations' => [
+                    'Pantau realisasi produksi bulanan',
+                    'Evaluasi kapasitas petik dan kualitas pucuk',
+                ],
+                'generated_at' => now(),
+            ]);
         }
 
         // 2. Community Services

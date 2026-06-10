@@ -7,8 +7,7 @@ Sistem ini dibangun menggunakan framework Laravel dengan struktur database relas
 *   **Region (Wilayah):** Mengelompokkan kebun berdasarkan geografis (misal: Bandung Raya, Garut Selatan).
 *   **Garden (Kebun):** Unit operasional utama yang memiliki atribut luas lahan, tipe kebun (Model/Pengembangan), dan data agroklimat.
 *   **Afdeling & Block:** Pembagian area kebun menjadi unit yang lebih kecil untuk manajemen teknis (Afdeling A-E, Blok 01-10).
-*   **Production Data:** Pencatatan harian/bulanan terkait produksi basah, produktivitas, dan kualitas pucuk.
-*   **Production Realization:** Data realisasi produksi vs kapasitas.
+*   **Production Realization:** Pencatatan realisasi produksi bulanan per kebun, termasuk produksi basah, luas petik efektif, kapasitas petik, forecast, dan skor kualitas.
 *   **Performance Target:** Target kinerja tahunan (protas min/max).
 *   **Strategic Action:** Rencana tindakan perbaikan (pemupukan, mekanisasi, pengendalian gulma).
 *   **Visit (Kunjungan):** Jadwal dan laporan kunjungan dinas/monitoring.
@@ -17,7 +16,7 @@ Sistem ini dibangun menggunakan framework Laravel dengan struktur database relas
 ## 2. Fungsi Komponen
 *   **Dashboard Strategis:** Menyajikan ringkasan kinerja makro (Total Produksi, Rata-rata Produktivitas, Sebaran Wilayah).
 *   **Manajemen Wilayah & Kebun:** CRUD data master wilayah dan profil kebun lengkap dengan foto dan sejarah.
-*   **Pencatatan Produksi:** Input data produksi rutin dengan validasi logika bisnis.
+*   **Pencatatan Produksi:** Input realisasi produksi bulanan dengan validasi periode unik per kebun.
 *   **Analisis Insight:** Fitur untuk memberikan peringatan dini (early warning) berdasarkan tren data.
 *   **Manajemen Kunjungan:** Penjadwalan, pelaporan, dan dokumentasi foto kegiatan lapangan.
 *   **Program & Rencana Kerja:** Monitoring status pelaksanaan program strategis tahunan.
@@ -40,8 +39,7 @@ Data dummy yang telah di-generate mencakup seluruh menu berikut:
     *   **Kebun:** 10 Kebun (Model Gambung s.d Cirebon Perintis).
     *   **Afdeling/Blok:** Struktur hirarki lengkap di bawah setiap kebun.
 *   **Produksi:**
-    *   **Data Harian/Bulanan:** 100+ record data produksi historis.
-    *   **Realisasi:** Data perbandingan target vs realisasi.
+    *   **Realisasi Produksi:** Data bulanan per kebun untuk produksi basah, kapasitas, kualitas, dan forecast.
 *   **Strategi:**
     *   **Target Kinerja:** Sasaran protas per tahun.
     *   **Aksi Strategis:** Daftar rencana kerja (pemupukan, mesin, dll).

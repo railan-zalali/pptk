@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Kebun teh PPTK</title>
+  <desc id="desc">Ilustrasi lokal kebun teh bertingkat dengan langit pagi.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#dff7ff"/>
+      <stop offset="0.55" stop-color="#f4fff2"/>
+      <stop offset="1" stop-color="#e8f5d0"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#2f8f46"/>
+      <stop offset="1" stop-color="#14532d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <circle cx="965" cy="145" r="82" fill="#ffe9a3" opacity=".9"/>
+  <path d="M0 310 C190 210 310 285 455 235 C640 172 760 245 910 200 C1040 163 1135 188 1200 142 L1200 800 L0 800 Z" fill="#8fcf7c"/>
+  <path d="M0 410 C190 320 340 405 520 330 C720 246 895 345 1200 260 L1200 800 L0 800 Z" fill="url(#hill)"/>
+  <path d="M0 545 C170 485 315 535 500 470 C760 378 950 475 1200 382 L1200 800 L0 800 Z" fill="#0f3f25"/>
+  <g opacity=".4" fill="none" stroke="#d8f5c6" stroke-width="8">
+    <path d="M-80 520 C210 455 365 490 600 405 C850 315 1030 380 1280 305"/>
+    <path d="M-60 585 C220 525 380 555 625 470 C870 385 1045 445 1260 370"/>
+    <path d="M-40 650 C230 590 400 620 650 535 C890 455 1055 510 1240 440"/>
+    <path d="M-20 715 C240 655 420 685 675 600 C910 520 1065 575 1220 510"/>
+  </g>
+  <g fill="#ffffff" opacity=".55">
+    <ellipse cx="255" cy="222" rx="122" ry="25"/>
+    <ellipse cx="355" cy="218" rx="95" ry="20"/>
+    <ellipse cx="805" cy="185" rx="135" ry="24"/>
+    <ellipse cx="928" cy="188" rx="88" ry="19"/>
+  </g>
+</svg>

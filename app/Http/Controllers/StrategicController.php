@@ -3,27 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Garden;
-use App\Models\ProductionRealization;
 use App\Models\Region;
-use Illuminate\Http\Request;
 
 class StrategicController extends Controller
 {
     public function index()
     {
-        $regions = Region::with('gardens')->get();
+        $regions = Region::with(['gardens', 'photos'])->orderBy('regional_name')->get();
         return view('strategic.index', compact('regions'));
     }
 
     public function region(Region $region)
     {
-        $region->load('gardens.photos');
+        $region->load(['gardens.photos', 'photos']);
         return view('strategic.region', compact('region'));
     }
 
     public function garden(Region $region, Garden $garden)
     {
-        $garden->load(['photos', 'strategicActions.program', 'productionRealizations', 'performanceTargets', 'visits']);
+        abort_unless($garden->regional_id === $region->id, 404);
+
+        $garden->load([
+            'region.photos',
+            'photos',
+            'strategicActions.program',
+            'productionRealizations',
+            'performanceTargets',
+            'visits',
+            'insights',
+        ]);
 
         $currentYear = now()->year;
         
@@ -41,7 +49,16 @@ class StrategicController extends Controller
         
         // Visit Count
         $visitCount = $garden->visits->count();
+        $insights = $garden->insights->sortByDesc('generated_at')->take(5);
 
-        return view('strategic.garden', compact('region', 'garden', 'latestProduction', 'avgProductivity', 'totalProduction', 'visitCount'));
+        return view('strategic.garden', compact(
+            'region',
+            'garden',
+            'latestProduction',
+            'avgProductivity',
+            'totalProduction',
+            'visitCount',
+            'insights'
+        ));
     }
 }

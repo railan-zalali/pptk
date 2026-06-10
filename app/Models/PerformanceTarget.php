@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PerformanceTarget extends Model
 {
+    use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'kebun_id',
         'year',
@@ -16,7 +20,7 @@ class PerformanceTarget extends Model
     ];
 
     protected $casts = [
-        'year' => 'integer',
+        'year'             => 'integer',
         'target_protas_min' => 'decimal:2',
         'target_protas_max' => 'decimal:2',
     ];

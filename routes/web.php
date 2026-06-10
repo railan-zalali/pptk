@@ -7,7 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StrategicController;
 use App\Http\Controllers\StrategicDashboardController;
 use App\Http\Controllers\VisitController;
-use App\Http\Controllers\CommunityServiceController; // Added
+use App\Http\Controllers\CommunityServiceController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminRegionController;
 use App\Http\Controllers\Admin\AdminGardenController;
@@ -20,7 +20,7 @@ use App\Http\Controllers\Admin\AdminProductionRealizationController;
 use App\Http\Controllers\Admin\AdminStrategicActionController;
 use App\Http\Controllers\Admin\AdminProgramController;
 use App\Http\Controllers\Admin\AdminPerformanceTargetController;
-use App\Http\Controllers\Admin\AdminCommunityServiceController; // Added
+use App\Http\Controllers\Admin\AdminCommunityServiceController;
 use App\Http\Controllers\Admin\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,8 +40,11 @@ Route::prefix('strategic-action')->name('strategic.')->group(function () {
     Route::get('/{region}/{garden}', [StrategicController::class, 'garden'])->name('garden');
 });
 
-// Visits (Public)
-Route::resource('kunjungan-dinas', VisitController::class)->names('visits');
+// Visits (Public, read-only)
+Route::resource('kunjungan-dinas', VisitController::class)
+    ->only(['index', 'show'])
+    ->parameters(['kunjungan-dinas' => 'visit'])
+    ->names('visits');
 
 // Community Service (Public)
 Route::get('/pengabdian-masyarakat', [CommunityServiceController::class, 'index'])->name('community-services.index');
@@ -74,7 +77,7 @@ require __DIR__ . '/auth.php';
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
     // Pages Management
@@ -86,23 +89,22 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     });
 
     // Master Data
-    Route::resource('regions', AdminRegionController::class);
-    Route::resource('gardens', AdminGardenController::class);
-    Route::resource('afdelings', AdminAfdelingController::class);
-    Route::resource('blocks', AdminBlockController::class);
-    Route::resource('users', AdminUserController::class);
+    Route::resource('regions', AdminRegionController::class)->except(['show']);
+    Route::resource('gardens', AdminGardenController::class)->except(['show']);
+    Route::resource('afdelings', AdminAfdelingController::class)->except(['show']);
+    Route::resource('blocks', AdminBlockController::class)->except(['show']);
+    Route::resource('users', AdminUserController::class)->except(['show']);
 
     // Production & Performance
-    Route::resource('production', AdminProductionController::class);
-    Route::resource('production-realizations', AdminProductionRealizationController::class);
-    Route::resource('performance-targets', AdminPerformanceTargetController::class);
+    Route::resource('production-realizations', AdminProductionRealizationController::class)->except(['show']);
+    Route::resource('performance-targets', AdminPerformanceTargetController::class)->except(['show']);
 
     // Strategic & Programs
-    Route::resource('programs', AdminProgramController::class);
-    Route::resource('strategic-actions', AdminStrategicActionController::class);
-    Route::resource('insights', AdminInsightController::class);
+    Route::resource('programs', AdminProgramController::class)->except(['show']);
+    Route::resource('strategic-actions', AdminStrategicActionController::class)->except(['show']);
+    Route::resource('insights', AdminInsightController::class)->except(['show']);
 
     // Other
-    Route::resource('visits', AdminVisitController::class);
-    Route::resource('community-services', AdminCommunityServiceController::class); // Added
+    Route::resource('visits', AdminVisitController::class)->except(['show']);
+    Route::resource('community-services', AdminCommunityServiceController::class);
 });

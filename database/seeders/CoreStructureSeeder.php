@@ -36,6 +36,7 @@ class CoreStructureSeeder extends Seeder
             $region = Region::create([
                 'regional_name' => $rData['regional_name'],
                 'regional_code' => $rData['regional_code'],
+                'province'      => 'Jawa Barat',
             ]);
 
             foreach ($rData['gardens'] as $gData) {

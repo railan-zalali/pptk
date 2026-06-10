@@ -5,20 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AdminPageController extends Controller
 {
-    private function ensureAdmin()
-    {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403);
-        }
-    }
-
     public function editAbout()
     {
-        $this->ensureAdmin();
         $page = Page::firstOrCreate(['slug' => 'about'], [
             'title' => 'Tentang Kebun Model',
             'subtitle' => 'Memahami peran kebun model teh dalam pengembangan berkelanjutan',
@@ -28,7 +19,6 @@ class AdminPageController extends Controller
 
     public function updateAbout(Request $request)
     {
-        $this->ensureAdmin();
         $validated = $request->validate([
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:500',
@@ -56,7 +46,6 @@ class AdminPageController extends Controller
 
     public function editResearch()
     {
-        $this->ensureAdmin();
         $page = Page::firstOrCreate(['slug' => 'research'], [
             'title' => 'Penelitian & Pengembangan',
             'subtitle' => 'Inovasi dan riset untuk keberlanjutan perkebunan teh',
@@ -82,8 +71,6 @@ class AdminPageController extends Controller
 
     public function updateResearch(Request $request)
     {
-        $this->ensureAdmin();
-        
         $validated = $request->validate([
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:500',
@@ -114,9 +101,9 @@ class AdminPageController extends Controller
         $page = Page::firstOrCreate(['slug' => 'research']);
         
         // Handle basic fields
-        $page->title = $validated['title'];
-        $page->subtitle = $validated['subtitle'];
-        $page->content_html = $validated['content_html'];
+        $page->title = $request->input('title');
+        $page->subtitle = $request->input('subtitle');
+        $page->content_html = $request->input('content_html');
 
         // Handle Hero Photo
         if ($request->hasFile('hero_photo')) {

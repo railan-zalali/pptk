@@ -17,9 +17,11 @@ class AuthenticationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    public function test_admin_can_authenticate_and_redirects_to_admin_dashboard(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'role' => 'admin',
+        ]);
 
         $response = $this->post('/login', [
             'email' => $user->email,
@@ -27,7 +29,22 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect('/admin');
+    }
+
+    public function test_regular_user_can_authenticate_and_redirects_to_user_dashboard(): void
+    {
+        $user = User::factory()->create([
+            'role' => 'viewer',
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect('/dashboard');
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
@@ -51,4 +68,65 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
         $response->assertRedirect('/');
     }
+
+    public function test_admin_with_user_dashboard_intended_url_is_redirected_to_admin_dashboard(): void
+    {
+        $user = User::factory()->create(['role' => 'admin']);
+
+        // Set intended URL to user dashboard
+        session(['url.intended' => url('/dashboard')]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertRedirect(route('admin.dashboard'));
+    }
+
+    public function test_admin_with_admin_path_intended_url_is_redirected_to_intended_url(): void
+    {
+        $user = User::factory()->create(['role' => 'admin']);
+
+        // Set intended URL to an admin sub-page
+        session(['url.intended' => url('/admin/gardens')]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertRedirect(url('/admin/gardens'));
+    }
+
+    public function test_regular_user_with_admin_intended_url_is_redirected_to_user_dashboard(): void
+    {
+        $user = User::factory()->create(['role' => 'viewer']);
+
+        // Set intended URL to admin dashboard
+        session(['url.intended' => url('/admin')]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertRedirect(route('dashboard'));
+    }
+
+    public function test_regular_user_with_safe_intended_url_is_redirected_to_intended_url(): void
+    {
+        $user = User::factory()->create(['role' => 'viewer']);
+
+        // Set intended URL to profile edit page
+        session(['url.intended' => url('/profile')]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertRedirect(url('/profile'));
+    }
 }
+

@@ -40,7 +40,7 @@
                             @foreach ($gardens as $garden)
                                 <option value="{{ $garden->id }}"
                                     {{ $visit->garden_id == $garden->id ? 'selected' : '' }}>
-                                    {{ $garden->name }} • {{ $garden->region->name }}
+                                    {{ $garden->kebun_name }} - {{ $garden->region->regional_name }}
                                 </option>
                             @endforeach
                         </select>

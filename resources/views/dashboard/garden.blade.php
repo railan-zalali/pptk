@@ -30,9 +30,9 @@
                         Kg</span>
                     @php
                         $achievement = $targetYtdProrated > 0 ? ($productionYtd / $targetYtdProrated) * 100 : 0;
-                        $color = $achievement >= 90 ? 'green' : ($achievement >= 70 ? 'yellow' : 'red');
+                        $achievementColorClass = $achievement >= 90 ? 'text-green-600' : ($achievement >= 70 ? 'text-yellow-600' : 'text-red-600');
                     @endphp
-                    <span class="text-{{ $color }}-600 font-bold ml-2">({{ number_format($achievement, 1) }}%)</span>
+                    <span class="{{ $achievementColorClass }} font-bold ml-2">({{ number_format($achievement, 1) }}%)</span>
                 </div>
             </div>
 

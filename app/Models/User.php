@@ -43,7 +43,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
 
@@ -60,5 +60,13 @@ class User extends Authenticatable
     public function isViewer(): bool
     {
         return $this->role === 'viewer';
+    }
+
+    /**
+     * Apakah user memiliki hak manager atau lebih tinggi (admin).
+     */
+    public function isManagerOrAdmin(): bool
+    {
+        return in_array($this->role, ['admin', 'manager'], true);
     }
 }

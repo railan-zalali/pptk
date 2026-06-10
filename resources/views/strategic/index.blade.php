@@ -53,19 +53,22 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     @foreach ($regions as $region)
+                        @php
+                            $regionName = $region->regional_name;
+                        @endphp
                         <div class="pptk-card p-6 group hover:border-green-500 transition-all duration-300"
                             x-show="($el.dataset.name || '').toLowerCase().includes(q.toLowerCase())" x-transition
-                            data-name="{{ $region->name }}">
+                            data-name="{{ $regionName }}">
                             <div class="relative overflow-hidden rounded-lg mb-6">
                                 @php
                                     $cover = $region->photo_path ?? optional($region->photos->first())->path;
                                 @endphp
-                                <img src="{{ $cover ? asset('storage/' . $cover) : 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=' . urlencode('Tea plantation landscape in ' . $region->name . ', Indonesia, professional landscape photography, lush green tea garden') . '&image_size=landscape_4_3' }}"
-                                    alt="Kebun Teh {{ $region->name }}" loading="lazy" decoding="async" fetchpriority="low"
+                                <img src="{{ $cover ? asset('storage/' . $cover) : asset('img/tea-placeholder.svg') }}"
+                                    alt="Kebun Teh {{ $regionName }}" loading="lazy" decoding="async" fetchpriority="low"
                                     class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                                 <div class="absolute bottom-4 left-4 text-white">
-                                    <h3 class="text-xl font-bold">{{ $region->name }}</h3>
+                                    <h3 class="text-xl font-bold">{{ $regionName }}</h3>
                                     <p class="text-sm opacity-90">{{ $region->gardens->count() }} Kebun Model</p>
                                 </div>
                             </div>
@@ -85,10 +88,10 @@
                                 <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Ringkasan Kebun:</h4>
                                 <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                                     @foreach ($region->gardens->take(3) as $garden)
-                                        <li>• {{ $garden->name }} ({{ number_format($garden->area_hectares, 1) }} ha)</li>
+                                        <li>&bull; {{ $garden->kebun_name }} ({{ number_format($garden->luas_total_ha, 1) }} ha)</li>
                                     @endforeach
                                     @if ($region->gardens->count() > 3)
-                                        <li>• dan {{ $region->gardens->count() - 3 }} lainnya...</li>
+                                        <li>&bull; dan {{ $region->gardens->count() - 3 }} lainnya...</li>
                                     @endif
                                 </ul>
                             </div>

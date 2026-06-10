@@ -3,89 +3,72 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCommunityServiceRequest;
 use App\Models\CommunityService;
+use App\Models\Garden;
 use Illuminate\Http\Request;
 
 class AdminCommunityServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $services = CommunityService::orderBy('year', 'desc')->latest()->paginate(10);
-        return view('admin.community_services.index', compact('services'));
+        $query = CommunityService::with('garden');
+
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('garden_id')) {
+            $query->where('garden_id', $request->garden_id);
+        }
+
+        $services = $query->orderBy('year', 'desc')->paginate(15)->withQueryString();
+        $gardens  = Garden::orderBy('kebun_name')->get();
+
+        return view('admin.community_services.index', compact('services', 'gardens'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.community_services.create');
+        $gardens = Garden::orderBy('kebun_name')->get();
+
+        return view('admin.community_services.create', compact('gardens'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreCommunityServiceRequest $request)
     {
-        $validated = $request->validate([
-            'activity_name' => 'required|string|max:255',
-            'team_name' => 'required|string|max:255',
-            'total_budget' => 'required|numeric|min:0',
-            'remaining_budget' => 'required|numeric|min:0',
-            'year' => 'required|integer|min:2000|max:2099',
-            'description' => 'nullable|string',
-            'location' => 'nullable|string|max:255',
-        ]);
-
-        CommunityService::create($validated);
+        CommunityService::create($request->validated());
 
         return redirect()->route('admin.community-services.index')
             ->with('success', 'Kegiatan pengabdian masyarakat berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(CommunityService $communityService)
     {
+        $communityService->load('garden.region');
+
         return view('admin.community_services.show', compact('communityService'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(CommunityService $communityService)
     {
-        return view('admin.community_services.edit', compact('communityService'));
+        $gardens = Garden::orderBy('kebun_name')->get();
+
+        return view('admin.community_services.edit', compact('communityService', 'gardens'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, CommunityService $communityService)
+    public function update(StoreCommunityServiceRequest $request, CommunityService $communityService)
     {
-        $validated = $request->validate([
-            'activity_name' => 'required|string|max:255',
-            'team_name' => 'required|string|max:255',
-            'total_budget' => 'required|numeric|min:0',
-            'remaining_budget' => 'required|numeric|min:0',
-            'year' => 'required|integer|min:2000|max:2099',
-            'description' => 'nullable|string',
-            'location' => 'nullable|string|max:255',
-        ]);
-
-        $communityService->update($validated);
+        $communityService->update($request->validated());
 
         return redirect()->route('admin.community-services.index')
             ->with('success', 'Kegiatan pengabdian masyarakat berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(CommunityService $communityService)
     {
         $communityService->delete();

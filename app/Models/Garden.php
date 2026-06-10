@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\GardenPhoto;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Garden extends Model
 {
+    use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'kebun_name',
         'regional_id',
@@ -23,7 +26,7 @@ class Garden extends Model
 
     protected $casts = [
         'established_at' => 'date',
-        'luas_total_ha' => 'decimal:2',
+        'luas_total_ha'  => 'decimal:2',
     ];
 
     public function region(): BelongsTo
@@ -64,5 +67,10 @@ class Garden extends Model
     public function photos(): HasMany
     {
         return $this->hasMany(GardenPhoto::class);
+    }
+
+    public function communityServices(): HasMany
+    {
+        return $this->hasMany(CommunityService::class);
     }
 }

@@ -8,88 +8,71 @@ use Illuminate\Http\Request;
 
 class StrategicDashboardController extends Controller
 {
-    protected $statsService;
-
-    public function __construct(DashboardStatisticsService $statsService)
-    {
-        $this->statsService = $statsService;
-    }
+    public function __construct(
+        protected DashboardStatisticsService $statsService,
+    ) {}
 
     public function index(Request $request)
     {
-        $currentYear = now()->year;
+        $currentYear    = now()->year;
+        $selectedGardenId = $request->integer('garden_id') ?: null;
 
-        // 1. Header Scorecard Data
-        $productionYtd = $this->statsService->getProductionYtd($currentYear);
-        $targetYtdProrated = $this->statsService->getTargetYtdProrated($currentYear);
-        $avgProductivity = $this->statsService->getAvgProductivity($currentYear);
-        $pickingCapacity = $this->statsService->getPickingCapacity($currentYear);
-        $qualityScore = $this->statsService->getQualityScore($currentYear);
+        // 1. Header Scorecard (semua dengan caching)
+        $productionYtd      = $this->statsService->getProductionYtd($currentYear, $selectedGardenId);
+        $targetYtdProrated  = $this->statsService->getTargetYtdProrated($currentYear, $selectedGardenId);
+        $avgProductivity    = $this->statsService->getAvgProductivity($currentYear, $selectedGardenId);
+        $pickingCapacity    = $this->statsService->getPickingCapacity($currentYear, $selectedGardenId);
+        $qualityScore       = $this->statsService->getQualityScore($currentYear, $selectedGardenId);
 
-        // Strategic Progress (Using Real Data from Service)
-        $cultivatorData = $this->statsService->getStrategicProgress('cultivator', $currentYear);
-        $cultivatorTarget = $cultivatorData['target_area'];
+        // 2. Strategic Progress
+        $cultivatorData       = $this->statsService->getStrategicProgress('cultivator', $currentYear, $selectedGardenId);
+        $cultivatorTarget     = $cultivatorData['target_area'];
         $cultivatorRealization = $cultivatorData['realized_area'];
-        $cultivatorProgress = $cultivatorData['progress_percent'];
+        $cultivatorProgress   = $cultivatorData['progress_percent'];
 
-        $fertilizerData = $this->statsService->getStrategicProgress('fertilizer_leaf', $currentYear);
-        $fertilizerProgress = $fertilizerData['progress_percent'];
+        $fertilizerLeafData   = $this->statsService->getStrategicProgress('fertilizer_leaf', $currentYear, $selectedGardenId);
+        $fertilizerProgress   = $fertilizerLeafData['progress_percent'];
 
-        $weedData = $this->statsService->getStrategicProgress('weed_control', $currentYear);
-        $weedControlProgress = $weedData['progress_percent'];
+        $weedData             = $this->statsService->getStrategicProgress('weed_control', $currentYear, $selectedGardenId);
+        $weedControlProgress  = $weedData['progress_percent'];
 
-        // Fertilizer Root specific logic (Dosis & Protas)
-        $fertilizerRootActions = StrategicAction::where('year', $currentYear)
-            ->where('action_type', 'fertilizer_root')
-            ->get();
-            
-        $fertilizerProtas = $fertilizerRootActions->avg('n_protas_percent') ?? 0;
-        $protasProgress = $fertilizerProtas;
-        $fertilizerRealization = $fertilizerRootActions->avg('realized_dosis_n_kg_ha') ?? 0; // Changed to realized_dosis
+        // 3. Data Pemupukan Akar (terpusat di service)
+        $fertRootData         = $this->statsService->getFertilizerRootData($currentYear, $selectedGardenId);
+        $fertilizerProtas     = $fertRootData['avg_n_protas_percent'];
+        $fertilizerRealization = $fertRootData['avg_realized_dosis'];
+        $protasProgress       = $fertilizerProtas;
 
-        // 2. Charts Data
-        $monthlyProduction = $this->statsService->getMonthlyProduction($currentYear);
-        $monthlyProductivity = $this->statsService->getMonthlyProductivity($currentYear);
+        // 4. Charts
+        $monthlyProduction  = $this->statsService->getMonthlyProduction($currentYear, $selectedGardenId);
+        $monthlyProductivity = $this->statsService->getMonthlyProductivity($currentYear, $selectedGardenId);
 
-        // 3. Table Detail Kebun
-        $gardenDetails = $this->statsService->getGardenDetails($currentYear);
-
-        // Best and Underperforming
-        $bestPerformer = $gardenDetails->first();
-        $underPerformer = $gardenDetails->last();
-
-        // Regional Comparison
+        // 5. Tabel Detail Kebun (selalu semua kebun untuk perbandingan)
+        $gardenDetails      = $this->statsService->getGardenDetails($currentYear);
+        $bestPerformer      = $gardenDetails->first();
+        $underPerformer     = $gardenDetails->last();
         $regionalComparison = $this->statsService->getRegionalComparison($gardenDetails);
+        $regionalChartData  = $regionalComparison;
 
-        // 3. Additional Charts Data
-        $regionalChartData = $regionalComparison; // Reuse the collection
-
-        // Machine Age vs Quantity
-        $machineActions = StrategicAction::where('year', $currentYear)
+        // 6. Chart Mesin Petik
+        $machineChartData = StrategicAction::where('year', $currentYear)
             ->where('action_type', 'machine')
             ->with('garden')
-            ->get();
+            ->get()
+            ->map(fn ($action) => [
+                'garden'  => $action->garden?->kebun_name ?? '-',
+                'avg_age' => (float) $action->avg_machine_age,
+                'total'   => (int) $action->total_machine,
+            ]);
 
-        $machineChartData = $machineActions->map(function ($action) {
-            return [
-                'garden' => $action->garden->kebun_name,
-                'avg_age' => $action->avg_machine_age,
-                'total' => $action->total_machine
-            ];
-        });
-
-        // Fertilizer Dosage Comparison
-        $fertilizerActions = StrategicAction::where('year', $currentYear)
+        // 7. Chart Dosis Pupuk Akar
+        $fertilizerChartData = StrategicAction::where('year', $currentYear)
             ->where('action_type', 'fertilizer_root')
             ->with('garden')
-            ->get();
-
-        $fertilizerChartData = $fertilizerActions->map(function ($action) {
-            return [
-                'garden' => $action->garden->kebun_name,
-                'dosage' => $action->realized_dosis_n_kg_ha ?? $action->dosis_n_kg_ha // Use realized if available
-            ];
-        });
+            ->get()
+            ->map(fn ($action) => [
+                'garden' => $action->garden?->kebun_name ?? '-',
+                'dosage' => (float) ($action->realized_dosis_n_kg_ha ?? $action->dosis_n_kg_ha ?? 0),
+            ]);
 
         return view('dashboard.garden', compact(
             'productionYtd',

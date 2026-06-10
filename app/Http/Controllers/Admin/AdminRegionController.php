@@ -3,34 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRegionRequest;
+use App\Http\Requests\UpdateRegionRequest;
 use App\Models\Region;
 use App\Models\RegionPhoto;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AdminRegionController extends Controller
 {
-    private function ensureAdmin()
-    {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403);
-        }
-    }
-
     public function index(Request $request)
     {
-        
-        $query = Region::orderBy('regional_name');
+        $query = Region::withCount('gardens');
 
         if ($request->filled('search')) {
-             $query->where(function($q) use ($request) {
+            $query->where(function ($q) use ($request) {
                 $q->where('regional_name', 'like', '%' . $request->search . '%')
                   ->orWhere('province', 'like', '%' . $request->search . '%');
             });
         }
 
-        $regions = $query->paginate(12);
+        $regions = $query->orderBy('regional_name')->paginate(12)->withQueryString();
+
         return view('admin.regions.index', compact('regions'));
     }
 
@@ -39,36 +34,20 @@ class AdminRegionController extends Controller
         return view('admin.regions.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreRegionRequest $request)
     {
-
-        $validated = $request->validate([
-            'regional_name' => 'required|string|max:255',
-            'province' => 'required|string|max:255',
-            'coordinates' => 'nullable|string',
-            'photo' => 'nullable|image|max:4096',
-            'photos.*' => 'nullable|image|max:4096',
-        ]);
+        $validated = $request->validated();
 
         $region = new Region($validated);
-        $region->regional_code = Str::upper(Str::slug($request->regional_name));
+        $region->regional_code = $this->generateRegionalCode($validated['regional_name']);
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('region-photos', 'public');
-            $region->photo_path = $path;
+            $region->photo_path = $request->file('photo')->store('region-photos', 'public');
         }
 
         $region->save();
 
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $file) {
-                $path = $file->store('region-photos', 'public');
-                RegionPhoto::create([
-                    'region_id' => $region->id,
-                    'path' => $path,
-                ]);
-            }
-        }
+        $this->storeAdditionalPhotos($request, $region);
 
         return redirect()->route('admin.regions.index')->with('success', 'Wilayah berhasil dibuat.');
     }
@@ -78,45 +57,56 @@ class AdminRegionController extends Controller
         return view('admin.regions.edit', compact('region'));
     }
 
-    public function update(Request $request, Region $region)
+    public function update(UpdateRegionRequest $request, Region $region)
     {
-
-        $validated = $request->validate([
-            'regional_name' => 'required|string|max:255',
-            'province' => 'required|string|max:255',
-            'coordinates' => 'nullable|string',
-            'photo' => 'nullable|image|max:4096',
-            'photos.*' => 'nullable|image|max:4096',
-        ]);
+        $validated = $request->validated();
 
         $region->fill($validated);
+
         if ($region->isDirty('regional_name')) {
-             $region->regional_code = Str::upper(Str::slug($request->regional_name));
+            $region->regional_code = $this->generateRegionalCode($validated['regional_name']);
         }
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('region-photos', 'public');
-            $region->photo_path = $path;
+            // Hapus foto lama
+            if ($region->photo_path) {
+                Storage::disk('public')->delete($region->photo_path);
+            }
+            $region->photo_path = $request->file('photo')->store('region-photos', 'public');
         }
 
         $region->save();
 
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $file) {
-                $path = $file->store('region-photos', 'public');
-                RegionPhoto::create([
-                    'region_id' => $region->id,
-                    'path' => $path,
-                ]);
-            }
-        }
+        $this->storeAdditionalPhotos($request, $region);
 
         return redirect()->route('admin.regions.index')->with('success', 'Wilayah berhasil diperbarui.');
     }
 
     public function destroy(Region $region)
     {
-        $region->delete();
+        if ($region->photo_path) {
+            Storage::disk('public')->delete($region->photo_path);
+        }
+
+        $region->delete(); // SoftDelete — cascade via RegionObserver
+
         return redirect()->route('admin.regions.index')->with('success', 'Wilayah berhasil dihapus.');
+    }
+
+    private function generateRegionalCode(string $name): string
+    {
+        return Str::upper(Str::slug($name, '_'));
+    }
+
+    private function storeAdditionalPhotos(Request $request, Region $region): void
+    {
+        if (! $request->hasFile('photos')) {
+            return;
+        }
+
+        foreach ($request->file('photos') as $file) {
+            $path = $file->store('region-photos', 'public');
+            RegionPhoto::create(['region_id' => $region->id, 'path' => $path]);
+        }
     }
 }

@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAfdelingRequest;
+use App\Http\Requests\UpdateAfdelingRequest;
 use App\Models\Afdeling;
 use App\Models\Garden;
-use Illuminate\Http\Request;
 
 class AdminAfdelingController extends Controller
 {
-    public function index(Request $request)
+    public function index(\Illuminate\Http\Request $request)
     {
-        $query = Afdeling::with('garden');
+        $query = Afdeling::with('garden.region');
 
         if ($request->filled('kebun_id')) {
             $query->where('kebun_id', $request->kebun_id);
@@ -21,57 +22,44 @@ class AdminAfdelingController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $afdelings = $query->paginate(10);
-        $gardens = Garden::orderBy('kebun_name')->get();
+        $afdelings = $query->orderBy('name')->paginate(15)->withQueryString();
+        $gardens   = Garden::orderBy('kebun_name')->get();
 
         return view('admin.afdelings.index', compact('afdelings', 'gardens'));
     }
 
     public function create()
     {
-        $gardens = Garden::all();
+        $gardens = Garden::orderBy('kebun_name')->get();
+
         return view('admin.afdelings.create', compact('gardens'));
     }
 
-    public function store(Request $request)
+    public function store(StoreAfdelingRequest $request)
     {
-        $request->validate([
-            'kebun_id' => 'required|exists:gardens,id',
-            'name' => 'required|string|max:255',
-            'total_area_ha' => 'required|numeric|min:0',
-            'tm_area_ha' => 'required|numeric|min:0|lte:total_area_ha',
-            'manager_name' => 'nullable|string|max:255',
-        ]);
+        Afdeling::create($request->validated());
 
-        Afdeling::create($request->all());
-
-        return redirect()->route('admin.afdelings.index')->with('success', 'Afdeling created successfully.');
+        return redirect()->route('admin.afdelings.index')->with('success', 'Afdeling berhasil dibuat.');
     }
 
     public function edit(Afdeling $afdeling)
     {
-        $gardens = Garden::all();
+        $gardens = Garden::orderBy('kebun_name')->get();
+
         return view('admin.afdelings.edit', compact('afdeling', 'gardens'));
     }
 
-    public function update(Request $request, Afdeling $afdeling)
+    public function update(UpdateAfdelingRequest $request, Afdeling $afdeling)
     {
-        $request->validate([
-            'kebun_id' => 'required|exists:gardens,id',
-            'name' => 'required|string|max:255',
-            'total_area_ha' => 'required|numeric|min:0',
-            'tm_area_ha' => 'required|numeric|min:0|lte:total_area_ha',
-            'manager_name' => 'nullable|string|max:255',
-        ]);
+        $afdeling->update($request->validated());
 
-        $afdeling->update($request->all());
-
-        return redirect()->route('admin.afdelings.index')->with('success', 'Afdeling updated successfully.');
+        return redirect()->route('admin.afdelings.index')->with('success', 'Afdeling berhasil diperbarui.');
     }
 
     public function destroy(Afdeling $afdeling)
     {
         $afdeling->delete();
-        return redirect()->route('admin.afdelings.index')->with('success', 'Afdeling deleted successfully.');
+
+        return redirect()->route('admin.afdelings.index')->with('success', 'Afdeling berhasil dihapus.');
     }
 }

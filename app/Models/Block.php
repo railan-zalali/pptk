@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Block extends Model
 {
+    use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'afdeling_id',
         'name',
@@ -22,15 +25,12 @@ class Block extends Model
 
     protected $casts = [
         'planting_year' => 'integer',
+        'area_ha'       => 'decimal:2',
+        'population'    => 'integer',
     ];
 
     public function afdeling(): BelongsTo
     {
         return $this->belongsTo(Afdeling::class);
-    }
-
-    public function strategicActions(): HasMany
-    {
-        return $this->hasMany(StrategicAction::class);
     }
 }

@@ -4,9 +4,9 @@
     <!-- Page Header -->
     <section class="py-16 bg-gradient-to-r from-green-600 to-green-700 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ $page->title ?? 'Tentang Kebun Model' }}</h1>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ $page?->title ?? 'Tentang Kebun Model' }}</h1>
             <p class="text-xl opacity-90 max-w-3xl mx-auto">
-                {{ $page->subtitle ?? 'Memahami peran penting kebun model teh dalam pengembangan pertanian berkelanjutan dan penelitian agrikultur' }}
+                {{ $page?->subtitle ?? 'Memahami peran penting kebun model teh dalam pengembangan pertanian berkelanjutan dan penelitian agrikultur' }}
             </p>
         </div>
     </section>
