@@ -7,17 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class IsManajemen
 {
     /**
      * Handle an incoming request.
-     * Only allows users with role 'admin_ppkt'.
+     * Only allows users with role 'manajemen'.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin_ppkt') {
+        if (!Auth::check() || Auth::user()->role !== 'manajemen') {
             return redirect()->route('dashboard')
                 ->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }

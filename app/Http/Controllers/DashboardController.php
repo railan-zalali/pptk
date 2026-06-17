@@ -8,6 +8,7 @@ use App\Services\InsightService;
 use App\Services\ResearchAnalysisService;
 use App\Services\DashboardStatisticsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -16,7 +17,7 @@ class DashboardController extends Controller
     protected $statsService;
 
     public function __construct(
-        InsightService $insightService, 
+        InsightService $insightService,
         ResearchAnalysisService $researchAnalysisService,
         DashboardStatisticsService $statsService
     )
@@ -26,8 +27,26 @@ class DashboardController extends Controller
         $this->statsService = $statsService;
     }
 
+    /**
+     * Redirect user ke dashboard sesuai role.
+     */
     public function user()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $role = Auth::user()->role;
+
+        if ($role === 'admin_ppkt') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if ($role === 'manajemen') {
+            return redirect()->route('manajemen.dashboard');
+        }
+
+        // Fallback jika role tidak dikenal
         return view('dashboard');
     }
 
@@ -44,7 +63,7 @@ class DashboardController extends Controller
         $avgProductivity = $this->statsService->getAvgProductivity($currentYear, $selectedGardenId);
         $pickingCapacity = $this->statsService->getPickingCapacity($currentYear, $selectedGardenId);
         $qualityScore = $this->statsService->getQualityScore($currentYear, $selectedGardenId);
-        
+
         // Strategic Progress
         $cultivatorData = $this->statsService->getStrategicProgress('cultivator', $currentYear, $selectedGardenId);
         $cultivatorProgress = $cultivatorData['progress_percent'];
@@ -53,7 +72,7 @@ class DashboardController extends Controller
 
         $weedData = $this->statsService->getStrategicProgress('weed_control', $currentYear, $selectedGardenId);
         $weedControlProgress = $weedData['progress_percent'];
-        
+
         // Fertilizer logic
         $fertilizerActions = StrategicAction::where('year', $currentYear)
             ->where('action_type', 'fertilizer_root');
@@ -61,33 +80,28 @@ class DashboardController extends Controller
             $fertilizerActions->where('kebun_id', $selectedGardenId);
         }
         $fertilizerActions = $fertilizerActions->get();
-        
+
         $fertilizerProtas = $fertilizerActions->avg('n_protas_percent') ?? 0;
-        $fertilizerRealization = $fertilizerActions->avg('realized_dosis_n_kg_ha') ?? 0; // Use realized
-        $fertilizerProgress = $fertilizerProtas; 
+        $fertilizerRealization = $fertilizerActions->avg('realized_dosis_n_kg_ha') ?? 0;
+        $fertilizerProgress = $fertilizerProtas;
         $protasProgress = $fertilizerProtas;
 
         // Charts
         $monthlyProduction = $this->statsService->getMonthlyProduction($currentYear, $selectedGardenId);
         $monthlyProductivity = $this->statsService->getMonthlyProductivity($currentYear, $selectedGardenId);
-        
+
         // Performance Analysis (Table Details)
-        // If specific garden selected, we still show table? Usually yes, or filtered.
-        // Assuming original behavior showed all gardens or just the selected one.
-        // The original code calculated garden details for ALL gardens regardless of selection for the table/charts.
         $gardenDetails = $this->statsService->getGardenDetails($currentYear);
 
         // Regional Comparison
         $regionalComparison = $this->statsService->getRegionalComparison($gardenDetails);
-        $regionalChartData = $regionalComparison; // Use same data for chart
+        $regionalChartData = $regionalComparison;
 
         // Best/Under Performer
         $bestPerformer = $gardenDetails->first();
         $underPerformer = $gardenDetails->last();
 
-        // Extra Chart Data (Empty placeholders as in original, or we can implement real logic if needed)
-        // For now keep as empty unless we want to replicate StrategicDashboard logic
-        $machineChartData = collect([]); 
+        $machineChartData = collect([]);
         $fertilizerChartData = collect([]);
 
         return view('dashboard.garden', compact(
@@ -103,27 +117,9 @@ class DashboardController extends Controller
         ));
     }
 
-    private function calculateStrategicProgress($type, $garden = null)
-    {
-        // Deprecated, replaced by Service
-        return 0;
-    }
-
-    private function calculateProtasProgress($garden = null)
-    {
-         // Deprecated, replaced by Service
-        return 0;
-    }
-
     public function research(Request $request)
     {
         $data = $this->researchAnalysisService->getResearchPageData($request);
         return view('dashboard.research', $data);
-    }
-
-    private function getRegionalChartData()
-    {
-         // Deprecated, replaced by Service
-        return [];
     }
 }

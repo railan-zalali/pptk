@@ -3,38 +3,36 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Afdeling;
+use App\Models\Block;
 use App\Models\Garden;
-use App\Models\Region;
+use App\Models\PerformanceTarget;
 use App\Models\ProductionRealization;
-use App\Models\Visit;
-use App\Models\Insight;
+use App\Models\Region;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    private function ensureAdmin()
-    {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403);
-        }
-    }
-
     public function index()
     {
-        $this->ensureAdmin();
-
         $currentMonth = now()->month;
-        $currentYear = now()->year;
+        $currentYear  = now()->year;
 
-        // Calculate aggregates from ProductionRealization (New System)
+        // Statistik Master Kebun
+        $totalRegions  = Region::count();
+        $totalGardens  = Garden::count();
+        $totalAfdelings = Afdeling::count();
+        $totalBlocks   = Block::count();
+
+        // Data Produksi & Realisasi
         $totalWetProduction = ProductionRealization::sum('wet_production_kg') ?? 0;
+        $totalArea          = ProductionRealization::sum('active_picking_area_ha') ?? 0;
+        $avgProductivity    = $totalArea > 0 ? $totalWetProduction / $totalArea : 0;
 
-        // Calculate average productivity (Protas Basah)
-        $totalArea = ProductionRealization::sum('active_picking_area_ha') ?? 0;
-        $avgProductivity = $totalArea > 0 ? $totalWetProduction / $totalArea : 0;
+        // Target Kinerja - total tahun ini
+        $totalTargets = PerformanceTarget::where('year', $currentYear)->count();
 
         // Data Completeness Logic
-        $totalGardens = Garden::count();
         $missingTargetGardens = Garden::whereDoesntHave('performanceTargets', function ($q) use ($currentYear) {
             $q->where('year', $currentYear);
         })->get();
@@ -43,31 +41,37 @@ class AdminController extends Controller
             $q->where('month', $currentMonth)->where('year', $currentYear);
         })->get();
 
-        $gardensWithTarget = $totalGardens - $missingTargetGardens->count();
+        $gardensWithTarget      = $totalGardens - $missingTargetGardens->count();
         $gardensWithRealization = $totalGardens - $missingRealizationGardens->count();
 
-        $targetScore = $totalGardens > 0 ? ($gardensWithTarget / $totalGardens) * 50 : 0;
-        $realizationScore = $totalGardens > 0 ? ($gardensWithRealization / $totalGardens) * 50 : 0;
+        $targetScore       = $totalGardens > 0 ? ($gardensWithTarget / $totalGardens) * 50 : 0;
+        $realizationScore  = $totalGardens > 0 ? ($gardensWithRealization / $totalGardens) * 50 : 0;
         $completenessScore = $targetScore + $realizationScore;
 
         $stats = [
-            'gardens' => $totalGardens,
-            'regions' => Region::count(),
-            'visits' => Visit::count(),
-            'insights' => Insight::count(),
+            'regions'          => $totalRegions,
+            'gardens'          => $totalGardens,
+            'afdelings'        => $totalAfdelings,
+            'blocks'           => $totalBlocks,
             'production_total' => $totalWetProduction,
             'productivity_avg' => $avgProductivity,
+            'targets'          => $totalTargets,
         ];
 
-        $recentVisits = Visit::with(['garden.region'])->latest('visit_date')->take(5)->get();
+        // Recent realizations
+        $recentRealizations = ProductionRealization::with('garden')
+            ->orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
+            ->take(5)
+            ->get();
 
-        // Top Gardens based on Realization (Average Productivity)
+        // Top Gardens based on productivity
         $topGardens = Garden::with(['productionRealizations' => function ($q) use ($currentYear) {
             $q->where('year', $currentYear);
         }, 'region'])
             ->get()
             ->map(function ($garden) {
-                $totalWet = $garden->productionRealizations->sum('wet_production_kg');
+                $totalWet  = $garden->productionRealizations->sum('wet_production_kg');
                 $totalArea = $garden->productionRealizations->sum('active_picking_area_ha');
                 $productivity = $totalArea > 0 ? $totalWet / $totalArea : 0;
                 $garden->calculated_productivity = $productivity;
@@ -81,7 +85,7 @@ class AdminController extends Controller
             'completenessScore',
             'missingTargetGardens',
             'missingRealizationGardens',
-            'recentVisits',
+            'recentRealizations',
             'topGardens'
         ));
     }

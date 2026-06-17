@@ -5,7 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Admin • {{ config('app.name', 'PPTK Gambung') }}</title>
+    <title>
+        @if(Auth::user()->role === 'admin_ppkt')
+            Admin PPKT •
+        @else
+            Manajemen •
+        @endif
+        {{ config('app.name', 'PPTK Gambung') }}
+    </title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -19,7 +26,11 @@
             class="w-full md:w-64 bg-white dark:bg-gray-800 shadow-lg hidden md:block flex-shrink-0 transition-all duration-300">
             <div class="p-4 border-b flex justify-between items-center">
                 <div>
-                    <h1 class="text-lg font-bold text-gray-800 dark:text-gray-100">Admin Panel</h1>
+                    @if(Auth::user()->role === 'admin_ppkt')
+                        <h1 class="text-lg font-bold text-gray-800 dark:text-gray-100">Admin PPKT</h1>
+                    @else
+                        <h1 class="text-lg font-bold text-gray-800 dark:text-gray-100">Manajemen</h1>
+                    @endif
                     <p class="text-xs text-gray-500 dark:text-gray-300">PPTK Gambung</p>
                 </div>
                 <button id="closeSidebar"
@@ -28,78 +39,108 @@
                 </button>
             </div>
             <nav class="p-4 space-y-1 overflow-y-auto h-[calc(100vh-5rem)]">
-                <a href="{{ route('admin.dashboard') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">dashboard</span> Dashboard
-                </a>
 
-                <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Master Data</div>
+                {{-- ================================================ --}}
+                {{-- MENU: Admin PPKT --}}
+                {{-- ================================================ --}}
+                @if(Auth::user()->role === 'admin_ppkt')
 
-                <a href="{{ route('admin.regions.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.regions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">map</span> Wilayah
-                </a>
-                <a href="{{ route('admin.gardens.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.gardens.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">park</span> Kebun
-                </a>
-                <a href="{{ route('admin.afdelings.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.afdelings.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">grid_view</span> Afdeling
-                </a>
-                <a href="{{ route('admin.blocks.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.blocks.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">crop_square</span> Blok
-                </a>
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">dashboard</span> Dashboard Admin
+                    </a>
 
-                <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Produksi</div>
+                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Master Kebun</div>
 
-                <a href="{{ route('admin.production-realizations.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.production-realizations.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">precision_manufacturing</span> Produksi Realisasi
-                </a>
-                <a href="{{ route('admin.performance-targets.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.performance-targets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">track_changes</span> Target Kinerja
-                </a>
+                    <a href="{{ route('admin.regions.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.regions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">map</span> Wilayah Kebun
+                    </a>
+                    <a href="{{ route('admin.gardens.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.gardens.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">park</span> Kebun
+                    </a>
+                    <a href="{{ route('admin.afdelings.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.afdelings.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">grid_view</span> Afdeling / Updeling
+                    </a>
+                    <a href="{{ route('admin.blocks.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.blocks.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">crop_square</span> Blok
+                    </a>
 
-                <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Strategis</div>
+                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Produksi</div>
 
-                <a href="{{ route('admin.programs.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.programs.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">list_alt</span> Program
-                </a>
-                <a href="{{ route('admin.strategic-actions.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.strategic-actions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">agriculture</span> Strategic Action
-                </a>
-                <a href="{{ route('admin.insights.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.insights.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">insights</span> Insight
-                </a>
+                    <a href="{{ route('admin.production-realizations.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.production-realizations.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">precision_manufacturing</span> Realisasi Produksi
+                    </a>
+                    <a href="{{ route('admin.performance-targets.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.performance-targets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">track_changes</span> Target Kinerja
+                    </a>
 
-                <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Lainnya</div>
+                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pengaturan</div>
 
-                <a href="{{ route('admin.visits.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.visits.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">event</span> Kunjungan
-                </a>
-                <a href="{{ route('admin.community-services.index') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.community-services.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">volunteer_activism</span> Pengabdian
-                </a>
-                <a href="{{ route('admin.pages.about.edit') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.pages.about.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">info</span> Halaman Tentang
-                </a>
-                <a href="{{ route('admin.pages.research.edit') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.pages.research.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                    <span class="material-icons mr-2">science</span> Halaman Penelitian
-                </a>
-                <a href="{{ route('dashboard.garden') }}"
-                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">
-                    <span class="material-icons mr-2">analytics</span> Dashboard Publik
-                </a>
+                    <a href="{{ route('admin.users.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">manage_accounts</span> Manajemen Pengguna
+                    </a>
+
+                {{-- ================================================ --}}
+                {{-- MENU: Manajemen --}}
+                {{-- ================================================ --}}
+                @elseif(Auth::user()->role === 'manajemen')
+
+                    <a href="{{ route('manajemen.dashboard') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.dashboard') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">dashboard</span> Dashboard
+                    </a>
+
+                    <a href="{{ route('dashboard.garden') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">
+                        <span class="material-icons mr-2">analytics</span> Dashboard Publik
+                    </a>
+
+                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Monitoring</div>
+
+                    <a href="{{ route('manajemen.programs.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.programs.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">list_alt</span> Program
+                    </a>
+                    <a href="{{ route('manajemen.strategic-actions.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.strategic-actions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">agriculture</span> Strategic Action
+                    </a>
+                    <a href="{{ route('manajemen.insights.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.insights.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">insights</span> Insight
+                    </a>
+                    <a href="{{ route('manajemen.visits.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.visits.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">event</span> Kunjungan
+                    </a>
+
+                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Penelitian</div>
+
+                    <a href="{{ route('manajemen.penelitian.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.penelitian.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">science</span> Data Penelitian
+                    </a>
+                    <a href="{{ route('manajemen.community-services.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.community-services.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">volunteer_activism</span> Data Pengabdian Masyarakat
+                    </a>
+
+                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Informasi</div>
+
+                    <a href="{{ route('about') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">
+                        <span class="material-icons mr-2">info</span> Tentang
+                    </a>
+
+                @endif
+
             </nav>
         </aside>
 
@@ -112,7 +153,7 @@
                             class="mr-4 md:hidden text-gray-500 hover:text-gray-700 dark:text-gray-300">
                             <span class="material-icons">menu</span>
                         </button>
-                        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">@yield('title', 'Admin')</h2>
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">@yield('title', 'Panel')</h2>
                     </div>
                     <div class="flex items-center space-x-3">
                         <button id="adminThemeToggle"
@@ -120,8 +161,12 @@
                             title="Toggle tema">
                             <span class="material-icons" id="adminThemeIcon">dark_mode</span>
                         </button>
-                        <span
-                            class="text-sm text-gray-600 dark:text-gray-300 hidden sm:inline-block">{{ Auth::user()->name }}</span>
+                        <div class="hidden sm:flex sm:flex-col sm:items-end">
+                            <span class="text-sm text-gray-600 dark:text-gray-300">{{ Auth::user()->name }}</span>
+                            <span class="text-xs text-gray-400 dark:text-gray-500">
+                                {{ Auth::user()->role === 'admin_ppkt' ? 'Admin PPKT' : 'Manajemen' }}
+                            </span>
+                        </div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button
@@ -135,6 +180,13 @@
                     <div
                         class="mb-4 bg-green-50 border border-green-200 text-green-800 dark:bg-green-900 dark:border-green-700 dark:text-green-100 px-4 py-3 rounded">
                         {{ session('success') }}
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div
+                        class="mb-4 bg-red-50 border border-red-200 text-red-800 dark:bg-red-900 dark:border-red-700 dark:text-red-100 px-4 py-3 rounded flex items-center">
+                        <span class="material-icons mr-2 text-red-500">lock</span>
+                        {{ session('error') }}
                     </div>
                 @endif
                 @yield('content')

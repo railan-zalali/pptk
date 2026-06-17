@@ -69,11 +69,9 @@
                             class="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-colors appearance-none"
                             required>
                             <option value="">Pilih Role</option>
-                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin
+                            <option value="admin_ppkt" {{ old('role', $user->role) == 'admin_ppkt' ? 'selected' : '' }}>Admin PPKT (Operasional)
                             </option>
-                            <option value="manager" {{ old('role', $user->role) == 'manager' ? 'selected' : '' }}>Manager
-                            </option>
-                            <option value="viewer" {{ old('role', $user->role) == 'viewer' ? 'selected' : '' }}>Viewer
+                            <option value="manajemen" {{ old('role', $user->role) == 'manajemen' ? 'selected' : '' }}>Manajemen (View Only)
                             </option>
                         </select>
                     </div>

@@ -47,18 +47,35 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Check if user is Admin PPKT (full CRUD access to operational data).
+     */
+    public function isAdminPpkt(): bool
+    {
+        return $this->role === 'admin_ppkt';
+    }
+
+    /**
+     * Check if user is Manajemen (view-only access to monitoring data).
+     */
+    public function isManajemen(): bool
+    {
+        return $this->role === 'manajemen';
+    }
+
+    /**
+     * Alias for isAdminPpkt() - backward compat.
+     */
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->isAdminPpkt();
     }
 
+    /**
+     * Alias for isManajemen() - backward compat.
+     */
     public function isManager(): bool
     {
-        return $this->role === 'manager';
-    }
-
-    public function isViewer(): bool
-    {
-        return $this->role === 'viewer';
+        return $this->isManajemen();
     }
 }

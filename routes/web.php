@@ -7,7 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StrategicController;
 use App\Http\Controllers\StrategicDashboardController;
 use App\Http\Controllers\VisitController;
-use App\Http\Controllers\CommunityServiceController; // Added
+use App\Http\Controllers\CommunityServiceController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminRegionController;
 use App\Http\Controllers\Admin\AdminGardenController;
@@ -20,8 +20,15 @@ use App\Http\Controllers\Admin\AdminProductionRealizationController;
 use App\Http\Controllers\Admin\AdminStrategicActionController;
 use App\Http\Controllers\Admin\AdminProgramController;
 use App\Http\Controllers\Admin\AdminPerformanceTargetController;
-use App\Http\Controllers\Admin\AdminCommunityServiceController; // Added
+use App\Http\Controllers\Admin\AdminCommunityServiceController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Manajemen\ManajemenController;
+use App\Http\Controllers\Manajemen\ManajemenProgramController;
+use App\Http\Controllers\Manajemen\ManajemenStrategicActionController;
+use App\Http\Controllers\Manajemen\ManajemenInsightController;
+use App\Http\Controllers\Manajemen\ManajemenVisitController;
+use App\Http\Controllers\Manajemen\ManajemenCommunityServiceController;
+use App\Http\Controllers\Manajemen\ManajemenResearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,11 +59,12 @@ Route::get('/dashboard/kebun-model', [StrategicDashboardController::class, 'inde
 
 /*
 |--------------------------------------------------------------------------
-| Authenticated User Routes
+| Authenticated User Routes (Role-based redirect)
 |--------------------------------------------------------------------------
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard: redirect sesuai role
     Route::get('/dashboard', [DashboardController::class, 'user'])->name('dashboard');
     Route::get('/dashboard/penelitian', [DashboardController::class, 'research'])->name('dashboard.research');
 
@@ -70,13 +78,66 @@ require __DIR__ . '/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| Admin Routes
+| Admin PPKT Routes (Full CRUD - Operational & Master Data)
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin_ppkt'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
+    // Master Kebun
+    Route::resource('regions', AdminRegionController::class);
+    Route::resource('gardens', AdminGardenController::class);
+    Route::resource('afdelings', AdminAfdelingController::class);
+    Route::resource('blocks', AdminBlockController::class);
+
+    // Produksi & Realisasi & Target
+    Route::resource('production-realizations', AdminProductionRealizationController::class);
+    Route::resource('performance-targets', AdminPerformanceTargetController::class);
+
+    // Manajemen Pengguna
+    Route::resource('users', AdminUserController::class);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Manajemen Routes (View Only - Monitoring & Analysis)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'manajemen'])->prefix('manajemen')->name('manajemen.')->group(function () {
+    Route::get('/', [ManajemenController::class, 'index'])->name('dashboard');
+
+    // Program
+    Route::get('/programs', [ManajemenProgramController::class, 'index'])->name('programs.index');
+    Route::get('/programs/{program}', [ManajemenProgramController::class, 'show'])->name('programs.show');
+
+    // Strategic Action
+    Route::get('/strategic-actions', [ManajemenStrategicActionController::class, 'index'])->name('strategic-actions.index');
+    Route::get('/strategic-actions/{strategicAction}', [ManajemenStrategicActionController::class, 'show'])->name('strategic-actions.show');
+
+    // Insight
+    Route::get('/insights', [ManajemenInsightController::class, 'index'])->name('insights.index');
+    Route::get('/insights/{insight}', [ManajemenInsightController::class, 'show'])->name('insights.show');
+
+    // Kunjungan
+    Route::get('/visits', [ManajemenVisitController::class, 'index'])->name('visits.index');
+    Route::get('/visits/{visit}', [ManajemenVisitController::class, 'show'])->name('visits.show');
+
+    // Penelitian (Data Penelitian & Pengabdian Masyarakat)
+    Route::get('/penelitian', [ManajemenResearchController::class, 'index'])->name('penelitian.index');
+    Route::get('/pengabdian-masyarakat', [ManajemenCommunityServiceController::class, 'index'])->name('community-services.index');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin (Shared - Programs, Strategic, Insights - managed by admin_ppkt)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'admin_ppkt'])->prefix('admin')->name('admin.')->group(function () {
     // Pages Management
     Route::prefix('pages')->name('pages.')->group(function () {
         Route::get('/about', [AdminPageController::class, 'editAbout'])->name('about.edit');
@@ -85,18 +146,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::put('/research', [AdminPageController::class, 'updateResearch'])->name('research.update');
     });
 
-    // Master Data
-    Route::resource('regions', AdminRegionController::class);
-    Route::resource('gardens', AdminGardenController::class);
-    Route::resource('afdelings', AdminAfdelingController::class);
-    Route::resource('blocks', AdminBlockController::class);
-    Route::resource('users', AdminUserController::class);
-
-    // Production & Performance
-    Route::resource('production', AdminProductionController::class);
-    Route::resource('production-realizations', AdminProductionRealizationController::class);
-    Route::resource('performance-targets', AdminPerformanceTargetController::class);
-
     // Strategic & Programs
     Route::resource('programs', AdminProgramController::class);
     Route::resource('strategic-actions', AdminStrategicActionController::class);
@@ -104,5 +153,5 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Other
     Route::resource('visits', AdminVisitController::class);
-    Route::resource('community-services', AdminCommunityServiceController::class); // Added
+    Route::resource('community-services', AdminCommunityServiceController::class);
 });
