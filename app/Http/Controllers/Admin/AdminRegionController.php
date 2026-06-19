@@ -13,7 +13,7 @@ class AdminRegionController extends Controller
 {
     private function ensureAdmin()
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
             abort(403);
         }
     }

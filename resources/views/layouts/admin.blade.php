@@ -17,6 +17,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <style>
+        /* Print styles */
+        @media print {
+            aside, header, footer, button, .no-print, form, .btn, .nav-link, .nav-section, #adminThemeToggle, .w-px, .alert-success, .alert-error {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+                overflow: visible !important;
+            }
+            .flex, .grid {
+                display: block !important;
+            }
+            main {
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                overflow: visible !important;
+            }
+            .card {
+                border: 1px solid #e5e7eb !important;
+                box-shadow: none !important;
+                margin-bottom: 20px !important;
+                page-break-inside: avoid !important;
+            }
+            .card-body, .p-6, .p-5 {
+                padding: 15px !important;
+            }
+            tr {
+                page-break-inside: avoid !important;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
@@ -156,8 +190,16 @@
                         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">@yield('title', 'Panel')</h2>
                     </div>
                     <div class="flex items-center space-x-3">
+                        {{-- Print Button (UC5) --}}
+                        <button onclick="window.print()"
+                            class="no-print p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-1"
+                            title="Cetak Laporan">
+                            <span class="material-icons">print</span>
+                            <span class="text-xs font-semibold hidden md:inline">Cetak</span>
+                        </button>
+
                         <button id="adminThemeToggle"
-                            class="p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            class="no-print p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                             title="Toggle tema">
                             <span class="material-icons" id="adminThemeIcon">dark_mode</span>
                         </button>
@@ -167,7 +209,7 @@
                                 {{ Auth::user()->role === 'admin_ppkt' ? 'Admin PPKT' : 'Manajemen' }}
                             </span>
                         </div>
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}" class="no-print">
                             @csrf
                             <button
                                 class="px-3 py-1 text-sm rounded bg-gray-100 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600">Keluar</button>

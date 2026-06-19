@@ -127,6 +127,8 @@ Route::middleware(['auth', 'manajemen'])->prefix('manajemen')->name('manajemen.'
 
     // Penelitian (Data Penelitian & Pengabdian Masyarakat)
     Route::get('/penelitian', [ManajemenResearchController::class, 'index'])->name('penelitian.index');
+    Route::get('/penelitian/edit', [ManajemenResearchController::class, 'edit'])->name('penelitian.edit');
+    Route::put('/penelitian', [ManajemenResearchController::class, 'update'])->name('penelitian.update');
     Route::get('/pengabdian-masyarakat', [ManajemenCommunityServiceController::class, 'index'])->name('community-services.index');
 });
 
@@ -142,8 +144,6 @@ Route::middleware(['auth', 'admin_ppkt'])->prefix('admin')->name('admin.')->grou
     Route::prefix('pages')->name('pages.')->group(function () {
         Route::get('/about', [AdminPageController::class, 'editAbout'])->name('about.edit');
         Route::put('/about', [AdminPageController::class, 'updateAbout'])->name('about.update');
-        Route::get('/research', [AdminPageController::class, 'editResearch'])->name('research.edit');
-        Route::put('/research', [AdminPageController::class, 'updateResearch'])->name('research.update');
     });
 
     // Strategic & Programs

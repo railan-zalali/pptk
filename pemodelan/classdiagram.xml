@@ -1,0 +1,210 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Class Diagram PPTK Gambung - Indonesia">
+    <mxGraphModel dx="1500" dy="1000" grid="1" gridSize="10" guides="1"
+      tooltips="1" connect="1" arrows="1" fold="1" page="1"
+      pageScale="1" pageWidth="1654" pageHeight="1169">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ==================== CLASSES ==================== -->
+
+        <!-- 1. Pengguna (User) -->
+        <mxCell id="class_user"
+          value="&lt;b&gt;Pengguna&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- nama: string&lt;br/&gt;- email: string&lt;br/&gt;- peran: enum('admin_ppkt', 'manajemen')&lt;br/&gt;- email_diverifikasi_pada: datetime&lt;br/&gt;- kata_sandi: string&lt;br/&gt;- token_ingat: string&lt;hr/&gt;+ apakahAdminPpkt(): bool&lt;br/&gt;+ apakahManajemen(): bool&lt;br/&gt;+ apakahAdmin(): bool&lt;br/&gt;+ apakahManajer(): bool"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#d5e8d4;strokeColor=#82b366;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="230" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- 2. Wilayah (Region) -->
+        <mxCell id="class_region"
+          value="&lt;b&gt;Wilayah&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- nama_regional: string&lt;br/&gt;- kode_regional: string&lt;br/&gt;- provinsi: string&lt;br/&gt;- koordinat: string&lt;br/&gt;- jalur_foto: string&lt;hr/&gt;+ kebun(): HasMany&lt;br/&gt;+ foto(): HasMany"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#fff2cc;strokeColor=#d6b656;"
+          vertex="1" parent="1">
+          <mxGeometry x="350" y="50" width="200" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- 3. FotoWilayah (RegionPhoto) -->
+        <mxCell id="class_regionphoto"
+          value="&lt;b&gt;FotoWilayah&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_wilayah: int&lt;br/&gt;- jalur: string&lt;hr/&gt;+ wilayah(): BelongsTo"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#fff2cc;strokeColor=#d6b656;"
+          vertex="1" parent="1">
+          <mxGeometry x="650" y="50" width="180" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- 4. Kebun (Garden) -->
+        <mxCell id="class_garden"
+          value="&lt;b&gt;Kebun&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_regional: int&lt;br/&gt;- nama_kebun: string&lt;br/&gt;- tipe_kebun: enum('Model', 'Pengembangan')&lt;br/&gt;- luas_total_hektar: double&lt;br/&gt;- catatan_agro_klimat: text&lt;br/&gt;- lokasi: string&lt;br/&gt;- deskripsi: text&lt;br/&gt;- didirikan_pada: date&lt;br/&gt;- jalur_foto: string&lt;hr/&gt;+ wilayah(): BelongsTo&lt;br/&gt;+ afdeling(): HasMany&lt;br/&gt;+ blok(): HasMany&lt;br/&gt;+ realisasiProduksi(): HasMany&lt;br/&gt;+ targetKinerja(): HasMany&lt;br/&gt;+ kunjungan(): HasMany&lt;br/&gt;+ tindakanStrategis(): HasMany"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#fff2cc;strokeColor=#d6b656;"
+          vertex="1" parent="1">
+          <mxGeometry x="350" y="280" width="220" height="270" as="geometry"/>
+        </mxCell>
+
+        <!-- 5. FotoKebun (GardenPhoto) -->
+        <mxCell id="class_gardenphoto"
+          value="&lt;b&gt;FotoKebun&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_kebun: int&lt;br/&gt;- jalur: string&lt;hr/&gt;+ kebun(): BelongsTo"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#fff2cc;strokeColor=#d6b656;"
+          vertex="1" parent="1">
+          <mxGeometry x="650" y="280" width="180" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- 6. Afdeling (Afdeling) -->
+        <mxCell id="class_afdeling"
+          value="&lt;b&gt;Afdeling&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_kebun: int&lt;br/&gt;- nama_afdeling: string&lt;br/&gt;- kode_afdeling: string&lt;br/&gt;- luas_hektar: double&lt;br/&gt;- deskripsi: text&lt;hr/&gt;+ kebun(): BelongsTo&lt;br/&gt;+ blok(): HasMany"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#fff2cc;strokeColor=#d6b656;"
+          vertex="1" parent="1">
+          <mxGeometry x="350" y="600" width="200" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- 7. Blok (Block) -->
+        <mxCell id="class_block"
+          value="&lt;b&gt;Blok&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_afdeling: int&lt;br/&gt;- nama_blok: string&lt;br/&gt;- kode_blok: string&lt;br/&gt;- luas_hektar: double&lt;br/&gt;- tahun_tanam: int&lt;br/&gt;- topografi: string&lt;br/&gt;- jenis_tanah: string&lt;br/&gt;- komposisi_klon: string&lt;hr/&gt;+ afdeling(): BelongsTo"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#fff2cc;strokeColor=#d6b656;"
+          vertex="1" parent="1">
+          <mxGeometry x="350" y="820" width="200" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- 8. RealisasiProduksi (ProductionRealization) -->
+        <mxCell id="class_productionrealization"
+          value="&lt;b&gt;RealisasiProduksi&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_kebun: int&lt;br/&gt;- tahun: int&lt;br/&gt;- bulan: int&lt;br/&gt;- produksi_ton: double&lt;br/&gt;- produktivitas_kg_hektar: double&lt;br/&gt;- kapasitas_petik_kg_hari: double&lt;br/&gt;- persen_kualitas_baik: double&lt;hr/&gt;+ kebun(): BelongsTo"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#f8cecc;strokeColor=#b85450;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="280" width="220" height="190" as="geometry"/>
+        </mxCell>
+
+        <!-- 9. TargetKinerja (PerformanceTarget) -->
+        <mxCell id="class_performancetarget"
+          value="&lt;b&gt;TargetKinerja&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_kebun: int&lt;br/&gt;- tahun: int&lt;br/&gt;- target_produksi_ton: double&lt;br/&gt;- target_produktivitas_kg_hektar: double&lt;br/&gt;- target_kapasitas_petik_kg_hari: double&lt;br/&gt;- target_persen_kualitas_baik: double&lt;hr/&gt;+ kebun(): BelongsTo"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#f8cecc;strokeColor=#b85450;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="520" width="220" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- 10. TindakanStrategis (StrategicAction) -->
+        <mxCell id="class_strategicaction"
+          value="&lt;b&gt;TindakanStrategis&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_kebun: int&lt;br/&gt;- jenis_tindakan: string&lt;br/&gt;- tahun: int&lt;br/&gt;- rencana_luas_hektar: double&lt;br/&gt;- realisasi_luas_hektar: double&lt;br/&gt;- persen_kemajuan: double&lt;br/&gt;- target_dosis_n_kg_hektar: double&lt;br/&gt;- realisasi_dosis_n_kg_hektar: double&lt;br/&gt;- persen_protas_n: double&lt;br/&gt;- biaya_per_hektar: double&lt;br/&gt;- total_biaya: double&lt;br/&gt;- catatan: text&lt;hr/&gt;+ kebun(): BelongsTo"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#f8cecc;strokeColor=#b85450;"
+          vertex="1" parent="1">
+          <mxGeometry x="50" y="750" width="220" height="270" as="geometry"/>
+        </mxCell>
+
+        <!-- 11. Insight (Insight) -->
+        <mxCell id="class_insight"
+          value="&lt;b&gt;Insight&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_kebun: int&lt;br/&gt;- judul: string&lt;br/&gt;- deskripsi: text&lt;br/&gt;- jenis_insight: string&lt;br/&gt;- pesan: text&lt;br/&gt;- tingkat_peringatan: enum('low', 'medium', 'high')&lt;br/&gt;- rekomendasi: json (array)&lt;hr/&gt;+ kebun(): BelongsTo"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#e1d5e7;strokeColor=#9673a6;"
+          vertex="1" parent="1">
+          <mxGeometry x="650" y="440" width="200" height="190" as="geometry"/>
+        </mxCell>
+
+        <!-- 12. Kunjungan (Visit) -->
+        <mxCell id="class_visit"
+          value="&lt;b&gt;Kunjungan&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_kebun: int&lt;br/&gt;- judul: string&lt;br/&gt;- nama_pengunjung: string&lt;br/&gt;- tanggal_kunjungan: date&lt;br/&gt;- durasi: int&lt;br/&gt;- tujuan: string&lt;br/&gt;- jumlah_peserta: int&lt;br/&gt;- daftar_peserta: text&lt;br/&gt;- deskripsi: text&lt;br/&gt;- sasaran: text&lt;br/&gt;- temuan: text&lt;br/&gt;- rekomendasi: text&lt;br/&gt;- penilaian: int&lt;br/&gt;- status: enum('scheduled', 'completed', 'cancelled')&lt;hr/&gt;+ kebun(): BelongsTo&lt;br/&gt;+ foto(): HasMany"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#e1d5e7;strokeColor=#9673a6;"
+          vertex="1" parent="1">
+          <mxGeometry x="900" y="280" width="220" height="300" as="geometry"/>
+        </mxCell>
+
+        <!-- 13. FotoKunjungan (VisitPhoto) -->
+        <mxCell id="class_visitphoto"
+          value="&lt;b&gt;FotoKunjungan&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- id_kunjungan: int&lt;br/&gt;- jalur: string&lt;hr/&gt;+ kunjungan(): BelongsTo"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#e1d5e7;strokeColor=#9673a6;"
+          vertex="1" parent="1">
+          <mxGeometry x="1180" y="280" width="180" height="110" as="geometry"/>
+        </mxCell>
+
+        <!-- 14. PengabdianMasyarakat (CommunityService) -->
+        <mxCell id="class_communityservice"
+          value="&lt;b&gt;PengabdianMasyarakat&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- judul: string&lt;br/&gt;- deskripsi: text&lt;br/&gt;- penyelenggara: string&lt;br/&gt;- tanggal_kegiatan: date&lt;br/&gt;- lokasi: string&lt;br/&gt;- jumlah_peserta: int&lt;br/&gt;- anggaran: double&lt;br/&gt;- status: string&lt;hr/&gt;"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#e1d5e7;strokeColor=#9673a6;"
+          vertex="1" parent="1">
+          <mxGeometry x="900" y="620" width="200" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- 15. Program (Program) -->
+        <mxCell id="class_program"
+          value="&lt;b&gt;Program&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- nama_program: string&lt;br/&gt;- jenis_program: string&lt;br/&gt;- tahun: int&lt;br/&gt;- deskripsi: text&lt;br/&gt;- status: boolean&lt;hr/&gt;"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#e1d5e7;strokeColor=#9673a6;"
+          vertex="1" parent="1">
+          <mxGeometry x="900" y="860" width="200" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- 16. Halaman (Page) -->
+        <mxCell id="class_page"
+          value="&lt;b&gt;Halaman&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- slug: string&lt;br/&gt;- judul: string&lt;br/&gt;- subjudul: string&lt;br/&gt;- html_konten: text&lt;br/&gt;- jalur_foto_hero: string&lt;br/&gt;- html_ikhtisar: text&lt;br/&gt;- html_sejarah: text&lt;br/&gt;- html_tujuan: text&lt;br/&gt;- html_manfaat: text&lt;br/&gt;- html_lokasi: text&lt;br/&gt;- meta: json (array)&lt;br/&gt;- berkas: json (array)&lt;hr/&gt;"
+          style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#dae8fc;strokeColor=#6c8ebf;"
+          vertex="1" parent="1">
+          <mxGeometry x="900" y="50" width="200" height="190" as="geometry"/>
+        </mxCell>
+
+        <!-- ==================== ASSOCIATIONS ==================== -->
+
+        <!-- Wilayah -> FotoWilayah -->
+        <mxCell id="assoc_region_photo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;sourcePort=2;" edge="1" parent="1" source="class_region" target="class_regionphoto">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Wilayah -> Kebun -->
+        <mxCell id="assoc_region_garden" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_region" target="class_garden">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Kebun -> FotoKebun -->
+        <mxCell id="assoc_garden_photo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_garden" target="class_gardenphoto">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Kebun -> Afdeling -->
+        <mxCell id="assoc_garden_afdeling" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_garden" target="class_afdeling">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Afdeling -> Blok -->
+        <mxCell id="assoc_afdeling_block" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_afdeling" target="class_block">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Kebun -> RealisasiProduksi -->
+        <mxCell id="assoc_garden_production" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_garden" target="class_productionrealization">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="310, 415"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Kebun -> TargetKinerja -->
+        <mxCell id="assoc_garden_target" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_garden" target="class_performancetarget">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="310, 610"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Kebun -> TindakanStrategis -->
+        <mxCell id="assoc_garden_strategic" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_garden" target="class_strategicaction">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="310, 885"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Kebun -> Insight -->
+        <mxCell id="assoc_garden_insight" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_garden" target="class_insight">
+          <mxGeometry relative="1" as="geometry">
+             <Array points="600, 415"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Kebun -> Kunjungan -->
+        <mxCell id="assoc_garden_visit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_garden" target="class_visit">
+          <mxGeometry relative="1" as="geometry">
+             <Array points="600, 480"/>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Kunjungan -> FotoKunjungan -->
+        <mxCell id="assoc_visit_photo" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endSize=6;startArrow=none;" edge="1" parent="1" source="class_visit" target="class_visitphoto">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

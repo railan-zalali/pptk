@@ -14,7 +14,7 @@ class AdminGardenController extends Controller
     private function ensureAdmin()
     {
         // Ideally handled by middleware, but keeping for consistency
-        if (Auth::check() && Auth::user()->role !== 'admin') {
+        if (Auth::check() && !Auth::user()->isAdmin()) {
             abort(403);
         }
     }
