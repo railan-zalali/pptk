@@ -1,0 +1,145 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" version="28.1.2">
+  <diagram name="UC_AutentikasiDashboard" id="UC_AutentikasiDashboard">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- ==================== SWIMLANES ==================== -->
+        <!-- Pengguna Swimlane (x: 50 to 370, width: 320) -->
+        <mxCell id="asw1" value="Pengguna" style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="50" y="40" width="320" height="740" as="geometry" />
+        </mxCell>
+        <!-- Sistem Swimlane (x: 370 to 690, width: 320) -->
+        <mxCell id="asw2" value="Sistem" style="swimlane;startSize=30;horizontal=0;fillColor=#f5f5f5;strokeColor=#ccc;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="370" y="40" width="320" height="740" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== FLOW NODES ==================== -->
+        <!-- Start Node (Pengguna) - Centered at x=210 -->
+        <mxCell id="astart" value="" style="ellipse;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="195" y="80" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Akses Halaman Login & Input (Pengguna) -->
+        <mxCell id="aact_login" value="Akses Halaman Login &amp;&#xa;Masukkan Email &amp; Password" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="140" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Validasi Kredensial (Sistem) - Centered at x=530 -->
+        <mxCell id="asys_val" value="Validasi Form &amp;&#xa;Mencari Data Kredensial" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="140" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Decision: Kredensial Valid? (Sistem) -->
+        <mxCell id="adec_val" value="Kredensial Valid?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="470" y="220" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Tampilkan Error (Sistem) -->
+        <mxCell id="asys_err" value="Tampilkan Pesan Error &amp;&#xa;Kembalikan ke Form Login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="330" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Decision: Peran / Role? (Sistem) -->
+        <mxCell id="adec_role" value="Peran / Role?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="470" y="410" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Redirect Admin (Sistem) -->
+        <mxCell id="asys_red_admin" value="Redirect ke Dasbor Admin PPKT&#xa;(Akses Operasional &amp; Master Data)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="520" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Redirect Manajemen (Sistem) -->
+        <mxCell id="asys_red_man" value="Redirect ke Dasbor Manajemen&#xa;(Akses Pemantauan &amp; Analisis)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="600" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Lihat Dasbor Admin (Pengguna) -->
+        <mxCell id="aact_view_admin" value="Lihat Dasbor Admin &amp;&#xa;Menu Pengelolaan Mandiri" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="520" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Lihat Dasbor Manajemen (Pengguna) -->
+        <mxCell id="aact_view_man" value="Lihat Dasbor Manajemen &amp;&#xa;Grafik Pemantauan Kinerja" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="600" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- End Node (Pengguna) - Centered at x=210 -->
+        <mxCell id="aend" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="195" y="690" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== EDGES / CONNECTIONS ==================== -->
+        <!-- Start -> Akses Login -->
+        <mxCell id="ae1" edge="1" parent="1" source="astart" target="aact_login" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Akses Login -> Validasi (Cross Swimlane) -->
+        <mxCell id="ae2" edge="1" parent="1" source="aact_login" target="asys_val" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Validasi -> Decision Valid? -->
+        <mxCell id="ae3" edge="1" parent="1" source="asys_val" target="adec_val" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Valid? -> Tampilkan Error (No) -->
+        <mxCell id="ae_val_no" value="Tidak" edge="1" parent="1" source="adec_val" target="asys_err" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Tampilkan Error -> Loop back to Login (Cross Swimlane, System -> User) -->
+        <mxCell id="ae_err_loop" edge="1" parent="1" source="asys_err" target="aact_login" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 395; 340, 395; 340, 165" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Valid? -> Decision Role (Yes) -->
+        <mxCell id="ae_val_yes" value="Ya" edge="1" parent="1" source="adec_val" target="adec_role" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="620, 260; 620, 380; 530, 380" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Decision Role -> Redirect Admin -->
+        <mxCell id="ae_role_admin" value="admin_ppkt" edge="1" parent="1" source="adec_role" target="asys_red_admin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=9;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Decision Role -> Redirect Manajemen -->
+        <mxCell id="ae_role_man" value="manajemen" edge="1" parent="1" source="adec_role" target="asys_red_man" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=9;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="610, 450; 610, 625" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Redirect Admin -> Lihat Admin (Cross Swimlane) -->
+        <mxCell id="ae_red_admin_view" edge="1" parent="1" source="asys_red_admin" target="aact_view_admin" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Redirect Manajemen -> Lihat Manajemen (Cross Swimlane) -->
+        <mxCell id="ae_red_man_view" edge="1" parent="1" source="asys_red_man" target="aact_view_man" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Lihat Admin -> End -->
+        <mxCell id="ae_admin_end" edge="1" parent="1" source="aact_view_admin" target="aend" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Lihat Manajemen -> End -->
+        <mxCell id="ae_man_end" edge="1" parent="1" source="aact_view_man" target="aend" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="210, 665" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

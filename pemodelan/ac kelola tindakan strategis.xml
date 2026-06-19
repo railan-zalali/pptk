@@ -1,0 +1,154 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" version="28.1.2">
+  <diagram name="UC_KelolaTindakanStrategis" id="UC_KelolaTindakanStrategis">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- ==================== SWIMLANES ==================== -->
+        <!-- Admin PPKT Swimlane (x: 50 to 370, width: 320) -->
+        <mxCell id="ssw1" value="Admin PPKT" style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="50" y="40" width="320" height="810" as="geometry" />
+        </mxCell>
+        <!-- Sistem Swimlane (x: 370 to 690, width: 320) -->
+        <mxCell id="ssw2" value="Sistem" style="swimlane;startSize=30;horizontal=0;fillColor=#f5f5f5;strokeColor=#ccc;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="370" y="40" width="320" height="810" as="geometry" />
+        </mxCell>
+        <!-- Manajemen Swimlane (x: 690 to 1010, width: 320) -->
+        <mxCell id="ssw3" value="Manajemen" style="swimlane;startSize=30;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="690" y="40" width="320" height="810" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== FLOW NODES ==================== -->
+        <!-- Start Node (Admin PPKT) - Centered at x=210 -->
+        <mxCell id="sstart" value="" style="ellipse;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="195" y="80" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Buat Rencana Tindakan (Admin PPKT) -->
+        <mxCell id="sact_plan" value="Buat Rencana Tindakan Strategis&#xa;(Target Area &amp; Estimasi Anggaran)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="140" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Simpan Rencana & Set Status (Sistem) - Centered at x=530 -->
+        <mxCell id="ssys_save_plan" value="Simpan Rencana &amp; Set Status&#xa;&quot;Direncanakan&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="140" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Input Realisasi & Anggaran Aktual (Admin PPKT) -->
+        <mxCell id="sact_update" value="Input Realisasi Luas Kerja &amp;&#xa;Anggaran Aktual Lapangan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="230" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Kalkulasi Kemajuan & Anggaran (Sistem) -->
+        <mxCell id="ssys_calc" value="Kalkulasi Persentase Kemajuan (%)&#xa;&amp; Selisih Anggaran Aktual" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="230" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Simpan Realisasi & Update Grafik (Sistem) -->
+        <mxCell id="ssys_save_real" value="Simpan Realisasi &amp;&#xa;Pembaruan Dasbor Program" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="320" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Buka Menu Tindakan Strategis (Manajemen) - Centered at x=850 -->
+        <mxCell id="sact_view" value="Buka Menu Tindakan Strategis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="750" y="320" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Tampilkan Progres (Sistem) -->
+        <mxCell id="ssys_show_prog" value="Tampilkan Grafik Progres Progam&#xa;&amp; Penyerapan Anggaran" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="410" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Decision: Progres Selesai 100%? (Manajemen) -->
+        <mxCell id="sdec_done" value="Progres Selesai&#xa;100%?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="800" y="490" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Tandai Selesai & Review (Manajemen) -->
+        <mxCell id="sact_complete" value="Tandai Program Selesai &amp;&#xa;Review Efisiensi Anggaran" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="750" y="610" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Lanjutkan Pemantauan Rutin (Manajemen) -->
+        <mxCell id="sact_continue" value="Lanjutkan Pemantauan Rutin&#xa;Kerja Lapangan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="750" y="690" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- End Node (Manajemen) -->
+        <mxCell id="send" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="835" y="760" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== EDGES / CONNECTIONS ==================== -->
+        <!-- Start -> Buat Rencana -->
+        <mxCell id="se1" edge="1" parent="1" source="sstart" target="sact_plan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Buat Rencana -> Simpan Rencana (Cross Swimlane) -->
+        <mxCell id="se2" edge="1" parent="1" source="sact_plan" target="ssys_save_plan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Simpan Rencana -> Input Realisasi (Cross Swimlane) -->
+        <mxCell id="se3" edge="1" parent="1" source="ssys_save_plan" target="sact_update" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 210; 210, 210" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Input Realisasi -> Kalkulasi (Cross Swimlane) -->
+        <mxCell id="se4" edge="1" parent="1" source="sact_update" target="ssys_calc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Kalkulasi -> Simpan Realisasi -->
+        <mxCell id="se5" edge="1" parent="1" source="ssys_calc" target="ssys_save_real" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Simpan Realisasi -> Buka Menu (Cross Swimlane, System -> Manajemen) -->
+        <mxCell id="se6" edge="1" parent="1" source="ssys_save_real" target="sact_view" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Buka Menu -> Tampilkan Progres (Cross Swimlane, Manajemen -> System) -->
+        <mxCell id="se7" edge="1" parent="1" source="sact_view" target="ssys_show_prog" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="850, 390; 530, 390" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Tampilkan Progres -> Decision (Cross Swimlane, System -> Manajemen) -->
+        <mxCell id="se8" edge="1" parent="1" source="ssys_show_prog" target="sdec_done" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 470; 850, 470" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Decision -> Tandai Selesai (Yes) -->
+        <mxCell id="se_yes" value="Ya" edge="1" parent="1" source="sdec_done" target="sact_complete" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Decision -> Lanjutkan Pemantauan (No) -->
+        <mxCell id="se_no" value="Tidak" edge="1" parent="1" source="sdec_done" target="sact_continue" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="930, 530; 930, 665; 850, 665" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Tandai Selesai -> End -->
+        <mxCell id="se_comp_end" edge="1" parent="1" source="sact_complete" target="send" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Lanjutkan Pemantauan -> End -->
+        <mxCell id="se_cont_end" edge="1" parent="1" source="sact_continue" target="send" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9673a6;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

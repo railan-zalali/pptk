@@ -1,0 +1,166 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" version="28.1.2">
+  <diagram name="UC_KelolaKunjungan" id="UC_KelolaKunjungan">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- SWIMLANES -->
+        <!-- Admin PPKT Swimlane (x: 50 to 370, width: 320) -->
+        <mxCell id="ksw1" value="Admin PPKT" style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="50" y="40" width="320" height="740" as="geometry" />
+        </mxCell>
+        <!-- Sistem Swimlane (x: 370 to 690, width: 320) -->
+        <mxCell id="ksw2" value="Sistem" style="swimlane;startSize=30;horizontal=0;fillColor=#f5f5f5;strokeColor=#ccc;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="370" y="40" width="320" height="740" as="geometry" />
+        </mxCell>
+        
+        <!-- FLOW NODES -->
+        <!-- Start Node (Admin PPKT) - Centered at x=210 -->
+        <mxCell id="kstart" value="" style="ellipse;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="195" y="80" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Buka Halaman Kelola Kunjungan (Admin PPKT) -->
+        <mxCell id="kact_buka" value="Buka Halaman Kelola Kunjungan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="140" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Tampilkan Daftar Kunjungan & Filter (Sistem) - Centered at x=530 -->
+        <mxCell id="ksys_tampil" value="Tampilkan Daftar Kunjungan &amp; Filter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="140" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Decision: Pilihan Aksi? (Admin PPKT) - Centered at x=210 -->
+        <mxCell id="kdec_aksi" value="Pilihan Aksi?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="160" y="220" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- PATH A: TAMBAH KUNJUNGAN -->
+        <!-- Action: Isi Form Kunjungan & Upload Foto (Admin PPKT) -->
+        <mxCell id="kact_tambah" value="Isi Form Kunjungan &amp; Upload Foto" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="330" width="200" height="50" as="geometry" />
+        </mxCell>
+        <!-- Action: Validasi & Simpan Kunjungan Baru (Sistem) -->
+        <mxCell id="ksys_store" value="Validasi &amp; Simpan Kunjungan Baru (Status: Scheduled)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="330" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- PATH B: UBAH STATUS -->
+        <!-- Action: Pilih Ubah Status (Admin PPKT) -->
+        <mxCell id="kact_ubah_status" value="Pilih Ubah Status (Completed / Cancelled)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="420" width="200" height="50" as="geometry" />
+        </mxCell>
+        <!-- Action: Update Status & Kirim Notifikasi (Sistem) -->
+        <mxCell id="ksys_update_status" value="Update Status &amp; Kirim Notifikasi" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="420" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- PATH C: EDIT DETAIL -->
+        <!-- Action: Ubah Data / Isi Temuan & Rekomendasi (Admin PPKT) -->
+        <mxCell id="kact_edit_detail" value="Ubah Data Kunjungan / Isi Temuan &amp; Rekomendasi" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="510" width="200" height="50" as="geometry" />
+        </mxCell>
+        <!-- Action: Simpan Perubahan Data Kunjungan (Sistem) -->
+        <mxCell id="ksys_update_detail" value="Simpan Perubahan Data Kunjungan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="510" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- PATH D: HAPUS KUNJUNGAN -->
+        <!-- Action: Pilih Hapus Kunjungan & Konfirmasi (Admin PPKT) -->
+        <mxCell id="kact_hapus" value="Pilih Hapus Kunjungan &amp; Konfirmasi" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="600" width="200" height="50" as="geometry" />
+        </mxCell>
+        <!-- Action: Hapus Data Kunjungan & Foto (Sistem) -->
+        <mxCell id="ksys_delete" value="Hapus Data Kunjungan &amp; Foto Terkait" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="600" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- End Node (Sistem) - Centered at x=530 -->
+        <mxCell id="kend" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="515" y="690" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- EDGES / CONNECTIONS -->
+        <!-- Start -> Buka Halaman -->
+        <mxCell id="ke1" edge="1" parent="1" source="kstart" target="kact_buka" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Buka Halaman -> Tampilkan Daftar (Cross Swimlane) -->
+        <mxCell id="ke2" edge="1" parent="1" source="kact_buka" target="ksys_tampil" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Tampilkan Daftar -> Decision Aksi (Cross Swimlane) -->
+        <mxCell id="ke3" edge="1" parent="1" source="ksys_tampil" target="kdec_aksi" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 260" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Decision -> Path A (Tambah) -->
+        <mxCell id="ke_tambah" value="Tambah" edge="1" parent="1" source="kdec_aksi" target="kact_tambah" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="210, 310" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Decision -> Path B (Ubah Status) -->
+        <mxCell id="ke_ubah" value="Ubah Status" edge="1" parent="1" source="kdec_aksi" target="kact_ubah_status" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="180, 260; 70, 260; 70, 445" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Decision -> Path C (Edit Detail) -->
+        <mxCell id="ke_edit" value="Edit Detail" edge="1" parent="1" source="kdec_aksi" target="kact_edit_detail" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="180, 260; 60, 260; 60, 535" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Decision -> Path D (Hapus) -->
+        <mxCell id="ke_hapus" value="Hapus" edge="1" parent="1" source="kdec_aksi" target="kact_hapus" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="180, 260; 50, 260; 50, 625" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Admin Actions -> System Actions -->
+        <mxCell id="ke_store" edge="1" parent="1" source="kact_tambah" target="ksys_store" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ke_update_status" edge="1" parent="1" source="kact_ubah_status" target="ksys_update_status" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ke_update_detail" edge="1" parent="1" source="kact_edit_detail" target="ksys_update_detail" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ke_delete" edge="1" parent="1" source="kact_hapus" target="ksys_delete" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- System Actions -> End Node -->
+        <mxCell id="ke_end_store" edge="1" parent="1" source="ksys_store" target="kend" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 400; 650, 400; 650, 705" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ke_end_status" edge="1" parent="1" source="ksys_update_status" target="kend" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 490; 650, 490; 650, 705" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ke_end_detail" edge="1" parent="1" source="ksys_update_detail" target="kend" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 580; 650, 580; 650, 705" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ke_end_delete" edge="1" parent="1" source="ksys_delete" target="kend" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
