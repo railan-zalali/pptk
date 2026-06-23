@@ -55,4 +55,9 @@ class StrategicAction extends Model
     {
         return $this->belongsTo(Garden::class, 'kebun_id');
     }
+
+    public function program(): BelongsTo
+    {
+        return $this->belongsTo(Program::class, 'program_id');
+    }
 }
