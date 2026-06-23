@@ -1,0 +1,160 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" version="28.1.2">
+  <diagram name="ac_mengelola_kebun" id="ac_mengelola_kebun">
+    <mxGraphModel dx="1200" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- ==================== SWIMLANES ==================== -->
+        <!-- Admin PPKT Swimlane (x: 50 to 370, width: 320) -->
+        <mxCell id="ssw1" value="Admin PPKT" style="swimlane;startSize=30;horizontal=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="50" y="40" width="320" height="850" as="geometry" />
+        </mxCell>
+        <!-- Sistem Swimlane (x: 370 to 690, width: 320) -->
+        <mxCell id="ssw2" value="Sistem" style="swimlane;startSize=30;horizontal=0;fillColor=#f5f5f5;strokeColor=#ccc;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="370" y="40" width="320" height="850" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== FLOW NODES ==================== -->
+        <!-- Start Node (Admin) -->
+        <mxCell id="sstart" value="" style="ellipse;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="195" y="80" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Buka Menu Master Kebun (Admin) -->
+        <mxCell id="sact_menu" value="Buka Menu Master Kebun" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="140" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Tampilkan Daftar Kebun (Sistem) -->
+        <mxCell id="ssys_show" value="Tampilkan Daftar Master Kebun" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="140" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Decision: Pilihan Operasi CRUD? (Admin) -->
+        <mxCell id="sdec_crud" value="Operasi Apa&#xa;yang Dipilih?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="160" y="220" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- === TAMBAH DATA === -->
+        <!-- Action: Klik Tambah & Input Data (Admin) -->
+        <mxCell id="sact_add" value="Klik 'Tambah Kebun'&#xa;&amp; Input Data Kebun Baru" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="340" width="200" height="50" as="geometry" />
+        </mxCell>
+        <!-- Action: Validasi & Simpan Kebun (Sistem) -->
+        <mxCell id="ssys_save" value="Validasi &amp; Simpan Data Kebun" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="340" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- === UBAH DATA === -->
+        <!-- Action: Klik Edit & Ubah Data (Admin) -->
+        <mxCell id="sact_edit" value="Klik 'Edit Kebun'&#xa;&amp; Perbarui Data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="440" width="200" height="50" as="geometry" />
+        </mxCell>
+        <!-- Action: Validasi & Update Kebun (Sistem) -->
+        <mxCell id="ssys_update" value="Validasi &amp; Perbarui Data Kebun" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="440" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- === HAPUS DATA === -->
+        <!-- Action: Klik Hapus & Konfirmasi (Admin) -->
+        <mxCell id="sact_delete" value="Klik 'Hapus'&#xa;&amp; Konfirmasi Penghapusan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="110" y="540" width="200" height="50" as="geometry" />
+        </mxCell>
+        <!-- Action: Hapus Kebun (Sistem) -->
+        <mxCell id="ssys_delete" value="Hapus Data Kebun dari Database" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="540" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- Action: Tampilkan Notifikasi Sukses (Sistem) -->
+        <mxCell id="ssys_msg" value="Tampilkan Notifikasi Sukses&#xa;&amp; Refresh Tabel Kebun" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="430" y="660" width="200" height="50" as="geometry" />
+        </mxCell>
+        
+        <!-- End Node (Admin) -->
+        <mxCell id="send" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="195" y="760" width="30" height="30" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== EDGES / CONNECTIONS ==================== -->
+        <!-- Start -> Buka Menu -->
+        <mxCell id="se1" edge="1" parent="1" source="sstart" target="sact_menu" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Buka Menu -> Tampilkan (Cross Swimlane) -->
+        <mxCell id="se2" edge="1" parent="1" source="sact_menu" target="ssys_show" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Tampilkan -> Decision (Cross Swimlane) -->
+        <mxCell id="se3" edge="1" parent="1" source="ssys_show" target="sdec_crud" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 205; 210, 205" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Decision -> Tambah -->
+        <mxCell id="se_to_add" value="Tambah" edge="1" parent="1" source="sdec_crud" target="sact_add" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Decision -> Ubah -->
+        <mxCell id="se_to_edit" value="Ubah" edge="1" parent="1" source="sdec_crud" target="sact_edit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="90, 260; 90, 465; 110, 465" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Decision -> Hapus -->
+        <mxCell id="se_to_del" value="Hapus" edge="1" parent="1" source="sdec_crud" target="sact_delete" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=#ffffff;strokeColor=#bfa243;strokeWidth=1.5;fontSize=10;fontStyle=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="320, 260; 320, 565; 210, 565" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Tambah -> Simpan (Cross Swimlane) -->
+        <mxCell id="se_add_save" edge="1" parent="1" source="sact_add" target="ssys_save" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Ubah -> Update (Cross Swimlane) -->
+        <mxCell id="se_edit_update" edge="1" parent="1" source="sact_edit" target="ssys_update" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Hapus -> Delete (Cross Swimlane) -->
+        <mxCell id="se_del_system" edge="1" parent="1" source="sact_delete" target="ssys_delete" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#4e80b4;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Simpan -> Notifikasi -->
+        <mxCell id="se_save_msg" edge="1" parent="1" source="ssys_save" target="ssys_msg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 410; 410, 410; 410, 630; 530, 630" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Update -> Notifikasi -->
+        <mxCell id="se_update_msg" edge="1" parent="1" source="ssys_update" target="ssys_msg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Hapus -> Notifikasi -->
+        <mxCell id="se_delete_msg" edge="1" parent="1" source="ssys_delete" target="ssys_msg" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 610; 530, 660" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Notifikasi -> End (Cross Swimlane) -->
+        <mxCell id="se_end" edge="1" parent="1" source="ssys_msg" target="send" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5c8d62;strokeWidth=1.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array points="530, 730; 210, 730" />
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

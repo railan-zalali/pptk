@@ -1,0 +1,132 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Use Case PPTK Gambung">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1"
+      tooltips="1" connect="1" arrows="1" fold="1" page="1"
+      pageScale="1" pageWidth="1169" pageHeight="827">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- System Boundary -->
+        <mxCell id="system"
+          value="Sistem Portal Informasi dan Monitoring Kinerja&#10;Multi Kebun Model Teh&#10;Di PPTK Gambung"
+          style="swimlane;html=1;startSize=30;"
+          vertex="1" parent="1">
+          <mxGeometry x="120" y="40" width="700" height="500" as="geometry"/>
+        </mxCell>
+
+        <!-- Actor Admin -->
+        <mxCell id="admin"
+          value="Admin PPTK"
+          style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="220" width="40" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Actor Manajemen -->
+        <mxCell id="manajemen"
+          value="Manajemen PPTK"
+          style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;"
+          vertex="1" parent="1">
+          <mxGeometry x="870" y="220" width="40" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Use Cases -->
+
+        <mxCell id="uc1"
+          value="Mengelola Data&#10;Master Kebun"
+          style="ellipse;whiteSpace=wrap;html=1;"
+          vertex="1" parent="system">
+          <mxGeometry x="80" y="120" width="140" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="uc2"
+          value="Login"
+          style="ellipse;whiteSpace=wrap;html=1;"
+          vertex="1" parent="system">
+          <mxGeometry x="290" y="120" width="120" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="uc3"
+          value="Mengelola Data&#10;Penelitian"
+          style="ellipse;whiteSpace=wrap;html=1;"
+          vertex="1" parent="system">
+          <mxGeometry x="500" y="120" width="150" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="uc4"
+          value="Melihat Laporan"
+          style="ellipse;whiteSpace=wrap;html=1;"
+          vertex="1" parent="system">
+          <mxGeometry x="300" y="240" width="140" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="uc5"
+          value="Mencetak Laporan"
+          style="ellipse;whiteSpace=wrap;html=1;"
+          vertex="1" parent="system">
+          <mxGeometry x="300" y="370" width="140" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Associations -->
+
+        <mxCell id="e1"
+          style="endArrow=none;"
+          edge="1" parent="1" source="admin" target="uc1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e2"
+          style="endArrow=none;"
+          edge="1" parent="1" source="admin" target="uc4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e3"
+          style="endArrow=none;"
+          edge="1" parent="1" source="manajemen" target="uc3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e4"
+          style="endArrow=none;"
+          edge="1" parent="1" source="manajemen" target="uc4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Include Relations -->
+
+        <mxCell id="e5"
+          value="&lt;&lt;include&gt;&gt;"
+          style="dashed=1;endArrow=open;"
+          edge="1" parent="system" source="uc1" target="uc2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e6"
+          value="&lt;&lt;include&gt;&gt;"
+          style="dashed=1;endArrow=open;"
+          edge="1" parent="system" source="uc3" target="uc2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e7"
+          value="&lt;&lt;include&gt;&gt;"
+          style="dashed=1;endArrow=open;"
+          edge="1" parent="system" source="uc4" target="uc2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Extend Relation -->
+
+        <mxCell id="e8"
+          value="&lt;&lt;extend&gt;&gt;"
+          style="dashed=1;endArrow=open;"
+          edge="1" parent="system" source="uc4" target="uc5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
