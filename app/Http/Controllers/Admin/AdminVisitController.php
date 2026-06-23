@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Garden;
 use App\Models\Visit;
+use App\Models\VisitPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -60,7 +61,13 @@ class AdminVisitController extends Controller
         $visit = Visit::create($validated);
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
-                $photo->store('visit-photos/' . $visit->id, 'public');
+                $path = $photo->store('visit-photos/' . $visit->id, 'public');
+                // Simpan record ke tabel visit_photos agar foto tampil di galeri
+                VisitPhoto::create([
+                    'visit_id' => $visit->id,
+                    'path'     => $path,
+                    'caption'  => $photo->getClientOriginalName(),
+                ]);
             }
         }
         return redirect()->route('admin.visits.index')->with('success', 'Kunjungan berhasil ditambahkan.');
@@ -95,7 +102,13 @@ class AdminVisitController extends Controller
         $visit->update($validated);
         if ($request->hasFile('photos')) {
             foreach ($request->file('photos') as $photo) {
-                $photo->store('visit-photos/' . $visit->id, 'public');
+                $path = $photo->store('visit-photos/' . $visit->id, 'public');
+                // Simpan record ke tabel visit_photos agar foto tampil di galeri
+                VisitPhoto::create([
+                    'visit_id' => $visit->id,
+                    'path'     => $path,
+                    'caption'  => $photo->getClientOriginalName(),
+                ]);
             }
         }
         return redirect()->route('admin.visits.index')->with('success', 'Kunjungan berhasil diperbarui.');

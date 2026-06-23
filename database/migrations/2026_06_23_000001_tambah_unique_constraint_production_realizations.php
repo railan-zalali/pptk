@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Tambahkan unique constraint pada production_realizations
+     * untuk memastikan tidak ada duplikat data per kebun, bulan, dan tahun
+     * di level database (bukan hanya validasi Laravel).
      */
     public function up(): void
     {
         Schema::table('production_realizations', function (Blueprint $table) {
-            $table->decimal('quality_score', 5, 2)->nullable()->after('wet_production_kg');
+            $table->unique(['kebun_id', 'month', 'year'], 'unique_kebun_month_year');
         });
     }
 
@@ -22,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('production_realizations', function (Blueprint $table) {
-            $table->dropColumn('quality_score');
+            $table->dropUnique('unique_kebun_month_year');
         });
     }
 };

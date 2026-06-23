@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('afdeling_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('code');
+            $table->decimal('area_ha', 10, 2)->default(0);
+            $table->integer('population')->default(0);
             $table->enum('plant_type', ['seedling', 'klon_gmb', 'klon_tri']);
             $table->year('planting_year');
             $table->enum('initial_class', ['A', 'B', 'C', 'D', 'E']);

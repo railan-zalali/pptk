@@ -11,7 +11,7 @@ class AdminStrategicActionController extends Controller
 {
     public function index()
     {
-        $actions = StrategicAction::with('garden')->orderBy('year', 'desc')->paginate(10);
+        $actions = StrategicAction::with(['garden', 'program'])->orderBy('year', 'desc')->paginate(10);
         return view('admin.strategic_actions.index', compact('actions'));
     }
 

@@ -16,11 +16,14 @@ return new class extends Migration
             $table->foreignId('kebun_id')->constrained('gardens')->onDelete('cascade');
             $table->foreignId('program_id')->nullable()->constrained('programs')->onDelete('set null'); // Added program_id
             $table->year('year');
+            $table->date('realization_date')->nullable();
 
             $table->string('action_type'); // fertilizer_root, fertilizer_leaf, weed_control, cultivator, picking, machine, opt
+            $table->string('status')->default('planned'); // planned, in_progress, completed
 
             // 5.1 Pemupukan Akar
             $table->decimal('dosis_n_kg_ha', 10, 2)->nullable();
+            $table->decimal('realized_dosis_n_kg_ha', 10, 2)->nullable();
             $table->decimal('n_protas_percent', 10, 2)->nullable();
             $table->integer('application_frequency')->nullable();
             $table->string('fertilizer_type')->nullable();
@@ -28,6 +31,7 @@ return new class extends Migration
 
             // 5.2 Pemupukan Daun & 5.3 & 5.4
             $table->decimal('coverage_target_percent', 10, 2)->nullable();
+            $table->decimal('realization_percent', 5, 2)->nullable();
             $table->string('application_interval')->nullable();
 
             // 5.3 Penyiangan Gulma & 5.4 Kultivator

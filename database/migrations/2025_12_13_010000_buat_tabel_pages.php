@@ -14,6 +14,11 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('subtitle')->nullable();
             $table->longText('content_html')->nullable();
+            $table->longText('overview_html')->nullable();
+            $table->longText('sejarah_html')->nullable();
+            $table->longText('tujuan_html')->nullable();
+            $table->longText('manfaat_html')->nullable();
+            $table->longText('lokasi_html')->nullable();
             $table->json('meta')->nullable(); // Untuk menyimpan data terstruktur (anggaran, list kegiatan, dll)
             $table->json('files')->nullable(); // Untuk menyimpan path dokumen/laporan
             $table->string('hero_photo_path')->nullable();

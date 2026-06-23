@@ -43,14 +43,21 @@ class InsightService
             ];
         }
 
-        // Save insight to database
-        Insight::create([
-            'garden_id' => $gardenId,
-            'insight_type' => 'productivity',
-            'message' => $insight['message'],
-            'alert_level' => $insight['alert_level'],
-            'recommendations' => $insight['recommendations'],
-        ]);
+        // Gunakan updateOrCreate agar tidak ada duplikat insight per kebun per tipe
+        Insight::updateOrCreate(
+            [
+                'garden_id'    => $gardenId,
+                'insight_type' => 'productivity',
+            ],
+            [
+                'title'       => 'Analisis Produktivitas',
+                'description' => $insight['message'],
+                'message'     => $insight['message'],
+                'alert_level' => $insight['alert_level'],
+                'recommendations' => $insight['recommendations'],
+                'generated_at' => now(),
+            ]
+        );
 
         return $insight;
     }
@@ -92,14 +99,21 @@ class InsightService
             ];
         }
 
-        // Save insight to database
-        Insight::create([
-            'garden_id' => $gardenId,
-            'insight_type' => 'quality',
-            'message' => $insight['message'],
-            'alert_level' => $insight['alert_level'],
-            'recommendations' => $insight['recommendations'],
-        ]);
+        // Gunakan updateOrCreate agar tidak ada duplikat insight per kebun per tipe
+        Insight::updateOrCreate(
+            [
+                'garden_id'    => $gardenId,
+                'insight_type' => 'quality',
+            ],
+            [
+                'title'       => 'Analisis Kualitas Pucuk',
+                'description' => $insight['message'],
+                'message'     => $insight['message'],
+                'alert_level' => $insight['alert_level'],
+                'recommendations' => $insight['recommendations'],
+                'generated_at' => now(),
+            ]
+        );
 
         return $insight;
     }

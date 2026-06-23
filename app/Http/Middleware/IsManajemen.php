@@ -17,7 +17,8 @@ class IsManajemen
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->role !== 'manajemen') {
+        // Izinkan 'manajemen' dan 'admin_ppkt' (superuser) untuk akses halaman monitoring
+        if (!Auth::check() || !in_array(Auth::user()->role, ['manajemen', 'admin_ppkt'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }

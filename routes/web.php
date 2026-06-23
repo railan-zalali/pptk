@@ -53,7 +53,7 @@ Route::resource('kunjungan-dinas', VisitController::class)->names('visits');
 // Community Service (Public)
 Route::get('/pengabdian-masyarakat', [CommunityServiceController::class, 'index'])->name('community-services.index');
 
-// Public Dashboard (Executive)
+// Public Dashboard (Executive — no auth required)
 Route::get('/dashboard/kebun-model', [StrategicDashboardController::class, 'index'])->name('dashboard.garden');
 
 
@@ -79,6 +79,7 @@ require __DIR__ . '/auth.php';
 /*
 |--------------------------------------------------------------------------
 | Admin PPKT Routes (Full CRUD - Operational & Master Data)
+| Single consolidated group for maintainability
 |--------------------------------------------------------------------------
 */
 
@@ -97,6 +98,21 @@ Route::middleware(['auth', 'admin_ppkt'])->prefix('admin')->name('admin.')->grou
 
     // Manajemen Pengguna
     Route::resource('users', AdminUserController::class);
+
+    // Pages Management
+    Route::prefix('pages')->name('pages.')->group(function () {
+        Route::get('/about', [AdminPageController::class, 'editAbout'])->name('about.edit');
+        Route::put('/about', [AdminPageController::class, 'updateAbout'])->name('about.update');
+    });
+
+    // Strategic & Programs & Insights
+    Route::resource('programs', AdminProgramController::class);
+    Route::resource('strategic-actions', AdminStrategicActionController::class);
+    Route::resource('insights', AdminInsightController::class);
+
+    // Kunjungan & Pengabdian Masyarakat
+    Route::resource('visits', AdminVisitController::class);
+    Route::resource('community-services', AdminCommunityServiceController::class);
 });
 
 
@@ -130,28 +146,4 @@ Route::middleware(['auth', 'manajemen'])->prefix('manajemen')->name('manajemen.'
     Route::get('/penelitian/edit', [ManajemenResearchController::class, 'edit'])->name('penelitian.edit');
     Route::put('/penelitian', [ManajemenResearchController::class, 'update'])->name('penelitian.update');
     Route::get('/pengabdian-masyarakat', [ManajemenCommunityServiceController::class, 'index'])->name('community-services.index');
-});
-
-
-/*
-|--------------------------------------------------------------------------
-| Admin (Shared - Programs, Strategic, Insights - managed by admin_ppkt)
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth', 'admin_ppkt'])->prefix('admin')->name('admin.')->group(function () {
-    // Pages Management
-    Route::prefix('pages')->name('pages.')->group(function () {
-        Route::get('/about', [AdminPageController::class, 'editAbout'])->name('about.edit');
-        Route::put('/about', [AdminPageController::class, 'updateAbout'])->name('about.update');
-    });
-
-    // Strategic & Programs
-    Route::resource('programs', AdminProgramController::class);
-    Route::resource('strategic-actions', AdminStrategicActionController::class);
-    Route::resource('insights', AdminInsightController::class);
-
-    // Other
-    Route::resource('visits', AdminVisitController::class);
-    Route::resource('community-services', AdminCommunityServiceController::class);
 });

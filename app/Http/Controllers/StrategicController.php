@@ -23,7 +23,7 @@ class StrategicController extends Controller
 
     public function garden(Region $region, Garden $garden)
     {
-        $garden->load(['photos', 'strategicActions.program', 'productionRealizations', 'performanceTargets', 'visits']);
+        $garden->load(['photos', 'strategicActions.program', 'productionRealizations', 'performanceTargets', 'visits', 'insights']);
 
         $currentYear = now()->year;
         
@@ -42,6 +42,8 @@ class StrategicController extends Controller
         // Visit Count
         $visitCount = $garden->visits->count();
 
-        return view('strategic.garden', compact('region', 'garden', 'latestProduction', 'avgProductivity', 'totalProduction', 'visitCount'));
+        $insights = $garden->insights;
+
+        return view('strategic.garden', compact('region', 'garden', 'latestProduction', 'avgProductivity', 'totalProduction', 'visitCount', 'insights'));
     }
 }

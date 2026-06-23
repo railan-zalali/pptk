@@ -44,10 +44,11 @@ class VisitPolicy
 
     /**
      * Determine whether the user can delete the model.
+     * Role 'admin' was renamed to 'admin_ppkt'.
      */
     public function delete(User $user, Visit $visit): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin_ppkt';
     }
 
     /**
@@ -55,7 +56,7 @@ class VisitPolicy
      */
     public function restore(User $user, Visit $visit): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin_ppkt';
     }
 
     /**
@@ -63,6 +64,6 @@ class VisitPolicy
      */
     public function forceDelete(User $user, Visit $visit): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin_ppkt';
     }
 }

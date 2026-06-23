@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Garden;
 use App\Models\Visit;
 use App\Models\CommunityService;
+use App\Models\Insight;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
@@ -50,6 +51,20 @@ class ResearchSeeder extends Seeder
                 'year' => 2026,
                 'description' => 'Kegiatan pengabdian masyarakat di desa binaan.',
                 'location' => 'Desa Binaan ' . ($idx + 1),
+            ]);
+        }
+
+        // 3. Insights
+        $alertLevels = ['low', 'medium', 'high'];
+        foreach ($gardens as $garden) {
+            Insight::create([
+                'garden_id' => $garden->id,
+                'insight_type' => 'productivity',
+                'title' => 'Analisis Produktivitas ' . $garden->kebun_name,
+                'description' => 'Evaluasi hasil produksi teh pada kebun ini menunjukkan tren tertentu.',
+                'message' => 'Pesan indikator tingkat produktivitas.',
+                'alert_level' => $alertLevels[array_rand($alertLevels)],
+                'recommendations' => ['Optimalkan pemupukan', 'Pantau kelembaban tanah'],
             ]);
         }
     }

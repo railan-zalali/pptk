@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('afdelings', function (Blueprint $table) {
+        Schema::create('programs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('garden_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->decimal('total_area_ha', 10, 2);
-            $table->decimal('tm_area_ha', 10, 2)->comment('Luas Tanaman Menghasilkan');
-            $table->string('manager_name')->nullable();
+            $table->string('program_name');
+            $table->text('description')->nullable();
+            $table->year('year');
+            $table->enum('program_type', ['Model', 'Pengembangan']);
+            $table->boolean('status')->default(true); // active/inactive
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('afdelings');
+        Schema::dropIfExists('programs');
     }
 };

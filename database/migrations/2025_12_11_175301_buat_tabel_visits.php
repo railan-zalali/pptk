@@ -14,7 +14,16 @@ return new class extends Migration
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('garden_id')->constrained();
+            $table->string('title')->nullable();
             $table->date('visit_date');
+            $table->integer('duration')->nullable();
+            $table->integer('participants_count')->nullable();
+            $table->text('participants_list')->nullable();
+            $table->text('description')->nullable();
+            $table->text('objectives')->nullable();
+            $table->text('findings')->nullable();
+            $table->text('recommendations')->nullable();
+            $table->integer('rating')->nullable();
             $table->string('visitor_name');
             $table->text('purpose');
             $table->enum('status', ['scheduled', 'completed', 'cancelled'])->default('scheduled');

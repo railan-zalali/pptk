@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('insights', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
             $table->foreignId('garden_id')->constrained();
             $table->string('insight_type');
             $table->text('message');

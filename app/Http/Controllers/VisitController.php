@@ -26,7 +26,7 @@ class VisitController extends Controller
                         'date' => $visit->visit_date->format('Y-m-d'),
                         'visitor_name' => $visit->visitor_name,
                         'participants_list' => $visit->participants_list,
-                        'location' => $visit->garden->name,
+                        'location' => $visit->garden->kebun_name,
                         'status' => $visit->status,
                         'time' => '09:00 - 15:00', // Default time as it's not in DB
                         'description' => $visit->description,
@@ -39,7 +39,7 @@ class VisitController extends Controller
         $visits = Visit::with(['garden', 'garden.region'])
             ->when(request('region'), function ($query, $regionId) {
                 $query->whereHas('garden', function ($q) use ($regionId) {
-                    $q->where('region_id', $regionId);
+                    $q->where('regional_id', $regionId); // kolom di tabel gardens adalah 'regional_id'
                 });
             })
             ->latest()

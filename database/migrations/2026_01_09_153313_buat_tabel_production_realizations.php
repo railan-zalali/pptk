@@ -22,6 +22,7 @@ return new class extends Migration
 
             // 6.2 Produksi Basah
             $table->decimal('wet_production_kg', 10, 2)->nullable();
+            $table->decimal('quality_score', 5, 2)->nullable();
 
             // 6.3 Kapasitas Pemetikan
             $table->decimal('capacity_per_ha', 10, 2)->nullable();
