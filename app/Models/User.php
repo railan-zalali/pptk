@@ -50,9 +50,9 @@ class User extends Authenticatable
     /**
      * Check if user is Admin PPKT (full CRUD access to operational data).
      */
-    public function isAdminPpkt(): bool
+    public function isAdminPptk(): bool
     {
-        return $this->role === 'admin_ppkt';
+        return $this->role === 'admin_pptk';
     }
 
     /**
@@ -68,7 +68,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->isAdminPpkt();
+        return $this->isAdminPptk();
     }
 
     /**

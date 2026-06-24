@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard Admin PPKT')
+@section('title', 'Dashboard Admin pptk')
 
 @section('content')
     {{-- Stats Cards: Master Kebun --}}
