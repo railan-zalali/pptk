@@ -11,7 +11,7 @@
 
         <!-- 1. Pengguna (User) -->
         <mxCell id="class_user"
-          value="&lt;b&gt;Pengguna&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- nama: string&lt;br/&gt;- email: string&lt;br/&gt;- peran: enum('admin_ppkt', 'manajemen')&lt;br/&gt;- email_diverifikasi_pada: datetime&lt;br/&gt;- kata_sandi: string&lt;br/&gt;- token_ingat: string&lt;hr/&gt;+ apakahAdminPpkt(): bool&lt;br/&gt;+ apakahManajemen(): bool&lt;br/&gt;+ apakahAdmin(): bool&lt;br/&gt;+ apakahManajer(): bool"
+          value="&lt;b&gt;Pengguna&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- nama: string&lt;br/&gt;- email: string&lt;br/&gt;- peran: enum('admin_pptk', 'manajemen')&lt;br/&gt;- email_diverifikasi_pada: datetime&lt;br/&gt;- kata_sandi: string&lt;br/&gt;- token_ingat: string&lt;hr/&gt;+ apakahAdminpptk(): bool&lt;br/&gt;+ apakahManajemen(): bool&lt;br/&gt;+ apakahAdmin(): bool&lt;br/&gt;+ apakahManajer(): bool"
           style="swimlane;fontStyle=1;align=left;verticalAlign=top;html=1;whiteSpace=wrap;startSize=26;horizontalStack=0;fillColor=#d5e8d4;strokeColor=#82b366;"
           vertex="1" parent="1">
           <mxGeometry x="50" y="50" width="230" height="200" as="geometry"/>

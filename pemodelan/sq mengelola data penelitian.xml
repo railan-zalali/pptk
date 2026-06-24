@@ -1,0 +1,156 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" version="28.1.2">
+  <diagram name="sq_mengelola_penelitian" id="sq_mengelola_penelitian">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- ==================== LIFELINES ==================== -->
+        <!-- Actor: Manajemen pptk -->
+        <mxCell id="lf_man" value="Aktor&#xa;(Manajemen pptk)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="145" y="40" width="30" height="60" as="geometry" />
+        </mxCell>
+        <!-- Controller: ManajemenResearchController -->
+        <mxCell id="lf_controller" value="ManajemenResearchController" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="270" y="40" width="180" height="60" as="geometry" />
+        </mxCell>
+        <!-- Model: Page (research) -->
+        <mxCell id="lf_model" value="Model: Page (slug = 'research')" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="480" y="40" width="180" height="60" as="geometry" />
+        </mxCell>
+        <!-- Storage -->
+        <mxCell id="lf_storage" value="Storage: Disk&#xa;(File Uploads)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="690" y="40" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== VERTICAL LIFELINES ==================== -->
+        <mxCell id="line_man" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="580" as="sourcePoint" />
+            <mxPoint x="160" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="line_controller" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="580" as="sourcePoint" />
+            <mxPoint x="360" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="line_model" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="570" y="580" as="sourcePoint" />
+            <mxPoint x="570" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="line_storage" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="760" y="580" as="sourcePoint" />
+            <mxPoint x="760" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ==================== ACTIVATION BOXES ==================== -->
+        <mxCell id="act_man" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="150" y="120" width="20" height="430" as="geometry" />
+        </mxCell>
+        <mxCell id="act_controller" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="120" width="20" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="act_model" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="560" y="140" width="20" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="act_storage" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="750" y="270" width="20" height="110" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== MESSAGES ==================== -->
+        <!-- 1. GET /manajemen/penelitian/edit -->
+        <mxCell id="msg_get" value="GET /manajemen/penelitian/edit" style="endArrow=block;html=1;strokeColor=#4e80b4;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="140" as="sourcePoint" />
+            <mxPoint x="350" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 2. Controller -> Model (fetch research page) -->
+        <mxCell id="msg_fetch" value="Page::firstOrCreate(['slug' => 'research'])" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="160" as="sourcePoint" />
+            <mxPoint x="560" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Return page -->
+        <mxCell id="ret_fetch" value="Kembalikan $page" style="endArrow=open;dashed=1;html=1;strokeColor=#b85450;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="200" as="sourcePoint" />
+            <mxPoint x="370" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Return view edit form -->
+        <mxCell id="ret_view" value="Tampilkan form edit penelitian dengan data existing" style="endArrow=open;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="230" as="sourcePoint" />
+            <mxPoint x="170" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 3. PUT /manajemen/penelitian -->
+        <mxCell id="msg_update" value="PUT /manajemen/penelitian (fields, files)" style="endArrow=block;html=1;strokeColor=#4e80b4;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="270" as="sourcePoint" />
+            <mxPoint x="350" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 4. Controller self validation -->
+        <mxCell id="msg_val" value="validate() input &amp; file mimes" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;spacingLeft=5;endArrow=block;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="280" as="sourcePoint" />
+            <mxPoint x="370" y="305" as="targetPoint" />
+            <Array points="400,280; 400,305" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 5. Upload files -->
+        <mxCell id="msg_upload" value="store('research-files', 'public')" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="330" as="sourcePoint" />
+            <mxPoint x="750" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="ret_upload" value="Kembalikan file path &amp; metadata" style="endArrow=open;dashed=1;html=1;strokeColor=#b85450;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="750" y="360" as="sourcePoint" />
+            <mxPoint x="370" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 6. Save model page -->
+        <mxCell id="msg_save" value="Update title, subtitle, meta, &amp; files list" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="410" as="sourcePoint" />
+            <mxPoint x="560" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="ret_save" value="Simpan ke tabel pages (success)" style="endArrow=open;dashed=1;html=1;strokeColor=#b85450;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="450" as="sourcePoint" />
+            <mxPoint x="370" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Return success to user -->
+        <mxCell id="ret_finish" value="Redirect back dengan success alert" style="endArrow=open;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="490" as="sourcePoint" />
+            <mxPoint x="170" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

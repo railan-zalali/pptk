@@ -5,12 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Garden;
 use App\Models\ProductionRealization;
+use App\Services\InsightService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class AdminProductionRealizationController extends Controller
 {
+    protected InsightService $insightService;
+
+    public function __construct(InsightService $insightService)
+    {
+        $this->insightService = $insightService;
+    }
+
     public function index()
     {
         $productions = ProductionRealization::with('garden')
@@ -55,7 +63,24 @@ class AdminProductionRealizationController extends Controller
             'month.unique' => 'Data realisasi untuk kebun dan periode bulan/tahun ini sudah ada.',
         ]);
 
-        ProductionRealization::create($validated);
+        $realization = ProductionRealization::create($validated);
+
+        // ── Auto-generate insight via Rule Engine ──────────────────────────
+        try {
+            $this->insightService->generateProductivityInsight(
+                $realization->kebun_id,
+                $realization->year
+            );
+            if (!empty($validated['quality_score'])) {
+                $this->insightService->generateQualityInsight(
+                    $realization->kebun_id,
+                    $realization->year
+                );
+            }
+        } catch (\Exception $e) {
+            Log::warning('[InsightService] Gagal generate insight setelah store: ' . $e->getMessage());
+        }
+        // ─────────────────────────────────────────────────────────────────
 
         return redirect()->route('admin.production-realizations.index')->with('success', 'Data Realisasi berhasil ditambahkan.');
     }
@@ -82,6 +107,23 @@ class AdminProductionRealizationController extends Controller
         ]);
 
         $productionRealization->update($validated);
+
+        // ── Auto-generate insight via Rule Engine ──────────────────────────
+        try {
+            $this->insightService->generateProductivityInsight(
+                $productionRealization->kebun_id,
+                $productionRealization->year
+            );
+            if (!empty($validated['quality_score'])) {
+                $this->insightService->generateQualityInsight(
+                    $productionRealization->kebun_id,
+                    $productionRealization->year
+                );
+            }
+        } catch (\Exception $e) {
+            Log::warning('[InsightService] Gagal generate insight setelah update: ' . $e->getMessage());
+        }
+        // ─────────────────────────────────────────────────────────────────
 
         return redirect()->route('admin.production-realizations.index')->with('success', 'Realization Data updated successfully.');
     }

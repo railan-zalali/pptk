@@ -6,8 +6,8 @@
         <mxCell id="1" parent="0" />
         
         <!-- ==================== SWIMLANES ==================== -->
-        <!-- Manajemen PPKT Swimlane (x: 50 to 370, width: 320) -->
-        <mxCell id="ssw1" value="Manajemen PPKT" style="swimlane;startSize=30;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+        <!-- Manajemen pptk Swimlane (x: 50 to 370, width: 320) -->
+        <mxCell id="ssw1" value="Manajemen pptk" style="swimlane;startSize=30;horizontal=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
           <mxGeometry x="50" y="40" width="320" height="750" as="geometry" />
         </mxCell>
         <!-- Sistem Swimlane (x: 370 to 690, width: 320) -->

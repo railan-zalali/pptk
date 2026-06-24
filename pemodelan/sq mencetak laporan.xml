@@ -1,0 +1,132 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" version="28.1.2">
+  <diagram name="sq_mencetak_laporan" id="sq_mencetak_laporan">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="700" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- ==================== LIFELINES ==================== -->
+        <!-- Actor: Admin / Manajemen -->
+        <mxCell id="lf_aktor" value="Aktor&#xa;(Admin / Manajemen)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="145" y="40" width="30" height="60" as="geometry" />
+        </mxCell>
+        <!-- Browser: Print Dialog -->
+        <mxCell id="lf_browser" value="Browser: Print Dialog&#xa;(window.print preview)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="270" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+        <!-- View: CSS Media Print -->
+        <mxCell id="lf_css" value="CSS Print Rules&#xa;(@media print)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="480" y="40" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== VERTICAL LIFELINES ==================== -->
+        <mxCell id="line_aktor" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="480" as="sourcePoint" />
+            <mxPoint x="160" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="line_browser" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="480" as="sourcePoint" />
+            <mxPoint x="350" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="line_css" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="480" as="sourcePoint" />
+            <mxPoint x="550" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ==================== ACTIVATION BOXES ==================== -->
+        <mxCell id="act_aktor" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="150" y="120" width="20" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="act_browser" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="340" y="120" width="20" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="act_css" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="540" y="140" width="20" height="70" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== MESSAGES ==================== -->
+        <!-- 1. Click PDF button -->
+        <mxCell id="msg1" value="Klik tombol 'PDF' / 'Cetak' (window.print)" style="endArrow=block;html=1;strokeColor=#4e80b4;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="140" as="sourcePoint" />
+            <mxPoint x="340" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 2. Apply CSS media print -->
+        <mxCell id="msg2" value="Terapkan gaya cetak (@media print)" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="160" as="sourcePoint" />
+            <mxPoint x="540" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Return CSS -->
+        <mxCell id="ret2" value="Sembunyikan sidebar &amp; navigasi" style="endArrow=open;dashed=1;html=1;strokeColor=#b85450;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="200" as="sourcePoint" />
+            <mxPoint x="360" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 3. Self-call: open preview dialog -->
+        <mxCell id="msg3_self" value="Render dialog preview PDF" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;spacingLeft=5;endArrow=block;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="220" as="sourcePoint" />
+            <mxPoint x="360" y="245" as="targetPoint" />
+            <Array points="390,220; 390,245" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Return dialog -->
+        <mxCell id="ret1" value="Tampilkan dialog cetak &amp; PDF preview" style="endArrow=open;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="280" as="sourcePoint" />
+            <mxPoint x="170" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ==================== ALT FRAME ==================== -->
+        <mxCell id="fr_alt" value="Alt [Konfirmasi]" style="shape=umlFrame;whiteSpace=wrap;html=1;fontStyle=1;align=left;verticalAlign=top;fillColor=none;strokeWidth=1.5;strokeColor=#bfa243;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="110" y="300" width="500" height="120" as="geometry" />
+        </mxCell>
+        
+        <!-- Case A: Simpan -->
+        <mxCell id="msg_simpan" value="Klik 'Simpan PDF'" style="endArrow=block;html=1;strokeColor=#4e80b4;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="330" as="sourcePoint" />
+            <mxPoint x="340" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="ret_simpan" value="Download file PDF otomatis" style="endArrow=open;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="350" as="sourcePoint" />
+            <mxPoint x="170" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Case B: Batal -->
+        <mxCell id="msg_batal" value="Klik 'Batal'" style="endArrow=block;html=1;strokeColor=#4e80b4;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="390" as="sourcePoint" />
+            <mxPoint x="340" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="ret_batal" value="Tutup dialog cetak" style="endArrow=open;dashed=1;html=1;strokeColor=#b85450;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="410" as="sourcePoint" />
+            <mxPoint x="170" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

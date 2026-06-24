@@ -1,0 +1,182 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)" version="28.1.2">
+  <diagram name="sq_mengelola_kebun" id="sq_mengelola_kebun">
+    <mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- ==================== LIFELINES ==================== -->
+        <!-- Actor: Admin PPKT -->
+        <mxCell id="lf_admin" value="Aktor&#xa;(Admin PPKT)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="145" y="40" width="30" height="60" as="geometry" />
+        </mxCell>
+        <!-- Controller: AdminGardenController -->
+        <mxCell id="lf_controller" value="AdminGardenController" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="270" y="40" width="180" height="60" as="geometry" />
+        </mxCell>
+        <!-- Model: Garden -->
+        <mxCell id="lf_model" value="Model: Garden" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="480" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+        <!-- Storage -->
+        <mxCell id="lf_storage" value="Storage: Disk&#xa;(File Uploads)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="670" y="40" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== VERTICAL LIFELINES ==================== -->
+        <mxCell id="line_admin" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="160" y="660" as="sourcePoint" />
+            <mxPoint x="160" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="line_controller" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="660" as="sourcePoint" />
+            <mxPoint x="360" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="line_model" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="660" as="sourcePoint" />
+            <mxPoint x="560" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="line_storage" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="660" as="sourcePoint" />
+            <mxPoint x="740" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ==================== ACTIVATION BOXES ==================== -->
+        <mxCell id="act_admin" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="150" y="120" width="20" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="act_controller" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="350" y="120" width="20" height="490" as="geometry" />
+        </mxCell>
+        <mxCell id="act_model" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="550" y="160" width="20" height="430" as="geometry" />
+        </mxCell>
+        <mxCell id="act_storage" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;" vertex="1" parent="1">
+          <mxGeometry x="730" y="240" width="20" height="210" as="geometry" />
+        </mxCell>
+        
+        <!-- ==================== ALT FRAME ==================== -->
+        <mxCell id="fr_crud" value="Alt [CRUD Master Kebun]" style="shape=umlFrame;whiteSpace=wrap;html=1;fontStyle=1;align=left;verticalAlign=top;fillColor=none;strokeWidth=1.5;strokeColor=#bfa243;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="110" y="130" width="670" height="490" as="geometry" />
+        </mxCell>
+        
+        <!-- CASE 1: CREATE -->
+        <mxCell id="msg_post" value="POST /admin/gardens (fields, photo)" style="endArrow=block;html=1;strokeColor=#4e80b4;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="150" as="sourcePoint" />
+            <mxPoint x="350" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg_val" value="validate() data kebun" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;spacingLeft=5;endArrow=block;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="160" as="sourcePoint" />
+            <mxPoint x="370" y="185" as="targetPoint" />
+            <Array points="400,160; 400,185" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg_create" value="Garden::create(validated)" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="210" as="sourcePoint" />
+            <mxPoint x="550" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg_store_photo" value="store('garden-photos', 'public')" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="250" as="sourcePoint" />
+            <mxPoint x="730" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="ret_photo" value="Kembalikan photo_path" style="endArrow=open;dashed=1;html=1;strokeColor=#b85450;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="730" y="280" as="sourcePoint" />
+            <mxPoint x="370" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg_update_path" value="$garden->update(['photo_path' => $path])" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="305" as="sourcePoint" />
+            <mxPoint x="550" y="305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="ret_store" value="Redirect ke index dengan success alert" style="endArrow=open;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="340" as="sourcePoint" />
+            <mxPoint x="170" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- CASE 2: UPDATE -->
+        <mxCell id="msg_put" value="PUT /admin/gardens/{garden} (fields, photo)" style="endArrow=block;html=1;strokeColor=#4e80b4;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="390" as="sourcePoint" />
+            <mxPoint x="350" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg_update" value="$garden->update(validated)" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="415" as="sourcePoint" />
+            <mxPoint x="550" y="415" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg_store_photo_edit" value="store('garden-photos', 'public')" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="440" as="sourcePoint" />
+            <mxPoint x="730" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="ret_photo_edit" value="Kembalikan photo_path &amp; simpan di model" style="endArrow=open;dashed=1;html=1;strokeColor=#b85450;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="730" y="465" as="sourcePoint" />
+            <mxPoint x="370" y="465" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="ret_update" value="Redirect ke index dengan success alert" style="endArrow=open;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="495" as="sourcePoint" />
+            <mxPoint x="170" y="495" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- CASE 3: DELETE -->
+        <mxCell id="msg_delete" value="DELETE /admin/gardens/{garden}" style="endArrow=block;html=1;strokeColor=#4e80b4;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="170" y="540" as="sourcePoint" />
+            <mxPoint x="350" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="msg_del" value="$garden->delete()" style="endArrow=block;html=1;strokeColor=#82b366;strokeWidth=1.5;verticalAlign=bottom;fontSize=10;fontStyle=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="370" y="565" as="sourcePoint" />
+            <mxPoint x="550" y="565" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="ret_delete" value="Redirect ke index dengan success alert" style="endArrow=open;dashed=1;html=1;strokeColor=#82b366;strokeWidth=1.2;verticalAlign=bottom;fontSize=10;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="350" y="595" as="sourcePoint" />
+            <mxPoint x="170" y="595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -5,10 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Garden;
 use App\Models\StrategicAction;
+use App\Services\InsightService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminStrategicActionController extends Controller
 {
+    protected InsightService $insightService;
+
+    public function __construct(InsightService $insightService)
+    {
+        $this->insightService = $insightService;
+    }
+
     public function index()
     {
         $actions = StrategicAction::with(['garden', 'program'])->orderBy('year', 'desc')->paginate(10);
@@ -54,7 +63,15 @@ class AdminStrategicActionController extends Controller
             'note' => 'nullable|string',
         ]);
 
-        StrategicAction::create($validated);
+        $action = StrategicAction::create($validated);
+
+        // ── Auto-generate insight via Rule Engine ──────────────────────────
+        try {
+            $this->insightService->generateStrategicInsight($action);
+        } catch (\Exception $e) {
+            Log::warning('[InsightService] Gagal generate strategic insight setelah store: ' . $e->getMessage());
+        }
+        // ─────────────────────────────────────────────────────────────────
 
         return redirect()->route('admin.strategic-actions.index')->with('success', 'Strategic Action recorded successfully.');
     }
@@ -99,6 +116,15 @@ class AdminStrategicActionController extends Controller
         ]);
 
         $strategicAction->update($validated);
+        $strategicAction->refresh();
+
+        // ── Auto-generate insight via Rule Engine ──────────────────────────
+        try {
+            $this->insightService->generateStrategicInsight($strategicAction);
+        } catch (\Exception $e) {
+            Log::warning('[InsightService] Gagal generate strategic insight setelah update: ' . $e->getMessage());
+        }
+        // ─────────────────────────────────────────────────────────────────
 
         return redirect()->route('admin.strategic-actions.index')->with('success', 'Strategic Action updated successfully.');
     }

@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             'blocks', 'afdelings', 'garden_photos', 'gardens', 
             'region_photos', 'regions', 'pages', 'programs', 
             'community_services', 'sessions', 'password_reset_tokens', 
-            'cache_locks', 'cache', 'jobs', 'job_batches', 'failed_jobs', 'users'
+            'cache_locks', 'cache', 'jobs', 'job_batches', 'failed_jobs', 'users',
+            'insight_configs',
         ];
 
         foreach ($tables as $table) {
@@ -39,10 +40,11 @@ class DatabaseSeeder extends Seeder
         // Run Seeders in Order
         $this->call([
             UserSeeder::class,
-            CoreStructureSeeder::class, // Regions, Gardens, Afdelings, Blocks
-            ProductionSeeder::class,    // Production Data & Realizations
-            StrategicSeeder::class,     // Strategic Actions, Programs, Targets
-            ResearchSeeder::class,      // Visits, Community Services
+            CoreStructureSeeder::class,   // Regions, Gardens, Afdelings, Blocks
+            ProductionSeeder::class,      // Production Data & Realizations
+            StrategicSeeder::class,       // Strategic Actions, Programs, Targets
+            ResearchSeeder::class,        // Visits, Community Services
+            InsightConfigSeeder::class,   // Rule Engine Thresholds
         ]);
     }
 }
