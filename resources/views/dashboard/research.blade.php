@@ -22,9 +22,9 @@
         <!-- 1. Ringkasan Penelitian -->
         <div class="mb-10">
             <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                <span class="material-icons mr-2 text-green-600">analytics</span> Ringkasan Penelitian
+                <span class="material-icons mr-2 text-green-600">analytics</span> Ringkasan Penelitian {{ $budgetYear }}
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <!-- Card 1: Jumlah Kegiatan -->
                 <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
                     <div class="flex items-center justify-between">
@@ -40,34 +40,117 @@
                     <p class="text-sm text-gray-400 mt-4">Total penelitian terdaftar</p>
                 </div>
 
-                <!-- Card 2: Total Anggaran -->
+                <!-- Card 2: Saldo Awal -->
+                <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-indigo-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium uppercase">Saldo Awal</p>
+                            <p class="text-3xl font-bold text-gray-800 mt-1">
+                                Rp {{ number_format($budgetGrandTotals['total_opening'] ?? 0, 0, ',', '.') }}</p>
+                        </div>
+                        <div class="bg-indigo-100 p-3 rounded-full">
+                            <span class="material-icons text-indigo-600">savings</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-4">Saldo awal tahun</p>
+                </div>
+
+                <!-- Card 3: Total Pencairan -->
                 <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-500">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-500 text-sm font-medium uppercase">Total Anggaran</p>
-                            <p class="text-3xl font-bold text-gray-800 mt-1">
-                                Rp {{ number_format($page->meta['summary']['total_budget'] ?? 0, 0, ',', '.') }}</p>
+                            <p class="text-gray-500 text-sm font-medium uppercase">Total Pencairan</p>
+                            <p class="text-3xl font-bold text-green-700 mt-1">
+                                Rp {{ number_format($budgetGrandTotals['total_income'] ?? 0, 0, ',', '.') }}</p>
                         </div>
                         <div class="bg-green-100 p-3 rounded-full">
-                            <span class="material-icons text-green-600">payments</span>
+                            <span class="material-icons text-green-600">trending_up</span>
                         </div>
                     </div>
-                    <p class="text-sm text-gray-400 mt-4">Alokasi dana penelitian</p>
+                    <p class="text-sm text-gray-400 mt-4">Dana yang dicairkan</p>
                 </div>
 
-                <!-- Card 3: Sisa Anggaran -->
+                <!-- Card 4: Total Pengeluaran -->
+                <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-red-500">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium uppercase">Total Pengeluaran</p>
+                            <p class="text-3xl font-bold text-red-700 mt-1">
+                                Rp {{ number_format($budgetGrandTotals['total_expenditure'] ?? 0, 0, ',', '.') }}</p>
+                        </div>
+                        <div class="bg-red-100 p-3 rounded-full">
+                            <span class="material-icons text-red-600">trending_down</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-4">Pengeluaran riil</p>
+                </div>
+
+                <!-- Card 5: Sisa Anggaran -->
                 <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-purple-500">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-gray-500 text-sm font-medium uppercase">Sisa Anggaran</p>
-                            <p class="text-3xl font-bold text-gray-800 mt-1">
-                                Rp {{ number_format($page->meta['summary']['remaining_budget'] ?? 0, 0, ',', '.') }}</p>
+                            <p class="text-3xl font-bold text-purple-700 mt-1">
+                                Rp {{ number_format($budgetGrandTotals['total_remaining'] ?? 0, 0, ',', '.') }}</p>
                         </div>
                         <div class="bg-purple-100 p-3 rounded-full">
                             <span class="material-icons text-purple-600">account_balance_wallet</span>
                         </div>
                     </div>
                     <p class="text-sm text-gray-400 mt-4">Dana tersisa</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1.5. Detail Anggaran per Kegiatan -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <span class="material-icons mr-2 text-green-600">account_balance</span> Detail Anggaran per Kegiatan
+            </h2>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Kegiatan
+                                </th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Saldo Awal
+                                </th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Pencairan
+                                </th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Pengeluaran
+                                </th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Sisa
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @foreach ($budgetSummary as $item)
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $item['activity_name'] }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                        Rp {{ number_format($item['opening_balance'], 0, ',', '.') }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 text-right">
+                                        Rp {{ number_format($item['total_income'], 0, ',', '.') }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 text-right">
+                                        Rp {{ number_format($item['total_expenditure'], 0, ',', '.') }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium {{ $item['remaining_balance'] >= 0 ? 'text-purple-600' : 'text-red-600' }} text-right">
+                                        Rp {{ number_format($item['remaining_balance'], 0, ',', '.') }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -97,9 +180,15 @@
                     </p>
                 </div>
                 <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Ringkasan RKAP & Pencairan</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Ringkasan RKAP (Anggaran)</h3>
                     <p class="text-gray-600 leading-relaxed whitespace-pre-line">
-                        {{ $page->meta['info']['rkap_notes'] ?? 'Belum ada informasi.' }}
+                        {{ $page->meta['info']['rkap_budget'] ?? $page->meta['info']['rkap_notes'] ?? 'Belum ada informasi.' }}
+                    </p>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Ringkasan Pencairan</h3>
+                    <p class="text-gray-600 leading-relaxed whitespace-pre-line">
+                        {{ $page->meta['info']['rkap_disbursement'] ?? 'Belum ada informasi.' }}
                     </p>
                 </div>
             </div>
@@ -237,7 +326,7 @@
                             <option value="all">Semua Wilayah</option>
                             @foreach ($regions as $region)
                                 <option value="{{ $region->id }}"
-                                    {{ request('region') == $region->id ? 'selected' : '' }}>{{ $region->name }}</option>
+                                    {{ request('region') == $region->id ? 'selected' : '' }}>{{ $region->regional_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -287,22 +376,30 @@
                     </p>
 
                     <div class="space-y-4">
-                        @foreach ($correlationMatrix as $factor => $value)
+                        @if (!empty($correlationMatrix) && isset($correlationMatrix['productivity_vs_quality']))
+                            @php
+                                $corrValue = $correlationMatrix['productivity_vs_quality'];
+                                $corrInterpretation = $correlationMatrix['interpretation'] ?? '-';
+                                $corrDataPoints = $correlationMatrix['data_points'] ?? 0;
+                            @endphp
                             <div>
                                 <div class="flex justify-between text-sm mb-1">
-                                    <span class="capitalize text-gray-700">{{ $factor }}</span>
+                                    <span class="text-gray-700">Produktivitas vs Kualitas</span>
                                     <span
-                                        class="font-medium {{ $value > 0.5 ? 'text-green-600' : ($value < -0.5 ? 'text-red-600' : 'text-gray-600') }}">
-                                        {{ number_format($value, 2) }}
+                                        class="font-medium {{ $corrValue > 0.5 ? 'text-green-600' : ($corrValue < -0.5 ? 'text-red-600' : 'text-gray-600') }}">
+                                        {{ number_format($corrValue, 4) }}
                                     </span>
                                 </div>
                                 <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <!-- Normalize -1 to 1 range to 0 to 100% width -->
-                                    <div class="h-2 rounded-full {{ $value > 0 ? 'bg-blue-500' : 'bg-red-500' }}"
-                                        style="width: {{ abs($value) * 100 }}%"></div>
+                                    <div class="h-2 rounded-full {{ $corrValue > 0 ? 'bg-blue-500' : 'bg-red-500' }}"
+                                        style="width: {{ abs($corrValue) * 100 }}%"></div>
                                 </div>
+                                <p class="text-xs text-gray-500 mt-2">{{ $corrInterpretation }}</p>
+                                <p class="text-xs text-gray-400">Berdasarkan {{ $corrDataPoints }} titik data</p>
                             </div>
-                        @endforeach
+                        @else
+                            <p class="text-sm text-gray-400 italic">Data korelasi belum tersedia (dibutuhkan minimal 2 kebun dengan data produksi).</p>
+                        @endif
                     </div>
                     <div class="mt-6 p-3 bg-gray-50 rounded text-xs text-gray-500">
                         <p><strong>Catatan:</strong> Nilai mendekati 1.00 menunjukkan korelasi positif kuat, -1.00 korelasi

@@ -27,7 +27,7 @@
                     <select name="role" onchange="this.form.submit()"
                         class="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 appearance-none transition-colors">
                         <option value="">Semua Role</option>
-                        <option value="admin_ppkt" {{ request('role') == 'admin_ppkt' ? 'selected' : '' }}>Admin PPKT</option>
+                        <option value="admin_pptk" {{ request('role') == 'admin_pptk' ? 'selected' : '' }}>Admin PPTK</option>
                         <option value="manajemen" {{ request('role') == 'manajemen' ? 'selected' : '' }}>Manajemen</option>
                     </select>
                 </div>
@@ -108,12 +108,12 @@
                             <td class="px-6 py-4">
                                 @php
                                     $roleColors = [
-                                        'admin_ppkt' =>
+                                        'admin_pptk' =>
                                             'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-200',
                                         'manajemen' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200',
                                     ];
                                     $roleLabels = [
-                                        'admin_ppkt' => 'Admin PPKT',
+                                        'admin_pptk' => 'Admin PPTK',
                                         'manajemen'  => 'Manajemen',
                                     ];
                                     $roleClass = $roleColors[$user->role] ?? 'bg-gray-100 text-gray-800';

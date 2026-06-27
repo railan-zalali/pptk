@@ -18,17 +18,17 @@ return new class extends Migration
 
         if ($driver === 'mysql') {
             // Step 1: Expand enum to allow ALL values (old + new) so UPDATE won't truncate
-            DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin','manager','viewer','admin_ppkt','manajemen') NOT NULL DEFAULT 'manajemen'");
+            DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin','manager','viewer','admin_pptk','manajemen') NOT NULL DEFAULT 'manajemen'");
 
             // Step 2: Migrate existing data
-            DB::table('users')->where('role', 'admin')->update(['role' => 'admin_ppkt']);
+            DB::table('users')->where('role', 'admin')->update(['role' => 'admin_pptk']);
             DB::table('users')->whereIn('role', ['manager', 'viewer'])->update(['role' => 'manajemen']);
 
             // Step 3: Shrink enum to only new roles
-            DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin_ppkt','manajemen') NOT NULL DEFAULT 'manajemen'");
+            DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin_pptk','manajemen') NOT NULL DEFAULT 'manajemen'");
         } else {
             // SQLite / other: update data, then change column type
-            DB::table('users')->where('role', 'admin')->update(['role' => 'admin_ppkt']);
+            DB::table('users')->where('role', 'admin')->update(['role' => 'admin_pptk']);
             DB::table('users')->whereIn('role', ['manager', 'viewer'])->update(['role' => 'manajemen']);
 
             Schema::table('users', function (Blueprint $table) {
@@ -46,16 +46,16 @@ return new class extends Migration
 
         if ($driver === 'mysql') {
             // Step 1: Expand enum
-            DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin','manager','viewer','admin_ppkt','manajemen') NOT NULL DEFAULT 'viewer'");
+            DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin','manager','viewer','admin_pptk','manajemen') NOT NULL DEFAULT 'viewer'");
 
             // Step 2: Revert data
-            DB::table('users')->where('role', 'admin_ppkt')->update(['role' => 'admin']);
+            DB::table('users')->where('role', 'admin_pptk')->update(['role' => 'admin']);
             DB::table('users')->where('role', 'manajemen')->update(['role' => 'viewer']);
 
             // Step 3: Shrink back to old enum
             DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin','manager','viewer') NOT NULL DEFAULT 'viewer'");
         } else {
-            DB::table('users')->where('role', 'admin_ppkt')->update(['role' => 'admin']);
+            DB::table('users')->where('role', 'admin_pptk')->update(['role' => 'admin']);
             DB::table('users')->where('role', 'manajemen')->update(['role' => 'viewer']);
 
             Schema::table('users', function (Blueprint $table) {

@@ -11,6 +11,17 @@ use Illuminate\Validation\Rule;
 
 class AdminUserController extends Controller
 {
+    public function __construct()
+    {
+        // Only allow actual admin_pptk for user management
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->role !== 'admin_pptk') {
+                return redirect()->route('dashboard')->with('error', 'Akses ditolak.');
+            }
+            return $next($request);
+        });
+    }
+
     public function index(Request $request)
     {
         $query = User::orderBy('name');
@@ -41,7 +52,7 @@ class AdminUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:admin_ppkt,manajemen'],
+            'role' => ['required', 'in:admin_pptk,manajemen'],
         ]);
 
         User::create([
@@ -64,7 +75,7 @@ class AdminUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-            'role' => ['required', 'in:admin_ppkt,manajemen'],
+            'role' => ['required', 'in:admin_pptk,manajemen'],
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
         ]);
 

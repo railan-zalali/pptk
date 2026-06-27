@@ -34,7 +34,7 @@ class DashboardController extends Controller
 
         $role = Auth::user()->role;
 
-        if ($role === 'admin_ppkt') {
+        if ($role === 'admin_pptk') {
             return redirect()->route('admin.dashboard');
         }
 

@@ -29,10 +29,10 @@ class AuthenticatedDashboardTest extends TestCase
     }
 
     /** @test */
-    public function test_admin_ppkt_redirected_to_admin_dashboard(): void
+    public function test_admin_pptk_redirected_to_admin_dashboard(): void
     {
-        $admin = User::where('role', 'admin_ppkt')->first();
-        $this->assertNotNull($admin, 'Seeder harus menyediakan user admin_ppkt');
+        $admin = User::where('role', 'admin_pptk')->first();
+        $this->assertNotNull($admin, 'Seeder harus menyediakan user admin_pptk');
 
         $this->actingAs($admin)
             ->get(route('dashboard'))
@@ -53,7 +53,7 @@ class AuthenticatedDashboardTest extends TestCase
     /** @test */
     public function test_admin_dashboard_is_accessible(): void
     {
-        $admin = User::where('role', 'admin_ppkt')->first();
+        $admin = User::where('role', 'admin_pptk')->first();
 
         $this->actingAs($admin)
             ->get(route('admin.dashboard'))
@@ -71,10 +71,10 @@ class AuthenticatedDashboardTest extends TestCase
     }
 
     /** @test */
-    public function test_admin_ppkt_can_access_manajemen_pages(): void
+    public function test_admin_pptk_can_access_manajemen_pages(): void
     {
-        // Admin PPKT harus bisa akses halaman monitoring manajemen
-        $admin = User::where('role', 'admin_ppkt')->first();
+        // Admin PPTK harus bisa akses halaman monitoring manajemen
+        $admin = User::where('role', 'admin_pptk')->first();
 
         $this->actingAs($admin)
             ->get(route('manajemen.dashboard'))

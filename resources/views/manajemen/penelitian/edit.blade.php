@@ -87,9 +87,13 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Inkubasi Riset (Deskripsi)</label>
                         <textarea name="meta[info][incubation]" rows="3" class="w-full border dark:border-gray-700 dark:bg-gray-850 rounded px-3 py-2">{{ old('meta.info.incubation', $page->meta['info']['incubation'] ?? '') }}</textarea>
                     </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-305 mb-2">Ringkasan RKAP & Pencairan</label>
-                        <textarea name="meta[info][rkap_notes]" rows="3" class="w-full border dark:border-gray-700 dark:bg-gray-850 rounded px-3 py-2" placeholder="Catatan mengenai RKAP...">{{ old('meta.info.rkap_notes', $page->meta['info']['rkap_notes'] ?? '') }}</textarea>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ringkasan RKAP (Anggaran)</label>
+                        <textarea name="meta[info][rkap_budget]" rows="3" class="w-full border dark:border-gray-700 dark:bg-gray-850 rounded px-3 py-2" placeholder="Informasi alokasi anggaran RKAP...">{{ old('meta.info.rkap_budget', $page->meta['info']['rkap_budget'] ?? '') }}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ringkasan Pencairan</label>
+                        <textarea name="meta[info][rkap_disbursement]" rows="3" class="w-full border dark:border-gray-700 dark:bg-gray-850 rounded px-3 py-2" placeholder="Informasi realisasi pencairan dana...">{{ old('meta.info.rkap_disbursement', $page->meta['info']['rkap_disbursement'] ?? '') }}</textarea>
                     </div>
                 </div>
             </div>

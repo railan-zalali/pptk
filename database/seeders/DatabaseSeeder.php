@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
 
         // Run Seeders in Order
         $this->call([
+            ResearchBudgetSeeder::class,
             UserSeeder::class,
             CoreStructureSeeder::class,   // Regions, Gardens, Afdelings, Blocks
             ProductionSeeder::class,      // Production Data & Realizations

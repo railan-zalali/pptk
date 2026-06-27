@@ -33,6 +33,8 @@ class ManajemenResearchController extends Controller
                     'internal_research' => '',
                     'external_research' => '',
                     'incubation' => '',
+                    'rkap_budget' => '',
+                    'rkap_disbursement' => '',
                     'rkap_notes' => ''
                 ],
                 'activities' => [],
@@ -59,6 +61,8 @@ class ManajemenResearchController extends Controller
             'meta.info.internal_research' => 'nullable|string',
             'meta.info.external_research' => 'nullable|string',
             'meta.info.incubation' => 'nullable|string',
+            'meta.info.rkap_budget' => 'nullable|string',
+            'meta.info.rkap_disbursement' => 'nullable|string',
             'meta.info.rkap_notes' => 'nullable|string',
             
             'meta.activities' => 'nullable|array',
@@ -96,6 +100,8 @@ class ManajemenResearchController extends Controller
                 'internal_research' => $request->input('meta.info.internal_research'),
                 'external_research' => $request->input('meta.info.external_research'),
                 'incubation' => $request->input('meta.info.incubation'),
+                'rkap_budget' => $request->input('meta.info.rkap_budget'),
+                'rkap_disbursement' => $request->input('meta.info.rkap_disbursement'),
                 'rkap_notes' => $request->input('meta.info.rkap_notes'),
             ],
             'activities' => array_values($request->input('meta.activities', [])), // Re-index array

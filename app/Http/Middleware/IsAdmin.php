@@ -11,13 +11,13 @@ class IsAdmin
 {
     /**
      * Handle an incoming request.
-     * Only allows users with role 'admin_ppkt'.
+     * Only allows users with role 'admin_pptk'.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin_ppkt') {
+        if (!Auth::check() || !in_array(Auth::user()->role, ['admin_pptk', 'manajemen'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }

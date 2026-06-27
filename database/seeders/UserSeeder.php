@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         $tokenTime = $now->copy()->subDays(2);
 
         $users = [
-            ['name' => 'Admin PPKT', 'email' => 'admin@pptk.test', 'role' => 'admin_ppkt'],
+            ['name' => 'Admin PPTK', 'email' => 'admin@pptk.test', 'role' => 'admin_pptk'],
             ['name' => 'Manajemen Eksekutif', 'email' => 'manajemen@pptk.test', 'role' => 'manajemen'],
             ['name' => 'Manajemen Regional Barat', 'email' => 'manajemen.barat@pptk.test', 'role' => 'manajemen'],
             ['name' => 'Manajemen Regional Timur', 'email' => 'manajemen.timur@pptk.test', 'role' => 'manajemen'],

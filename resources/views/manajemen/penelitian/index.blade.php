@@ -125,10 +125,18 @@
             </div>
             <div class="bg-white dark:bg-gray-900 rounded-2xl shadow p-5">
                 <h4 class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-2 border-b dark:border-gray-800 pb-2 flex items-center gap-1.5">
-                    <span class="w-1.5 h-3.5 rounded bg-emerald-500"></span> Ringkasan RKAP & Pencairan
+                    <span class="w-1.5 h-3.5 rounded bg-amber-500"></span> Ringkasan RKAP (Anggaran)
                 </h4>
                 <p class="text-xs text-gray-600 dark:text-gray-450 leading-relaxed whitespace-pre-line">
-                    {{ $page->meta['info']['rkap_notes'] ?? 'Belum ada informasi.' }}
+                    {{ $page->meta['info']['rkap_budget'] ?? $page->meta['info']['rkap_notes'] ?? 'Belum ada informasi.' }}
+                </p>
+            </div>
+            <div class="bg-white dark:bg-gray-900 rounded-2xl shadow p-5">
+                <h4 class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-2 border-b dark:border-gray-800 pb-2 flex items-center gap-1.5">
+                    <span class="w-1.5 h-3.5 rounded bg-rose-500"></span> Ringkasan Pencairan
+                </h4>
+                <p class="text-xs text-gray-600 dark:text-gray-450 leading-relaxed whitespace-pre-line">
+                    {{ $page->meta['info']['rkap_disbursement'] ?? 'Belum ada informasi.' }}
                 </p>
             </div>
         </div>

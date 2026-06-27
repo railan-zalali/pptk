@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Garden;
 use App\Models\Page;
 use App\Models\Region;
+use App\Models\ResearchBudget;
 use Illuminate\Http\Request;
 
 class ResearchAnalysisService
@@ -121,6 +122,11 @@ class ResearchAnalysisService
 
         $correlationMatrix = $this->calculateCorrelationMatrix($gardens);
 
+        // Get budget data for current year
+        $budgetYear = date('Y');
+        $budgetSummary = ResearchBudget::getAnnualSummary($budgetYear);
+        $budgetGrandTotals = ResearchBudget::getGrandTotals($budgetYear);
+
         return compact(
             'page',
             'comparativeData',
@@ -135,7 +141,10 @@ class ResearchAnalysisService
             'productivityTrend',
             'qualityTrend',
             'sustainabilityTrend',
-            'correlationMatrix'
+            'correlationMatrix',
+            'budgetSummary',
+            'budgetGrandTotals',
+            'budgetYear'
         );
     }
 

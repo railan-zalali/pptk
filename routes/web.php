@@ -78,13 +78,18 @@ require __DIR__ . '/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| Admin PPKT Routes (Full CRUD - Operational & Master Data)
+| Admin PPTK Routes (Full CRUD - Operational & Master Data)
 | Single consolidated group for maintainability
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'admin_ppkt'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin_pptk'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+
+    // Research Budgets
+    Route::get('research-budgets', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'index'])->name('research-budgets.index');
+    Route::get('research-budgets/edit', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'edit'])->name('research-budgets.edit');
+    Route::put('research-budgets', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'update'])->name('research-budgets.update');
 
     // Master Kebun
     Route::resource('regions', AdminRegionController::class);
@@ -118,7 +123,7 @@ Route::middleware(['auth', 'admin_ppkt'])->prefix('admin')->name('admin.')->grou
 
 /*
 |--------------------------------------------------------------------------
-| Manajemen Routes (View Only - Monitoring & Analysis)
+| Manajemen Routes (Monitoring, Analysis & Penelitian Management)
 |--------------------------------------------------------------------------
 */
 
