@@ -18,13 +18,14 @@ class DatabaseSeeder extends Seeder
         } else {
              DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         }
-        
+
         $tables = [
-            'visit_photos', 'visits', 'insights', 
+            'visit_photos', 'visits', 'insights',
             'strategic_actions', 'production_realizations', 'performance_targets',
-            'blocks', 'afdelings', 'garden_photos', 'gardens', 
-            'region_photos', 'regions', 'pages', 'programs', 
-            'community_services', 'sessions', 'password_reset_tokens', 
+            'blocks', 'afdelings', 'garden_photos', 'gardens',
+            'region_photos', 'regions', 'pages', 'programs',
+            'community_services', 'research_budget_balances', 'research_budgets',
+            'sessions', 'password_reset_tokens',
             'cache_locks', 'cache', 'jobs', 'job_batches', 'failed_jobs', 'users',
             'insight_configs',
         ];
