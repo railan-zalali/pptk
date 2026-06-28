@@ -17,7 +17,8 @@ class StrategicDashboardController extends Controller
 
     public function index(Request $request)
     {
-        $currentYear = now()->year;
+        $latestYearWithData = \App\Models\ProductionRealization::max('year') ?? \App\Models\StrategicAction::max('year');
+        $currentYear = (int)$request->get('year', $latestYearWithData ?? now()->year);
 
         // 1. Header Scorecard Data
         $productionYtd = $this->statsService->getProductionYtd($currentYear);
@@ -92,6 +93,7 @@ class StrategicDashboardController extends Controller
         });
 
         return view('dashboard.garden', compact(
+            'currentYear',
             'productionYtd',
             'targetYtdProrated',
             'avgProductivity',

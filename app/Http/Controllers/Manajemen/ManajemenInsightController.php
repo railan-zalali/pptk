@@ -9,7 +9,7 @@ class ManajemenInsightController extends Controller
 {
     public function index()
     {
-        $insights = Insight::orderBy('created_at', 'desc')
+        $insights = Insight::with(['garden.region'])->orderBy('created_at', 'desc')
             ->paginate(15);
 
         return view('manajemen.insights.index', compact('insights'));
@@ -17,6 +17,7 @@ class ManajemenInsightController extends Controller
 
     public function show(Insight $insight)
     {
+        $insight->load(['garden.region']);
         return view('manajemen.insights.show', compact('insight'));
     }
 }

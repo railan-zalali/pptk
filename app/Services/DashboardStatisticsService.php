@@ -57,7 +57,14 @@ class DashboardStatisticsService
             $totalTargetYearly += $targetProtas * $avgArea;
         }
 
-        $monthProgress = now()->month / 12;
+        $currentYear = now()->year;
+        if ($year < $currentYear) {
+            $monthProgress = 1.0;
+        } elseif ($year == $currentYear) {
+            $monthProgress = now()->month / 12;
+        } else {
+            $monthProgress = 0.0;
+        }
         return $totalTargetYearly * $monthProgress;
     }
 
@@ -218,7 +225,16 @@ class DashboardStatisticsService
             ->get()
             ->keyBy('kebun_id');
 
-        return $gardens->map(function ($garden) use ($productionData, $year) {
+        $currentYear = now()->year;
+        if ($year < $currentYear) {
+            $monthProgress = 1.0;
+        } elseif ($year == $currentYear) {
+            $monthProgress = now()->month / 12;
+        } else {
+            $monthProgress = 0.0;
+        }
+
+        return $gardens->map(function ($garden) use ($productionData, $year, $monthProgress) {
             $prod = $productionData[$garden->id] ?? null;
             $realization = $prod ? $prod->total_prod : 0;
             $avgArea = $prod ? $prod->avg_area : $garden->luas_total_ha;
@@ -226,7 +242,6 @@ class DashboardStatisticsService
             $protas = $avgArea > 0 ? $realization / $avgArea : 0;
             $target = $garden->performanceTargets->first()->target_protas_min ?? 0;
             
-            $monthProgress = now()->month / 12;
             $targetYtd = $target * $monthProgress;
             $achievement = $targetYtd > 0 ? ($protas / $targetYtd) * 100 : 0;
 

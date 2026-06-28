@@ -5,9 +5,27 @@
 @section('content')
     <div class="container mx-auto px-4 py-8">
         <!-- Page Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-green-800 dark:text-green-100 mb-2">Executive Dashboard</h1>
-            <p class="text-gray-600 dark:text-gray-300">Monitoring Strategis & Operasional Kebun Model</p>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-green-800 dark:text-green-100 mb-2">Executive Dashboard</h1>
+                <p class="text-gray-600 dark:text-gray-300">Monitoring Strategis & Operasional Kebun Model</p>
+            </div>
+            <!-- Year Selector -->
+            <form method="GET" action="{{ route('dashboard.garden') }}" class="no-print flex items-center gap-2">
+                <label for="year" class="text-sm font-semibold text-gray-700 dark:text-gray-350">Pilih Tahun:</label>
+                <select name="year" id="year" onchange="this.form.submit()" class="pl-3 pr-8 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-colors">
+                    @php
+                        $availableYears = \App\Models\ProductionRealization::select('year')->distinct()->pluck('year')->toArray();
+                        if (empty($availableYears)) {
+                            $availableYears = [now()->year - 1, now()->year];
+                        }
+                        sort($availableYears);
+                    @endphp
+                    @foreach($availableYears as $y)
+                        <option value="{{ $y }}" {{ $y == $currentYear ? 'selected' : '' }}>{{ $y }}</option>
+                    @endforeach
+                </select>
+            </form>
         </div>
 
         <!-- 1. Header Scorecard -->
