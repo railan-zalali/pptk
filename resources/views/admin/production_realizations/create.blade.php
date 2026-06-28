@@ -169,11 +169,11 @@
                             placeholder="0">
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Skor Kualitas (0-100)</label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Skor Kualitas (0-10)</label>
                         <input type="number" step="0.1" name="quality_score"
                             value="{{ old('quality_score') }}"
                             class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-colors"
-                            placeholder="Contoh: 85.5">
+                            placeholder="Contoh: 8.5">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Asumsi /

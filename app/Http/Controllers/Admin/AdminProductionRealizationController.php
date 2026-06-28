@@ -57,7 +57,7 @@ class AdminProductionRealizationController extends Controller
             'capacity_per_ha' => 'nullable|numeric|min:0',
             'avg_capacity' => 'nullable|numeric|min:0',
             'estimated_production' => 'nullable|numeric|min:0',
-            'quality_score' => 'nullable|numeric|min:0|max:100',
+            'quality_score' => 'nullable|numeric|min:0|max:10',
             'assumption_note' => 'nullable|string',
         ], [
             'month.unique' => 'Data realisasi untuk kebun dan periode bulan/tahun ini sudah ada.',
@@ -102,7 +102,7 @@ class AdminProductionRealizationController extends Controller
             'capacity_per_ha' => 'nullable|numeric|min:0',
             'avg_capacity' => 'nullable|numeric|min:0',
             'estimated_production' => 'nullable|numeric|min:0',
-            'quality_score' => 'nullable|numeric|min:0|max:100',
+            'quality_score' => 'nullable|numeric|min:0|max:10',
             'assumption_note' => 'nullable|string',
         ]);
 

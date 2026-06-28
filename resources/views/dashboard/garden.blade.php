@@ -141,8 +141,8 @@
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Analisis Wilayah & Performa</h3>
                     <div class="flex gap-2 mt-2 md:mt-0">
-                        <button
-                            class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm flex items-center">
+                        <button onclick="window.print()"
+                            class="no-print bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm flex items-center">
                             <span class="material-icons mr-1 text-sm">download</span>PDF
                         </button>
                     </div>

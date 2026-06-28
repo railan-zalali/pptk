@@ -68,23 +68,23 @@
                         <select name="action_type" id="action_type"
                             class="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-colors appearance-none">
                             <option value="">-- Pilih Jenis Aksi --</option>
-                            <option value="Pemupukan Akar" {{ old('action_type') == 'Pemupukan Akar' ? 'selected' : '' }}>
+                            <option value="fertilizer_root" {{ old('action_type') == 'fertilizer_root' ? 'selected' : '' }}>
                                 Pemupukan Akar</option>
-                            <option value="Pemupukan Daun" {{ old('action_type') == 'Pemupukan Daun' ? 'selected' : '' }}>
+                            <option value="fertilizer_leaf" {{ old('action_type') == 'fertilizer_leaf' ? 'selected' : '' }}>
                                 Pemupukan Daun</option>
-                            <option value="Penyiangan Gulma"
-                                {{ old('action_type') == 'Penyiangan Gulma' ? 'selected' : '' }}>
+                            <option value="weed_control"
+                                {{ old('action_type') == 'weed_control' ? 'selected' : '' }}>
                                 Penyiangan Gulma</option>
-                            <option value="Kultivator / Pengolahan Tanah"
-                                {{ old('action_type') == 'Kultivator / Pengolahan Tanah' ? 'selected' : '' }}>Kultivator /
+                            <option value="cultivator"
+                                {{ old('action_type') == 'cultivator' ? 'selected' : '' }}>Kultivator /
                                 Pengolahan Tanah</option>
-                            <option value="Pemetikan" {{ old('action_type') == 'Pemetikan' ? 'selected' : '' }}>Pemetikan
+                            <option value="picking" {{ old('action_type') == 'picking' ? 'selected' : '' }}>Pemetikan
                             </option>
-                            <option value="Mesin Petik" {{ old('action_type') == 'Mesin Petik' ? 'selected' : '' }}>Mesin
+                            <option value="machine" {{ old('action_type') == 'machine' ? 'selected' : '' }}>Mesin
                                 Petik
                             </option>
-                            <option value="Pengendalian OPT"
-                                {{ old('action_type') == 'Pengendalian OPT' ? 'selected' : '' }}>
+                            <option value="opt"
+                                {{ old('action_type') == 'opt' ? 'selected' : '' }}>
                                 Pengendalian OPT</option>
                         </select>
                     </div>
@@ -129,7 +129,7 @@
             <!-- Hidden Templates for Fields -->
             <div id="templates" class="hidden">
                 <!-- Pemupukan Akar -->
-                <div data-type="Pemupukan Akar" class="contents">
+                <div data-type="fertilizer_root" class="contents">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Dosis N
                             (kg/ha)</label>
@@ -168,7 +168,7 @@
                 </div>
 
                 <!-- Pemupukan Daun -->
-                <div data-type="Pemupukan Daun" class="contents">
+                <div data-type="fertilizer_leaf" class="contents">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Target Cakupan
                             (%)</label>
@@ -198,7 +198,7 @@
                 </div>
 
                 <!-- Penyiangan Gulma -->
-                <div data-type="Penyiangan Gulma" class="contents">
+                <div data-type="weed_control" class="contents">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Target Cakupan
                             (%)</label>
@@ -221,7 +221,7 @@
                 </div>
 
                 <!-- Kultivator -->
-                <div data-type="Kultivator / Pengolahan Tanah" class="contents">
+                <div data-type="cultivator" class="contents">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Target Cakupan
                             (%)</label>
@@ -242,7 +242,7 @@
                 </div>
 
                 <!-- Pemetikan -->
-                <div data-type="Pemetikan" class="contents">
+                <div data-type="picking" class="contents">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Sistem
                             Pemetikan</label>
@@ -272,7 +272,7 @@
                 </div>
 
                 <!-- Mesin Petik -->
-                <div data-type="Mesin Petik" class="contents">
+                <div data-type="machine" class="contents">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Total Mesin
                             (Unit)</label>
@@ -300,7 +300,7 @@
                 </div>
 
                 <!-- Pengendalian OPT -->
-                <div data-type="Pengendalian OPT" class="contents">
+                <div data-type="opt" class="contents">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Status OPT</label>
                         <input type="text" name="opt_status" value="{{ old('opt_status') }}"

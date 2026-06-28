@@ -90,29 +90,11 @@ class ResearchSeeder extends Seeder
             ]);
         }
 
-        // 3. Insights
-        $alertLevels = ['low', 'medium', 'high'];
-        $insightTypes = ['productivity', 'maintenance', 'quality', 'budget'];
-        $recommendations = [
-            ['Optimalkan jadwal pemupukan', 'Pantau kelembapan tanah secara rutin'],
-            ['Periksa kondisi mesin pemetik', 'Jadwalkan perawatan preventif'],
-            ['Tingkatkan kualitas bahan baku', 'Lakukan uji laboratorium berkala'],
-            ['Evaluasi pengeluaran anggaran', 'Prioritaskan belanja sesuai kebutuhan'],
-        ];
-        
+        // 3. Insights (Generated dynamically via Rule Engine)
+        $insightService = resolve(\App\Services\InsightService::class);
         foreach ($gardens as $garden) {
-            for ($i = 0; $i < 3; $i++) {
-                $typeIndex = array_rand($insightTypes);
-                Insight::create([
-                    'garden_id' => $garden->id,
-                    'insight_type' => $insightTypes[$typeIndex],
-                    'title' => 'Analisis ' . ucfirst($insightTypes[$typeIndex]) . ' - ' . $garden->kebun_name,
-                    'description' => 'Evaluasi ' . $insightTypes[$typeIndex] . ' menunjukkan indikasi yang perlu diperhatikan.',
-                    'message' => 'Perhatikan indikator ' . $insightTypes[$typeIndex] . ' untuk perbaikan.',
-                    'alert_level' => $alertLevels[array_rand($alertLevels)],
-                    'recommendations' => $recommendations[$typeIndex],
-                ]);
-            }
+            $insightService->generateAllInsightsForGarden($garden->id, 2024);
+            $insightService->generateAllInsightsForGarden($garden->id, 2025);
         }
         
         $this->command->info('ResearchSeeder: Data kunjungan, pengabdian masyarakat, dan insight berhasil di-seed dengan detail realistis.');
