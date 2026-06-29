@@ -94,9 +94,9 @@
                 @endif
 
                 {{-- ================================================ --}}
-                {{-- MENU: Operasional (Shared) --}}
+                {{-- MENU: Admin PPTK (Operasional & Master Data) --}}
                 {{-- ================================================ --}}
-                @if(in_array(Auth::user()->role, ['admin_pptk', 'manajemen']))
+                @if(Auth::user()->role === 'admin_pptk')
                     <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Master Kebun</div>
 
                     <a href="{{ route('admin.regions.index') }}"
@@ -133,12 +133,7 @@
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.research-budgets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">account_balance</span> Realisasi Anggaran
                     </a>
-                @endif
 
-                {{-- ================================================ --}}
-                {{-- MENU: Pengaturan (Admin PPTK Only) --}}
-                {{-- ================================================ --}}
-                @if(Auth::user()->role === 'admin_pptk')
                     <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pengaturan</div>
 
                     <a href="{{ route('admin.users.index') }}"
@@ -161,24 +156,21 @@
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.strategic-actions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">agriculture</span> Strategic Action
                     </a>
-                    <a href="{{ route('manajemen.insights.index') }}"
-                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.insights.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                        <span class="material-icons mr-2">insights</span> Insight
-                    </a>
+                    {{-- Insight: disembunyikan dari menu (data & route tetap ada) --}}
                     <a href="{{ route('manajemen.visits.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.visits.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">event</span> Kunjungan
                     </a>
 
-                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Data Tambahan</div>
+                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Data</div>
 
                     <a href="{{ route('manajemen.penelitian.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.penelitian.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                        <span class="material-icons mr-2">science</span> Riset (Narasi)
+                        <span class="material-icons mr-2">science</span> Data Penelitian
                     </a>
                     <a href="{{ route('manajemen.community-services.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.community-services.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                        <span class="material-icons mr-2">volunteer_activism</span> Pengabdian Masyarakat
+                        <span class="material-icons mr-2">volunteer_activism</span> Data Pengabdian Masyarakat
                     </a>
 
                     <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Informasi</div>

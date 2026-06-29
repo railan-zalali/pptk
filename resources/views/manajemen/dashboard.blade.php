@@ -15,7 +15,7 @@
     </div>
 
     {{-- Stats Overview --}}
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col items-center text-center">
             <span class="material-icons text-3xl text-green-500 mb-2">list_alt</span>
             <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ $stats['programs'] }}</p>
@@ -25,11 +25,6 @@
             <span class="material-icons text-3xl text-blue-500 mb-2">agriculture</span>
             <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ $stats['strategic_actions'] }}</p>
             <p class="text-xs text-gray-500 dark:text-gray-400">Strategic Action</p>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col items-center text-center">
-            <span class="material-icons text-3xl text-purple-500 mb-2">insights</span>
-            <p class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ $stats['insights'] }}</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Insight</p>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 flex flex-col items-center text-center">
             <span class="material-icons text-3xl text-orange-500 mb-2">event</span>
@@ -145,25 +140,4 @@
         </div>
     </div>
 
-    {{-- Insight Terbaru --}}
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 flex items-center">
-                <span class="material-icons mr-2 text-purple-500">insights</span> Insight Terbaru
-            </h3>
-            <a href="{{ route('manajemen.insights.index') }}"
-                class="text-sm text-green-600 dark:text-green-400 hover:underline">Lihat semua</a>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            @forelse ($recentInsights as $insight)
-                <div class="border dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                    <p class="font-medium text-gray-800 dark:text-gray-200 text-sm mb-1">{{ $insight->title ?? 'Insight' }}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{{ $insight->description ?? $insight->content ?? '-' }}</p>
-                    <p class="text-xs text-gray-400 mt-2">{{ optional($insight->created_at)->format('d M Y') }}</p>
-                </div>
-            @empty
-                <p class="text-sm text-gray-400 col-span-3">Belum ada insight.</p>
-            @endforelse
-        </div>
-    </div>
 @endsection

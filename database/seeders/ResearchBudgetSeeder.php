@@ -9,28 +9,31 @@ use Illuminate\Database\Seeder;
 class ResearchBudgetSeeder extends Seeder
 {
     /**
-     * Data diambil dari file "Realisasi Anggaran Penelitian 2025.xlsx"
-     * Struktur: 3 section — Saldo Awal, Income (Pencairan), Pengeluaran
+     * Seed data anggaran penelitian 2025.
+     *
+     * Data diambil dari "Realisasi Anggaran Penelitian 2025.xlsx":
+     *   - Saldo Awal  : kolom D, baris 5–14
+     *   - Income      : baris 19–28 (pencairan per bulan)
+     *   - Pengeluaran : baris 32–41 (pengeluaran per bulan)
+     *
+     * Hanya baris yang memiliki income > 0 ATAU pengeluaran > 0 yang di-insert.
      */
     public function run(): void
     {
         $year = 2025;
 
-        // =====================================================
-        // Saldo Awal (Opening Balance) per kegiatan
-        // Dari baris 5-14 kolom D di Excel
-        // =====================================================
+        // ─── Saldo Awal (Opening Balance) ─────────────────────────────────
         $openingBalances = [
-            'Kina'              => 11560533 - 2100000,  // =11560533-2100000
-            'KUT'               => 19231936,
-            'Malabar/Sedep'     => 39568543,
-            'Drone'             => 0,
-            'GWP'               => 0,
-            'IPM Helopeltis'    => 0,
-            'Bio Kompos'        => 0,
-            'Daur Petik'        => 0,
-            'Inkubasi Riset'    => 26437171,
-            'Inkubasi Booster'  => 0,
+            'Kina'             => 9_460_533,   // 11560533 - 2100000
+            'KUT'              => 19_231_936,
+            'Malabar/Sedep'    => 39_568_543,
+            'Drone'            => 0,
+            'GWP'              => 0,
+            'IPM Helopeltis'   => 0,
+            'Bio Kompos'       => 0,
+            'Daur Petik'       => 0,
+            'Inkubasi Riset'   => 26_437_171,
+            'Inkubasi Booster' => 0,
         ];
 
         foreach ($openingBalances as $activity => $balance) {
@@ -40,63 +43,51 @@ class ResearchBudgetSeeder extends Seeder
             );
         }
 
-        // =====================================================
-        // Income (Pencairan Dana) per kegiatan per bulan
-        // Dari baris 19-28 di Excel
-        // =====================================================
+        // ─── Income (Pencairan Dana) per bulan ────────────────────────────
+        //     Index: [Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
         $incomes = [
-            //                       Jan        Feb        Mar        Apr        May        Jun         Jul       Aug         Sep        Oct         Nov        Dec
-            'Kina'              => [0,         0,         0,         0,         0,         0,          0,        0,          0,         0,          0,         0],
-            'KUT'               => [0,         0,         64799300,  0,         0,         0,          0,        0,          0,         73711511,   0,         0],
-            'Malabar/Sedep'     => [0,         0,         0,         0,         0,         0,          0,        0,          0,         0,          0,         0],
-            'Drone'             => [0,         0,         0,         0,         0,         25243000,   0,        0,          0,         0,          0,         0],
-            'GWP'               => [0,         0,         0,         0,         0,         25400000,   0,        0,          0,         0,          0,         0],
-            'IPM Helopeltis'    => [0,         0,         0,         0,         0,         42200000,   0,        0,          0,         0,          0,         0],
-            'Bio Kompos'        => [0,         0,         0,         0,         0,         15867000,   0,        0,          0,         0,          0,         0],
-            'Daur Petik'        => [0,         0,         0,         0,         0,         28950000,   0,        0,          0,         0,          0,         0],
-            'Inkubasi Riset'    => [0,         89275000,  0,         0,         0,         84783000,   0,        0,          0,         0,          0,         0],
-            'Inkubasi Booster'  => [0,         0,         0,         0,         0,         0,          0,        54000000,   0,         0,          0,         0],
+            'Kina'             => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'KUT'              => [0, 0, 64_799_300, 0, 0, 0, 0, 0, 0, 73_711_511, 0, 0],
+            'Malabar/Sedep'    => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'Drone'            => [0, 0, 0, 0, 0, 25_243_000, 0, 0, 0, 0, 0, 0],
+            'GWP'              => [0, 0, 0, 0, 0, 25_400_000, 0, 0, 0, 0, 0, 0],
+            'IPM Helopeltis'   => [0, 0, 0, 0, 0, 42_200_000, 0, 0, 0, 0, 0, 0],
+            'Bio Kompos'       => [0, 0, 0, 0, 0, 15_867_000, 0, 0, 0, 0, 0, 0],
+            'Daur Petik'       => [0, 0, 0, 0, 0, 28_950_000, 0, 0, 0, 0, 0, 0],
+            'Inkubasi Riset'   => [0, 89_275_000, 0, 0, 0, 84_783_000, 0, 0, 0, 0, 0, 0],
+            'Inkubasi Booster' => [0, 0, 0, 0, 0, 0, 0, 54_000_000, 0, 0, 0, 0],
         ];
 
-        // =====================================================
-        // Pengeluaran per kegiatan per bulan
-        // Dari baris 32-41 di Excel
-        // =====================================================
+        // ─── Pengeluaran per bulan ─────────────────────────────────────────
         $expenditures = [
-            //                       Jan         Feb         Mar        Apr         May         Jun         Jul         Aug         Sep         Oct         Nov         Dec
-            'Kina'              => [4859400,    2612000,    3511000,   0,          0,          0,          0,          0,          0,          0,          0,          0],
-            'KUT'               => [4091030,    6291930,    0,         18109000,   31948591,   13445000,   7186000,    3692250,    0,          7740750,    26067100,   38326694],
-            'Malabar/Sedep'     => [10810220,   3719650,    459000,    1658500,    688500,     1557000,    1476500,    1787716,    1797077,    3024000,    8849258,    1253750],
-            'Drone'             => [0,          0,          0,         0,          0,          0,          1490500,    2337500,    0,          7000000,    7398000,    63508],
-            'GWP'               => [0,          0,          0,         0,          0,          0,          12569228,   275000,     3000000,    3704776,    0,          0],
-            'IPM Helopeltis'    => [0,          0,          0,         0,          0,          0,          18298500,   1636750,    6085000,    4322520,    254000,     4825230],
-            'Bio Kompos'        => [0,          0,          0,         0,          0,          0,          7664561,    80000,      2206000,    0,          725000,     0],
-            'Daur Petik'        => [0,          0,          0,         0,          0,          0,          4479816,    1205750,    11674997,   5674800,    2055250,    1156820],
-            'Inkubasi Riset'    => [575418,     14110269,   8898983,   51297189,   5561118,    7638362,    27608698,   13145981,   2473150,    16695550,   1382750,    31991181],
-            'Inkubasi Booster'  => [0,          0,          0,         0,          0,          0,          0,          0,          4184500,    0,          1886500,    201275],
+            'Kina'             => [4_859_400, 2_612_000, 3_511_000, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            'KUT'              => [4_091_030, 6_291_930, 0, 18_109_000, 31_948_591, 13_445_000, 7_186_000, 3_692_250, 0, 7_740_750, 26_067_100, 38_326_694],
+            'Malabar/Sedep'    => [10_810_220, 3_719_650, 459_000, 1_658_500, 688_500, 1_557_000, 1_476_500, 1_787_716, 1_797_077, 3_024_000, 8_849_258, 1_253_750],
+            'Drone'            => [0, 0, 0, 0, 0, 0, 1_490_500, 2_337_500, 0, 7_000_000, 7_398_000, 63_508],
+            'GWP'              => [0, 0, 0, 0, 0, 0, 12_569_228, 275_000, 3_000_000, 3_704_776, 0, 0],
+            'IPM Helopeltis'   => [0, 0, 0, 0, 0, 0, 18_298_500, 1_636_750, 6_085_000, 4_322_520, 254_000, 4_825_230],
+            'Bio Kompos'       => [0, 0, 0, 0, 0, 0, 7_664_561, 80_000, 2_206_000, 0, 725_000, 0],
+            'Daur Petik'       => [0, 0, 0, 0, 0, 0, 4_479_816, 1_205_750, 11_674_997, 5_674_800, 2_055_250, 1_156_820],
+            'Inkubasi Riset'   => [575_418, 14_110_269, 8_898_983, 51_297_189, 5_561_118, 7_638_362, 27_608_698, 13_145_981, 2_473_150, 16_695_550, 1_382_750, 31_991_181],
+            'Inkubasi Booster' => [0, 0, 0, 0, 0, 0, 0, 0, 4_184_500, 0, 1_886_500, 201_275],
         ];
 
-        // Insert semua data
+        $inserted = 0;
         foreach ($incomes as $activity => $monthlyIncomes) {
             for ($month = 1; $month <= 12; $month++) {
                 $inc = $monthlyIncomes[$month - 1];
                 $exp = $expenditures[$activity][$month - 1] ?? 0;
 
-                // Hanya insert jika ada income atau pengeluaran
                 if ($inc > 0 || $exp > 0) {
                     ResearchBudget::updateOrCreate(
-                        [
-                            'activity_name' => $activity,
-                            'year' => $year,
-                            'month' => $month,
-                        ],
-                        [
-                            'income' => $inc,
-                            'expenditure' => $exp,
-                        ]
+                        ['activity_name' => $activity, 'year' => $year, 'month' => $month],
+                        ['income' => $inc, 'expenditure' => $exp]
                     );
+                    $inserted++;
                 }
             }
         }
+
+        $this->command->info("ResearchBudgetSeeder: {$inserted} record anggaran penelitian {$year} berhasil di-seed.");
     }
 }

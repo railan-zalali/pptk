@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Manajemen;
 
 use App\Http\Controllers\Controller;
 use App\Models\CommunityService;
-use App\Models\Insight;
+// Insight model dipertahankan (data tetap ada, menu disembunyikan)
 use App\Models\Program;
 use App\Models\StrategicAction;
 use App\Models\Visit;
@@ -17,7 +17,6 @@ class ManajemenController extends Controller
         $stats = [
             'programs'          => Program::count(),
             'strategic_actions' => StrategicAction::count(),
-            'insights'          => Insight::count(),
             'visits'            => Visit::count(),
             'community_services'=> CommunityService::count(),
         ];
@@ -31,9 +30,7 @@ class ManajemenController extends Controller
             ->take(5)
             ->get();
 
-        $recentInsights = Insight::latest()
-            ->take(5)
-            ->get();
+        // $recentInsights tidak ditampilkan di dashboard (Insight disembunyikan dari menu)
 
         $recentVisits = Visit::with('garden')
             ->latest('visit_date')
@@ -48,7 +45,6 @@ class ManajemenController extends Controller
             'stats',
             'recentPrograms',
             'recentStrategicActions',
-            'recentInsights',
             'recentVisits',
             'recentCommunityServices'
         ));

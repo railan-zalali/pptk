@@ -3,9 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Garden;
-use App\Models\Insight;
 use App\Models\ProductionRealization;
-use App\Models\StrategicAction;
 use App\Services\InsightService;
 use App\Services\RuleEngine\ProductivityRule;
 use App\Services\RuleEngine\QualityRule;
@@ -13,180 +11,224 @@ use App\Services\RuleEngine\StrategicActionRule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Test evaluasi Rule Engine — ProductivityRule, QualityRule, StrategicActionRule.
+ * Memverifikasi bahwa algoritma menghasilkan alert level yang tepat berdasarkan input.
+ */
 class RuleEngineEvaluationTest extends TestCase
 {
     use RefreshDatabase;
 
     protected InsightService $insightService;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-        // Seed core structures needed (Region, Garden)
         $this->seed(\Database\Seeders\CoreStructureSeeder::class);
         $this->insightService = new InsightService();
     }
 
-    /** @test */
-    public function test_productivity_rule_evaluation()
-    {
-        $rule = new ProductivityRule();
+    // ─── Productivity Rule ─────────────────────────────────────────────────
 
-        // 1. Low Productivity (below 1000 kg/ha) -> High Alert
-        $result = $rule->evaluate(800);
+    /** @test */
+    public function test_produktivitas_rendah_menghasilkan_alert_high(): void
+    {
+        $rule   = new ProductivityRule();
+        $result = $rule->evaluate(800); // < 1000 kg/ha
+
         $this->assertNotNull($result);
         $this->assertEquals('high', $result->alertLevel);
         $this->assertStringContainsString('Produktivitas rendah terdeteksi', $result->message);
+    }
 
-        // 2. Medium Productivity (between 1000 and 1300 kg/ha) -> Medium Alert
-        $result = $rule->evaluate(1150);
+    /** @test */
+    public function test_produktivitas_menengah_menghasilkan_alert_medium(): void
+    {
+        $rule   = new ProductivityRule();
+        $result = $rule->evaluate(1150); // 1000–1300 kg/ha
+
         $this->assertNotNull($result);
         $this->assertEquals('medium', $result->alertLevel);
+    }
 
-        // 3. Optimal Productivity (above 1300 kg/ha) -> Low Alert
-        $result = $rule->evaluate(1500);
+    /** @test */
+    public function test_produktivitas_optimal_menghasilkan_alert_low(): void
+    {
+        $rule   = new ProductivityRule();
+        $result = $rule->evaluate(1500); // > 1300 kg/ha
+
         $this->assertNotNull($result);
         $this->assertEquals('low', $result->alertLevel);
     }
 
-    /** @test */
-    public function test_quality_rule_evaluation()
-    {
-        $rule = new QualityRule();
+    // ─── Quality Rule ──────────────────────────────────────────────────────
 
-        // 1. Low Quality (below 7.0) -> High Alert
-        $result = $rule->evaluate(6.5);
+    /** @test */
+    public function test_mutu_rendah_menghasilkan_alert_high(): void
+    {
+        $rule   = new QualityRule();
+        $result = $rule->evaluate(6.5); // < 7.0
+
         $this->assertNotNull($result);
         $this->assertEquals('high', $result->alertLevel);
         $this->assertStringContainsString('Mutu pucuk rendah terdeteksi', $result->message);
+    }
 
-        // 2. Standard Quality (between 7.0 and 8.5) -> Medium Alert
-        $result = $rule->evaluate(8.0);
+    /** @test */
+    public function test_mutu_standar_menghasilkan_alert_medium(): void
+    {
+        $rule   = new QualityRule();
+        $result = $rule->evaluate(8.0); // 7.0–8.5
+
         $this->assertNotNull($result);
         $this->assertEquals('medium', $result->alertLevel);
+    }
 
-        // 3. High Quality (above 8.5) -> Low Alert
-        $result = $rule->evaluate(9.2);
+    /** @test */
+    public function test_mutu_sangat_baik_menghasilkan_alert_low(): void
+    {
+        $rule   = new QualityRule();
+        $result = $rule->evaluate(9.2); // > 8.5
+
         $this->assertNotNull($result);
         $this->assertEquals('low', $result->alertLevel);
     }
 
-    /** @test */
-    public function test_strategic_action_rule_fertilizer_root_evaluation()
-    {
-        $rule = new StrategicActionRule();
+    // ─── Strategic Action Rule — Fertilizer Root ──────────────────────────
 
-        // High Alert due to low realization percent (<70)
-        $data = [
-            'action_type' => 'fertilizer_root',
-            'realization_percent' => 65,
-            'dosis_n_kg_ha' => 200,
+    /** @test */
+    public function test_realisasi_pemupukan_akar_sangat_rendah_menghasilkan_alert_high(): void
+    {
+        $rule   = new StrategicActionRule();
+        $result = $rule->evaluate([
+            'action_type'            => 'fertilizer_root',
+            'realization_percent'    => 65, // < 70%
+            'dosis_n_kg_ha'          => 200,
             'realized_dosis_n_kg_ha' => 150,
-        ];
-        $result = $rule->evaluate($data);
+        ]);
+
         $this->assertNotNull($result);
         $this->assertEquals('high', $result->alertLevel);
+    }
 
-        // High Alert due to low realization percent (<70) and with dosage deficit
-        $data = [
-            'action_type' => 'fertilizer_root',
-            'realization_percent' => 60, // low realization % -> high alert
-            'dosis_n_kg_ha' => 200,
-            'realized_dosis_n_kg_ha' => 120, // 60% of plan (more than 20% deficit)
-        ];
-        $result = $rule->evaluate($data);
+    /** @test */
+    public function test_realisasi_pemupukan_akar_dengan_defisit_dosis_menghasilkan_alert_high(): void
+    {
+        $rule   = new StrategicActionRule();
+        $result = $rule->evaluate([
+            'action_type'            => 'fertilizer_root',
+            'realization_percent'    => 60,  // low realization
+            'dosis_n_kg_ha'          => 200,
+            'realized_dosis_n_kg_ha' => 120, // 40% deficit
+        ]);
+
         $this->assertNotNull($result);
         $this->assertEquals('high', $result->alertLevel);
         $this->assertStringContainsString('Dosis realisasi (120 kg/ha) jauh di bawah target (200 kg/ha)', $result->recommendations[3]);
+    }
 
-        // Medium Alert (realization between 70 and 85)
-        $data = [
-            'action_type' => 'fertilizer_root',
-            'realization_percent' => 80,
-            'dosis_n_kg_ha' => 200,
+    /** @test */
+    public function test_realisasi_pemupukan_akar_sedang_menghasilkan_alert_medium(): void
+    {
+        $rule   = new StrategicActionRule();
+        $result = $rule->evaluate([
+            'action_type'            => 'fertilizer_root',
+            'realization_percent'    => 80, // 70–85%
+            'dosis_n_kg_ha'          => 200,
             'realized_dosis_n_kg_ha' => 190,
-        ];
-        $result = $rule->evaluate($data);
+        ]);
+
         $this->assertNotNull($result);
         $this->assertEquals('medium', $result->alertLevel);
+    }
 
-        // Low Alert (on track)
-        $data = [
-            'action_type' => 'fertilizer_root',
-            'realization_percent' => 90,
-            'dosis_n_kg_ha' => 200,
+    /** @test */
+    public function test_realisasi_pemupukan_akar_on_track_menghasilkan_alert_low(): void
+    {
+        $rule   = new StrategicActionRule();
+        $result = $rule->evaluate([
+            'action_type'            => 'fertilizer_root',
+            'realization_percent'    => 90, // > 85%
+            'dosis_n_kg_ha'          => 200,
             'realized_dosis_n_kg_ha' => 195,
-        ];
-        $result = $rule->evaluate($data);
+        ]);
+
         $this->assertNotNull($result);
         $this->assertEquals('low', $result->alertLevel);
     }
 
-    /** @test */
-    public function test_strategic_action_rule_machine_age_evaluation()
-    {
-        $rule = new StrategicActionRule();
+    // ─── Strategic Action Rule — Machine Age ──────────────────────────────
 
-        // 1. Old Machines (>= 8 years) -> High Alert (mendesak)
-        $data = [
-            'action_type' => 'machine',
-            'avg_machine_age' => 9.5
-        ];
-        $result = $rule->evaluate($data);
+    /** @test */
+    public function test_mesin_sangat_tua_menghasilkan_alert_high(): void
+    {
+        $rule   = new StrategicActionRule();
+        $result = $rule->evaluate([
+            'action_type'     => 'machine',
+            'avg_machine_age' => 9.5, // >= 8 tahun
+        ]);
+
         $this->assertNotNull($result);
         $this->assertEquals('high', $result->alertLevel);
         $this->assertStringContainsString('Rata-rata umur mesin petik sangat tua', $result->message);
+    }
 
-        // 2. Medium age (between 5 and 8) -> Medium Alert (direncanakan)
-        $data = [
-            'action_type' => 'machine',
-            'avg_machine_age' => 6.2
-        ];
-        $result = $rule->evaluate($data);
+    /** @test */
+    public function test_mesin_perlu_peremajaan_menghasilkan_alert_medium(): void
+    {
+        $rule   = new StrategicActionRule();
+        $result = $rule->evaluate([
+            'action_type'     => 'machine',
+            'avg_machine_age' => 6.2, // 5–8 tahun
+        ]);
+
         $this->assertNotNull($result);
         $this->assertEquals('medium', $result->alertLevel);
+    }
 
-        // 3. Good condition (< 5 years) -> Low Alert
-        $data = [
-            'action_type' => 'machine',
-            'avg_machine_age' => 3.0
-        ];
-        $result = $rule->evaluate($data);
+    /** @test */
+    public function test_mesin_kondisi_baik_menghasilkan_alert_low(): void
+    {
+        $rule   = new StrategicActionRule();
+        $result = $rule->evaluate([
+            'action_type'     => 'machine',
+            'avg_machine_age' => 3.0, // < 5 tahun
+        ]);
+
         $this->assertNotNull($result);
         $this->assertEquals('low', $result->alertLevel);
     }
 
+    // ─── Insight Service Integration ──────────────────────────────────────
+
     /** @test */
-    public function test_insight_service_persists_generated_insights()
+    public function test_insight_service_menyimpan_insight_produktivitas_ke_database(): void
     {
         $garden = Garden::first();
         $this->assertNotNull($garden);
 
-        // Create mock ProductionRealization
         ProductionRealization::create([
-            'kebun_id' => $garden->id,
-            'month' => 5,
-            'year' => 2025,
+            'kebun_id'               => $garden->id,
+            'month'                  => 5,
+            'year'                   => 2025,
             'active_picking_area_ha' => 50,
-            'wet_production_kg' => 40000, // 800 kg/ha (low productivity)
-            'quality_score' => 6.0,       // low quality
+            'wet_production_kg'      => 40_000, // 800 kg/ha → low productivity
+            'quality_score'          => 6.0,    // < 7.0 → low quality
         ]);
 
-        // Generate insights
         $this->insightService->generateProductivityInsight($garden->id, 2025);
         $this->insightService->generateQualityInsight($garden->id, 2025);
 
-        // Assert they are persisted to the database
         $this->assertDatabaseHas('insights', [
-            'garden_id' => $garden->id,
+            'garden_id'    => $garden->id,
             'insight_type' => 'productivity',
-            'alert_level' => 'high'
+            'alert_level'  => 'high',
         ]);
 
         $this->assertDatabaseHas('insights', [
-            'garden_id' => $garden->id,
+            'garden_id'    => $garden->id,
             'insight_type' => 'quality',
-            'alert_level' => 'high'
+            'alert_level'  => 'high',
         ]);
     }
 }
