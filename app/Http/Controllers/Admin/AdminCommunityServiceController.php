@@ -42,7 +42,7 @@ class AdminCommunityServiceController extends Controller
 
         CommunityService::create($validated);
 
-        return redirect()->route('admin.community-services.index')
+        return redirect()->route('manajemen.community-services.index')
             ->with('success', 'Kegiatan pengabdian masyarakat berhasil ditambahkan.');
     }
 
@@ -79,7 +79,7 @@ class AdminCommunityServiceController extends Controller
 
         $communityService->update($validated);
 
-        return redirect()->route('admin.community-services.index')
+        return redirect()->route('manajemen.community-services.index')
             ->with('success', 'Kegiatan pengabdian masyarakat berhasil diperbarui.');
     }
 
@@ -90,7 +90,7 @@ class AdminCommunityServiceController extends Controller
     {
         $communityService->delete();
 
-        return redirect()->route('admin.community-services.index')
+        return redirect()->route('manajemen.community-services.index')
             ->with('success', 'Kegiatan pengabdian masyarakat berhasil dihapus.');
     }
 }

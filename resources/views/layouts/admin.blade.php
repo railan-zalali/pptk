@@ -160,10 +160,7 @@
 
                     <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Penelitian</div>
 
-                    <a href="{{ route('admin.research-budgets.index') }}"
-                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.research-budgets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                        <span class="material-icons mr-2">account_balance</span> Realisasi Anggaran
-                    </a>
+
 
                     <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Operasional &
                         Strategis</div>
@@ -184,10 +181,7 @@
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.insights.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">lightbulb</span> Insights
                     </a>
-                    <a href="{{ route('admin.community-services.index') }}"
-                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.community-services.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
-                        <span class="material-icons mr-2">volunteer_activism</span> Pengabdian Masyarakat
-                    </a>
+
 
                     <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pengaturan</div>
 
@@ -223,6 +217,10 @@
                     <a href="{{ route('manajemen.penelitian.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.penelitian.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">science</span> Data Penelitian
+                    </a>
+                    <a href="{{ route('manajemen.research-budgets.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.research-budgets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">account_balance</span> Realisasi Anggaran
                     </a>
                     <a href="{{ route('manajemen.community-services.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.community-services.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">

@@ -18,7 +18,7 @@
                     @endfor
                 </select>
             </form>
-            <a href="{{ route('admin.research-budgets.edit', ['year' => $year]) }}"
+            <a href="{{ route('manajemen.research-budgets.edit', ['year' => $year]) }}"
                 class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2 shadow-sm">
                 <span class="material-icons-outlined text-sm">edit</span>
                 Edit Data

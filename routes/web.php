@@ -86,10 +86,7 @@ require __DIR__ . '/auth.php';
 Route::middleware(['auth', 'admin_pptk'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
-    // Research Budgets
-    Route::get('research-budgets', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'index'])->name('research-budgets.index');
-    Route::get('research-budgets/edit', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'edit'])->name('research-budgets.edit');
-    Route::put('research-budgets', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'update'])->name('research-budgets.update');
+
 
     // Master Kebun
     Route::resource('regions', AdminRegionController::class);
@@ -115,9 +112,8 @@ Route::middleware(['auth', 'admin_pptk'])->prefix('admin')->name('admin.')->grou
     Route::resource('strategic-actions', AdminStrategicActionController::class);
     Route::resource('insights', AdminInsightController::class);
 
-    // Kunjungan & Pengabdian Masyarakat
+    // Kunjungan
     Route::resource('visits', AdminVisitController::class);
-    Route::resource('community-services', AdminCommunityServiceController::class);
 });
 
 
@@ -147,5 +143,10 @@ Route::middleware(['auth', 'manajemen'])->prefix('manajemen')->name('manajemen.'
     Route::get('/penelitian', [ManajemenResearchController::class, 'index'])->name('penelitian.index');
     Route::get('/penelitian/edit', [ManajemenResearchController::class, 'edit'])->name('penelitian.edit');
     Route::put('/penelitian', [ManajemenResearchController::class, 'update'])->name('penelitian.update');
-    Route::get('/pengabdian-masyarakat', [ManajemenCommunityServiceController::class, 'index'])->name('community-services.index');
+    Route::resource('community-services', \App\Http\Controllers\Admin\AdminCommunityServiceController::class);
+    
+    // Research Budgets
+    Route::get('research-budgets', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'index'])->name('research-budgets.index');
+    Route::get('research-budgets/edit', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'edit'])->name('research-budgets.edit');
+    Route::put('research-budgets', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'update'])->name('research-budgets.update');
 });

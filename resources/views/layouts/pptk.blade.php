@@ -346,11 +346,7 @@
                             </div>
                         </div>
 
-                        <!-- 4. Pengabdian Masyarakat -->
-                        <a href="{{ route('community-services.index') }}"
-                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">
-                            Pengabdian Masyarakat
-                        </a>
+
                     </div>
 
                     <!-- Right Side -->
@@ -422,6 +418,8 @@
                             <a href="{{ route('strategic.index') }}"
                                 class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Strategic
                                 Action</a>
+                            <a href="{{ route('community-services.index') }}"
+                                class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Pengabdian Masyarakat</a>
                         </div>
                     </div>
 
@@ -441,11 +439,7 @@
                         </div>
                     </div>
 
-                    <!-- Pengabdian Masyarakat -->
-                    <a href="{{ route('community-services.index') }}"
-                        class="mobile-nav-item block text-gray-700 dark:text-gray-200 hover:text-green-600 hover:bg-green-50 dark:hover:bg-gray-700 font-medium">
-                        Pengabdian Masyarakat
-                    </a>
+
 
                     @guest
                         <div class="border-t pt-4 mt-2">

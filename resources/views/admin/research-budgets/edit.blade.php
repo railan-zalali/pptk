@@ -18,7 +18,7 @@
                     @endfor
                 </select>
             </form>
-            <a href="{{ route('admin.research-budgets.index', ['year' => $year]) }}"
+            <a href="{{ route('manajemen.research-budgets.index', ['year' => $year]) }}"
                 class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2 shadow-sm">
                 <span class="material-icons-outlined text-sm">arrow_back</span>
                 Kembali
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.research-budgets.update') }}" method="POST">
+    <form action="{{ route('manajemen.research-budgets.update') }}" method="POST">
         @csrf
         @method('PUT')
         <input type="hidden" name="year" value="{{ $year }}">

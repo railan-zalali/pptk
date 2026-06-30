@@ -12,7 +12,7 @@
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 ml-8">Tambahkan data kegiatan pengabdian masyarakat baru.</p>
         </div>
 
-        <form action="{{ route('admin.community-services.store') }}" method="POST">
+        <form action="{{ route('manajemen.community-services.store') }}" method="POST">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -93,7 +93,7 @@
             </div>
 
             <div class="flex justify-end gap-3">
-                <a href="{{ route('admin.community-services.index') }}"
+                <a href="{{ route('manajemen.community-services.index') }}"
                     class="px-5 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors flex items-center gap-2">
                     <span class="material-icons-outlined text-sm">arrow_back</span>
                     Batal

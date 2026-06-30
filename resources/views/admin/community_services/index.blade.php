@@ -12,7 +12,7 @@
                 </h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 ml-8">Daftar kegiatan pengabdian masyarakat.</p>
             </div>
-            <a href="{{ route('admin.community-services.create') }}"
+            <a href="{{ route('manajemen.community-services.create') }}"
                 class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm">
                 <span class="material-icons-outlined text-sm">add</span>
                 Tambah Kegiatan
@@ -41,12 +41,12 @@
                             <td class="py-3 px-4 text-right font-semibold text-green-600 dark:text-green-400">Rp {{ number_format($service->remaining_budget, 0, ',', '.') }}</td>
                             <td class="py-3 px-4 text-center">
                                 <div class="flex items-center justify-center gap-2">
-                                    <a href="{{ route('admin.community-services.edit', $service) }}"
+                                    <a href="{{ route('manajemen.community-services.edit', $service) }}"
                                         class="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
                                         title="Edit">
                                         <span class="material-icons-outlined text-[18px]">edit</span>
                                     </a>
-                                    <form action="{{ route('admin.community-services.destroy', $service) }}" method="POST"
+                                    <form action="{{ route('manajemen.community-services.destroy', $service) }}" method="POST"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus kegiatan ini?');">
                                         @csrf
                                         @method('DELETE')

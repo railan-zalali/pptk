@@ -99,7 +99,7 @@ class AdminResearchBudgetController extends Controller
             }
         }
         
-        return redirect()->route('admin.research-budgets.index', ['year' => $year])
+        return redirect()->route('manajemen.research-budgets.index', ['year' => $year])
             ->with('success', 'Data anggaran penelitian berhasil diperbarui.');
     }
 }
