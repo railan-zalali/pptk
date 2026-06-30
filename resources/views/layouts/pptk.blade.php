@@ -347,7 +347,10 @@
                         </div>
 
                         <!-- 4. Pengabdian Masyarakat -->
-                        
+                        <a href="{{ route('community-services.index') }}"
+                            class="nav-link text-gray-700 dark:text-gray-200 hover:text-green-600 font-medium">
+                            Pengabdian Masyarakat
+                        </a>
                     </div>
 
                     <!-- Right Side -->

@@ -131,20 +131,17 @@ Route::middleware(['auth', 'manajemen'])->prefix('manajemen')->name('manajemen.'
     Route::get('/', [ManajemenController::class, 'index'])->name('dashboard');
 
     // Program
-    Route::get('/programs', [ManajemenProgramController::class, 'index'])->name('programs.index');
-    Route::get('/programs/{program}', [ManajemenProgramController::class, 'show'])->name('programs.show');
+    Route::resource('programs', ManajemenProgramController::class);
 
     // Strategic Action
-    Route::get('/strategic-actions', [ManajemenStrategicActionController::class, 'index'])->name('strategic-actions.index');
-    Route::get('/strategic-actions/{strategicAction}', [ManajemenStrategicActionController::class, 'show'])->name('strategic-actions.show');
+    Route::resource('strategic-actions', ManajemenStrategicActionController::class);
 
     // Insight
     Route::get('/insights', [ManajemenInsightController::class, 'index'])->name('insights.index');
     Route::get('/insights/{insight}', [ManajemenInsightController::class, 'show'])->name('insights.show');
 
     // Kunjungan
-    Route::get('/visits', [ManajemenVisitController::class, 'index'])->name('visits.index');
-    Route::get('/visits/{visit}', [ManajemenVisitController::class, 'show'])->name('visits.show');
+    Route::resource('visits', ManajemenVisitController::class);
 
     // Penelitian (Data Penelitian & Pengabdian Masyarakat)
     Route::get('/penelitian', [ManajemenResearchController::class, 'index'])->name('penelitian.index');

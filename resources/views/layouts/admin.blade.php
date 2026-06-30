@@ -20,32 +20,54 @@
     <style>
         /* Print styles */
         @media print {
-            aside, header, footer, button, .no-print, form, .btn, .nav-link, .nav-section, #adminThemeToggle, .w-px, .alert-success, .alert-error {
+
+            aside,
+            header,
+            footer,
+            button,
+            .no-print,
+            form,
+            .btn,
+            .nav-link,
+            .nav-section,
+            #adminThemeToggle,
+            .w-px,
+            .alert-success,
+            .alert-error {
                 display: none !important;
             }
+
             body {
                 background: white !important;
                 color: black !important;
                 overflow: visible !important;
             }
-            .flex, .grid {
+
+            .flex,
+            .grid {
                 display: block !important;
             }
+
             main {
                 padding: 0 !important;
                 margin: 0 !important;
                 width: 100% !important;
                 overflow: visible !important;
             }
+
             .card {
                 border: 1px solid #e5e7eb !important;
                 box-shadow: none !important;
                 margin-bottom: 20px !important;
                 page-break-inside: avoid !important;
             }
-            .card-body, .p-6, .p-5 {
+
+            .card-body,
+            .p-6,
+            .p-5 {
                 padding: 15px !important;
             }
+
             tr {
                 page-break-inside: avoid !important;
             }
@@ -94,6 +116,15 @@
                 @endif
 
                 {{-- ================================================ --}}
+                {{-- MENU: Kembali ke Portal Publik --}}
+                {{-- ================================================ --}}
+                <!-- <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigasi Publik</div>
+                <a href="{{ route('home') }}"
+                    class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">
+                    <span class="material-icons mr-2">public</span> Portal Utama
+                </a> -->
+
+                {{-- ================================================ --}}
                 {{-- MENU: Admin PPTK (Operasional & Master Data) --}}
                 {{-- ================================================ --}}
                 @if(Auth::user()->role === 'admin_pptk')
@@ -134,6 +165,30 @@
                         <span class="material-icons mr-2">account_balance</span> Realisasi Anggaran
                     </a>
 
+                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Operasional &
+                        Strategis</div>
+
+                    <a href="{{ route('admin.programs.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.programs.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">list_alt</span> Program
+                    </a>
+                    <a href="{{ route('admin.strategic-actions.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.strategic-actions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">agriculture</span> Strategic Action
+                    </a>
+                    <a href="{{ route('admin.visits.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.visits.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">event</span> Kunjungan
+                    </a>
+                    <a href="{{ route('admin.insights.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.insights.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">lightbulb</span> Insights
+                    </a>
+                    <a href="{{ route('admin.community-services.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.community-services.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">volunteer_activism</span> Pengabdian Masyarakat
+                    </a>
+
                     <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Pengaturan</div>
 
                     <a href="{{ route('admin.users.index') }}"
@@ -146,7 +201,8 @@
                 {{-- MENU: Manajemen Eksekutif --}}
                 {{-- ================================================ --}}
                 @if(Auth::user()->role === 'manajemen')
-                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Monitoring Eksekutif</div>
+                    <div class="pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Monitoring Eksekutif
+                    </div>
 
                     <a href="{{ route('manajemen.programs.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.programs.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
@@ -242,7 +298,7 @@
         </main>
     </div>
     <script>
-        (function() {
+        (function () {
             var s = localStorage.getItem('theme');
             var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
             var t = s ? s : (d ? 'dark' : 'light');
@@ -250,7 +306,7 @@
                 document.documentElement.classList.add('dark')
             }
         })();
-        (function() {
+        (function () {
             var b = document.getElementById('adminThemeToggle');
             var i = document.getElementById('adminThemeIcon');
 
@@ -259,7 +315,7 @@
             }
             if (b && i) {
                 u();
-                b.addEventListener('click', function() {
+                b.addEventListener('click', function () {
                     document.documentElement.classList.toggle('dark');
                     localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' :
                         'light');
@@ -273,14 +329,14 @@
             var closeSidebar = document.getElementById('closeSidebar');
 
             if (mobileMenuBtn && sidebar) {
-                mobileMenuBtn.addEventListener('click', function() {
+                mobileMenuBtn.addEventListener('click', function () {
                     sidebar.classList.remove('hidden');
                     sidebar.classList.add('fixed', 'inset-y-0', 'left-0', 'z-50');
                 });
             }
 
             if (closeSidebar && sidebar) {
-                closeSidebar.addEventListener('click', function() {
+                closeSidebar.addEventListener('click', function () {
                     sidebar.classList.add('hidden');
                     sidebar.classList.remove('fixed', 'inset-y-0', 'left-0', 'z-50');
                 });
