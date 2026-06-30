@@ -10,8 +10,9 @@ use Tests\TestCase;
  * Test akses menu Manajemen.
  *
  * Menu Manajemen (setelah restrukturisasi):
- *   Dashboard, Dashboard Publik, Program, Strategic Action,
- *   Kunjungan, Data Penelitian, Data Pengabdian Masyarakat, Tentang.
+ *   Dashboard Publik, Program, Strategic Action,
+ *   Kunjungan, Data Penelitian, Data Pengabdian Masyarakat, Tentang,
+ *   Realisasi Anggaran.
  *   Insight: DISEMBUNYIKAN dari menu (route tetap ada).
  */
 class ManajemenMenuTest extends TestCase
@@ -84,6 +85,14 @@ class ManajemenMenuTest extends TestCase
     }
 
     /** @test */
+    public function test_menu_realisasi_anggaran_dapat_diakses(): void
+    {
+        $this->actingAs($this->manager)
+            ->get(route('manajemen.research-budgets.index'))
+            ->assertStatus(200);
+    }
+
+    /** @test */
     public function test_menu_tentang_dapat_diakses(): void
     {
         $this->actingAs($this->manager)
@@ -101,6 +110,25 @@ class ManajemenMenuTest extends TestCase
 
         // Insight harus disembunyikan dari sidebar (link tidak boleh ada)
         $response->assertDontSee('href="' . route('manajemen.insights.index') . '"', false);
+    }
+
+    /** @test */
+    public function test_sidebar_manajemen_mengikuti_daftar_menu_yang_diminta(): void
+    {
+        $response = $this->actingAs($this->manager)
+            ->get(route('manajemen.dashboard'));
+
+        $response->assertSee('Dashboard Publik');
+        $response->assertSee('Program');
+        $response->assertSee('Strategic Action');
+        $response->assertSee('Kunjungan');
+        $response->assertSee('Data Penelitian');
+        $response->assertSee('Data Pengabdian Masyarakat');
+        $response->assertSee('Tentang');
+        $response->assertSee('Realisasi Anggaran');
+
+        $response->assertDontSee('href="' . route('manajemen.dashboard') . '"', false);
+        $response->assertDontSee('Insights');
     }
 
     /** @test */

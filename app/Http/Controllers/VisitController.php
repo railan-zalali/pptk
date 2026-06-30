@@ -15,21 +15,30 @@ class VisitController extends Controller
             $month = $request->month;
             $year = $request->year;
             
-            $visits = Visit::with(['garden', 'garden.region'])
+            $visits = Visit::with(['garden.region', 'photos'])
                 ->whereMonth('visit_date', $month)
                 ->whereYear('visit_date', $year)
                 ->get()
                 ->map(function ($visit) {
+                    $photos = $visit->photos->map(function ($photo) {
+                        return [
+                            'url' => asset('storage/' . $photo->path),
+                            'caption' => $photo->caption,
+                        ];
+                    })->values();
+
                     return [
                         'id' => $visit->id,
                         'title' => $visit->title,
                         'date' => $visit->visit_date->format('Y-m-d'),
                         'visitor_name' => $visit->visitor_name,
                         'participants_list' => $visit->participants_list,
-                        'location' => $visit->garden->kebun_name,
+                        'location' => $visit->garden?->kebun_name ?? '-',
                         'status' => $visit->status,
                         'time' => '09:00 - 15:00', // Default time as it's not in DB
                         'description' => $visit->description,
+                        'photos' => $photos,
+                        'photo_url' => $photos->first()['url'] ?? null,
                     ];
                 });
                 
@@ -101,7 +110,7 @@ class VisitController extends Controller
 
     public function show(Visit $visit)
     {
-        $visit->load(['garden', 'garden.region']);
+        $visit->load(['garden.region', 'photos']);
         return view('visits.show', compact('visit'));
     }
 

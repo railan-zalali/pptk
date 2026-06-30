@@ -27,7 +27,6 @@ use App\Http\Controllers\Manajemen\ManajemenProgramController;
 use App\Http\Controllers\Manajemen\ManajemenStrategicActionController;
 use App\Http\Controllers\Manajemen\ManajemenInsightController;
 use App\Http\Controllers\Manajemen\ManajemenVisitController;
-use App\Http\Controllers\Manajemen\ManajemenCommunityServiceController;
 use App\Http\Controllers\Manajemen\ManajemenResearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,8 +46,11 @@ Route::prefix('strategic-action')->name('strategic.')->group(function () {
     Route::get('/{region}/{garden}', [StrategicController::class, 'garden'])->name('garden');
 });
 
-// Visits (Public)
-Route::resource('kunjungan-dinas', VisitController::class)->names('visits');
+// Visits (Public): calendar and detail only. Schedule creation is handled in authenticated panels.
+Route::resource('kunjungan-dinas', VisitController::class)
+    ->only(['index', 'show'])
+    ->parameters(['kunjungan-dinas' => 'visit'])
+    ->names('visits');
 
 // Community Service (Public)
 Route::get('/pengabdian-masyarakat', [CommunityServiceController::class, 'index'])->name('community-services.index');
@@ -78,15 +80,14 @@ require __DIR__ . '/auth.php';
 
 /*
 |--------------------------------------------------------------------------
-| Admin PPTK Routes (Full CRUD - Operational & Master Data)
-| Single consolidated group for maintainability
+| Admin PPTK Routes
+| Menu utama: master kebun, realisasi produksi, target kinerja, pengguna.
+| Endpoint pendukung lama tetap dipertahankan untuk kompatibilitas data.
 |--------------------------------------------------------------------------
 */
 
 Route::middleware(['auth', 'admin_pptk'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
-
-
 
     // Master Kebun
     Route::resource('regions', AdminRegionController::class);
@@ -101,25 +102,24 @@ Route::middleware(['auth', 'admin_pptk'])->prefix('admin')->name('admin.')->grou
     // Manajemen Pengguna
     Route::resource('users', AdminUserController::class);
 
-    // Pages Management
+    // Endpoint pendukung yang tidak ditampilkan di sidebar admin
     Route::prefix('pages')->name('pages.')->group(function () {
         Route::get('/about', [AdminPageController::class, 'editAbout'])->name('about.edit');
         Route::put('/about', [AdminPageController::class, 'updateAbout'])->name('about.update');
     });
 
-    // Strategic & Programs & Insights
     Route::resource('programs', AdminProgramController::class);
     Route::resource('strategic-actions', AdminStrategicActionController::class);
     Route::resource('insights', AdminInsightController::class);
-
-    // Kunjungan
     Route::resource('visits', AdminVisitController::class);
 });
 
 
 /*
 |--------------------------------------------------------------------------
-| Manajemen Routes (Monitoring, Analysis & Penelitian Management)
+| Manajemen Routes
+| Menu utama: dashboard publik, program, strategic action, kunjungan,
+| penelitian, pengabdian masyarakat, tentang, dan realisasi anggaran.
 |--------------------------------------------------------------------------
 */
 
@@ -132,7 +132,7 @@ Route::middleware(['auth', 'manajemen'])->prefix('manajemen')->name('manajemen.'
     // Strategic Action
     Route::resource('strategic-actions', ManajemenStrategicActionController::class);
 
-    // Insight
+    // Endpoint insight lama tetap tersedia, tetapi tidak ditampilkan di sidebar
     Route::get('/insights', [ManajemenInsightController::class, 'index'])->name('insights.index');
     Route::get('/insights/{insight}', [ManajemenInsightController::class, 'show'])->name('insights.show');
 

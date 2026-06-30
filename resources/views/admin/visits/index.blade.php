@@ -14,7 +14,7 @@
         <a href="{{ route('admin.visits.create') }}"
             class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm">
             <span class="material-icons-outlined text-sm">add</span>
-            Tambah Kunjungan
+            Tambah Jadwal Baru
         </a>
     </div>
 
@@ -34,7 +34,7 @@
                             @foreach ($gardens as $garden)
                                 <option value="{{ $garden->id }}"
                                     {{ request('garden_id') == $garden->id ? 'selected' : '' }}>
-                                    {{ $garden->name }} • {{ $garden->region->name }}
+                                    {{ $garden->kebun_name }} &bull; {{ $garden->region->regional_name }}
                                 </option>
                             @endforeach
                         </select>
@@ -110,8 +110,8 @@
                             <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $visit->title }}
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
-                                <div>{{ $visit->garden->name }}</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ $visit->garden->region->name }}
+                                <div>{{ $visit->garden->kebun_name }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ $visit->garden->region->regional_name }}
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">

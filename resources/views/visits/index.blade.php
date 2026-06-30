@@ -10,13 +10,6 @@
                 <h1 class="text-3xl font-bold text-green-800 dark:text-green-100 mb-2">Jadwal Kunjungan</h1>
                 <p class="text-gray-600 dark:text-gray-300">Kalender interaktif kegiatan kunjungan dan penelitian</p>
             </div>
-            <div class="mt-4 md:mt-0 flex space-x-3">
-                <a href="{{ route('visits.create') }}"
-                    class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center transition-colors shadow-sm">
-                    <span class="material-icons mr-2">add</span>
-                    Jadwal Baru
-                </a>
-            </div>
         </div>
 
         @if (session('success'))
@@ -272,8 +265,21 @@
                         colorClass = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200 border-yellow-200';
                     }
 
-                    eventEl.className = `text-xs px-1.5 py-0.5 rounded border ${colorClass} truncate`;
-                    eventEl.textContent = event.title;
+                    eventEl.className = `text-xs px-1.5 py-1 rounded border ${colorClass} flex items-center gap-1.5 min-w-0`;
+
+                    if (event.photo_url) {
+                        const thumbnail = document.createElement('img');
+                        thumbnail.src = event.photo_url;
+                        thumbnail.alt = event.title || 'Foto kunjungan';
+                        thumbnail.className = 'h-6 w-6 flex-none rounded object-cover border border-white/70 dark:border-gray-700';
+                        eventEl.appendChild(thumbnail);
+                    }
+
+                    const eventTitle = document.createElement('span');
+                    eventTitle.className = 'truncate';
+                    eventTitle.textContent = event.title || 'Kunjungan';
+                    eventEl.appendChild(eventTitle);
+
                     eventsContainer.appendChild(eventEl);
                 });
 
@@ -328,26 +334,41 @@
                 else if (event.status === 'scheduled') { statusColor = 'bg-blue-100 text-blue-800'; statusLabel = 'Terjadwal'; }
                 else if (event.status === 'cancelled') { statusColor = 'bg-red-100 text-red-800'; statusLabel = 'Batal'; }
 
+                const photos = Array.isArray(event.photos) ? event.photos : [];
+                const photoMarkup = photos.length > 0
+                    ? `
+                        <div class="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                            ${photos.slice(0, 3).map(photo => `
+                                <figure class="overflow-hidden rounded border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800">
+                                    <img src="${escapeHtml(photo.url)}" alt="${escapeHtml(photo.caption || event.title || 'Foto kunjungan')}" class="h-24 w-full object-cover">
+                                    ${photo.caption ? `<figcaption class="px-2 py-1 text-[11px] text-gray-500 dark:text-gray-400 truncate">${escapeHtml(photo.caption)}</figcaption>` : ''}
+                                </figure>
+                            `).join('')}
+                        </div>
+                    `
+                    : '';
+
                 card.innerHTML = `
-                    <h4 class="font-bold text-gray-900 dark:text-white mb-2">${event.title}</h4>
+                    <h4 class="font-bold text-gray-900 dark:text-white mb-2">${escapeHtml(event.title || 'Kunjungan')}</h4>
                     <div class="space-y-2 text-sm">
                         <div class="flex">
                             <span class="w-24 text-gray-500 dark:text-gray-400">Waktu:</span>
-                            <span class="text-gray-800 dark:text-gray-200">${event.time}</span>
+                            <span class="text-gray-800 dark:text-gray-200">${escapeHtml(event.time || '-')}</span>
                         </div>
                         <div class="flex">
                             <span class="w-24 text-gray-500 dark:text-gray-400">Lokasi:</span>
-                            <span class="text-gray-800 dark:text-gray-200">${event.location}</span>
+                            <span class="text-gray-800 dark:text-gray-200">${escapeHtml(event.location || '-')}</span>
                         </div>
                         <div class="flex">
                             <span class="w-24 text-gray-500 dark:text-gray-400">Peneliti:</span>
-                            <span class="text-gray-800 dark:text-gray-200">${event.visitor_name} ${event.participants_list ? '('+event.participants_list+')' : ''}</span>
+                            <span class="text-gray-800 dark:text-gray-200">${escapeHtml(event.visitor_name || '-')} ${event.participants_list ? '(' + escapeHtml(event.participants_list) + ')' : ''}</span>
                         </div>
                          <div class="flex">
                             <span class="w-24 text-gray-500 dark:text-gray-400">Status:</span>
                             <span class="px-2 py-0.5 rounded-full text-xs font-medium ${statusColor}">${statusLabel}</span>
                         </div>
                     </div>
+                    ${photoMarkup}
                 `;
                 modalBody.appendChild(card);
             });
@@ -360,6 +381,18 @@
             const date = new Date(parts[0], parts[1] - 1, parts[2]);
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             return date.toLocaleDateString('id-ID', options);
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, function(character) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[character];
+            });
         }
 
         // Initial fetch

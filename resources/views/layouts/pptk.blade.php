@@ -372,9 +372,15 @@
                                 </button>
                                 <div
                                     class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                                    <a href="{{ route('admin.dashboard') }}"
-                                        class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Admin
-                                        Panel</a>
+                                    @if (Auth::user()->role === 'admin_pptk')
+                                        <a href="{{ route('admin.dashboard') }}"
+                                            class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Admin
+                                            Panel</a>
+                                    @elseif (Auth::user()->role === 'manajemen')
+                                        <a href="{{ route('manajemen.dashboard') }}"
+                                            class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Panel
+                                            Manajemen</a>
+                                    @endif
                                     <a href="{{ route('profile.edit') }}"
                                         class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700">Profil</a>
                                     <form method="POST" action="{{ route('logout') }}" class="block">

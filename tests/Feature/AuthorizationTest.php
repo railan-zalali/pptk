@@ -10,10 +10,8 @@ use Tests\TestCase;
  * Test otorisasi berbasis role (role-based access control).
  *
  * Middleware saat ini:
- *   - admin_pptk middleware: mengizinkan admin_pptk DAN manajemen
+ *   - admin_pptk middleware: hanya mengizinkan admin_pptk
  *   - manajemen middleware : mengizinkan manajemen DAN admin_pptk
- *
- * Artinya: kedua role bisa akses kedua area, namun tampilan menu berbeda.
  */
 class AuthorizationTest extends TestCase
 {
@@ -86,12 +84,11 @@ class AuthorizationTest extends TestCase
     }
 
     /** @test */
-    public function test_manajemen_dapat_akses_area_admin(): void
+    public function test_manajemen_tidak_dapat_akses_area_admin(): void
     {
-        // Middleware admin mengizinkan role manajemen (view-only context)
         $this->actingAs($this->manager)
             ->get(route('admin.dashboard'))
-            ->assertStatus(200);
+            ->assertRedirect(route('dashboard'));
     }
 
     // ─── Profile access ───────────────────────────────────────────────────

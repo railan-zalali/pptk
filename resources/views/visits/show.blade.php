@@ -113,13 +113,21 @@
                 <span class="material-icons text-sm">arrow_back</span>
                 Kembali
             </a>
-            @can('update', $visit)
-                <a href="{{ route('visits.edit', $visit) }}"
-                    class="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2.5 rounded-lg transition-colors shadow-sm">
-                    <span class="material-icons text-sm">edit</span>
-                    Edit
-                </a>
-            @endcan
+            @auth
+                @if (Auth::user()->role === 'admin_pptk')
+                    <a href="{{ route('admin.visits.edit', $visit) }}"
+                        class="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2.5 rounded-lg transition-colors shadow-sm">
+                        <span class="material-icons text-sm">edit</span>
+                        Edit
+                    </a>
+                @elseif (Auth::user()->role === 'manajemen')
+                    <a href="{{ route('manajemen.visits.edit', $visit) }}"
+                        class="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2.5 rounded-lg transition-colors shadow-sm">
+                        <span class="material-icons text-sm">edit</span>
+                        Edit
+                    </a>
+                @endif
+            @endauth
         </div>
     </div>
 @endsection

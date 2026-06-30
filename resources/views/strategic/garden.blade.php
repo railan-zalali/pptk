@@ -1,6 +1,6 @@
 @extends('layouts.pptk')
 
-@section('title', $garden->name . ' - Aksi Strategis')
+@section('title', $garden->kebun_name . ' - Aksi Strategis')
 
 @section('content')
     <div class="container mx-auto px-4 py-8">
@@ -17,10 +17,10 @@
                 </li>
                 <li><span class="text-gray-400 dark:text-gray-600">/</span></li>
                 <li><a href="{{ route('strategic.region', $garden->region->id) }}"
-                        class="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300">{{ $garden->region->name }}</a>
+                        class="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300">{{ $garden->region->regional_name }}</a>
                 </li>
                 <li><span class="text-gray-400 dark:text-gray-600">/</span></li>
-                <li class="text-gray-700 dark:text-gray-300">{{ $garden->name }}</li>
+                <li class="text-gray-700 dark:text-gray-300">{{ $garden->kebun_name }}</li>
             </ol>
         </nav>
 
@@ -28,27 +28,27 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
             <div class="flex flex-col md:flex-row items-start justify-between">
                 <div class="mb-4 md:mb-0">
-                    <h1 class="text-3xl font-bold text-green-800 dark:text-green-100 mb-2">{{ $garden->name }}</h1>
+                    <h1 class="text-3xl font-bold text-green-800 dark:text-green-100 mb-2">{{ $garden->kebun_name }}</h1>
                     <p class="text-gray-600 dark:text-gray-300 mb-2 flex items-center">
                         <span class="material-icons text-green-600 dark:text-green-400 mr-2 text-base">location_on</span>
-                        {{ $garden->address }}, {{ $garden->region->name }}
+                        {{ $garden->location ?? '-' }}, {{ $garden->region->regional_name }}
                     </p>
                     <p class="text-gray-600 dark:text-gray-300 mb-4 flex items-center">
                         <span class="material-icons text-green-600 dark:text-green-400 mr-2 text-base">square_foot</span>
-                        Luas Area: {{ number_format($garden->area, 2) }} hektar
+                        Luas Area: {{ number_format($garden->luas_total_ha, 2) }} hektar
                     </p>
                     <div class="flex flex-wrap gap-2">
                         <span
                             class="px-3 py-1 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-100 rounded-full text-sm">
-                            {{ ucfirst($garden->garden_type) }}
+                            {{ ucfirst($garden->kebun_type) }}
                         </span>
                         <span
                             class="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-100 rounded-full text-sm">
-                            {{ $garden->elevation }} mdpl
+                            {{ number_format($garden->luas_total_ha, 1) }} ha
                         </span>
                         <span
                             class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-100 rounded-full text-sm">
-                            Varietas: {{ $garden->tea_variety }}
+                            {{ $garden->region->province ?? 'Wilayah' }}
                         </span>
                     </div>
                 </div>
@@ -102,20 +102,20 @@
                     </div>
                     <div class="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                            <span class="font-semibold text-gray-700 dark:text-gray-300">Latitude:</span>
-                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->latitude ?? '-' }}</span>
+                            <span class="font-semibold text-gray-700 dark:text-gray-300">Koordinat:</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->region->coordinates ?? '-' }}</span>
                         </div>
                         <div>
-                            <span class="font-semibold text-gray-700 dark:text-gray-300">Longitude:</span>
-                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->longitude ?? '-' }}</span>
+                            <span class="font-semibold text-gray-700 dark:text-gray-300">Tipe Kebun:</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->kebun_type }}</span>
                         </div>
                         <div>
-                            <span class="font-semibold text-gray-700 dark:text-gray-300">Ketinggian:</span>
-                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->elevation }} mdpl</span>
+                            <span class="font-semibold text-gray-700 dark:text-gray-300">Luas:</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ number_format($garden->luas_total_ha, 1) }} ha</span>
                         </div>
                         <div>
-                            <span class="font-semibold text-gray-700 dark:text-gray-300">Curah Hujan:</span>
-                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->rainfall }} mm/tahun</span>
+                            <span class="font-semibold text-gray-700 dark:text-gray-300">Agroklimat:</span>
+                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->agro_climate_note ?? '-' }}</span>
                         </div>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                             <span class="text-gray-600 dark:text-gray-300">Status Kesehatan</span>
                             <span
                                 class="px-2 py-1 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-100 rounded-full text-xs">
-                                {{ ucfirst($garden->status) }}
+                                Data tersedia
                             </span>
                         </div>
                     </div>
@@ -184,7 +184,7 @@
                 if ($garden->photo_path) {
                     $galleryPhotos[] = [
                         'title' => 'Foto Kebun',
-                        'desc' => $garden->name,
+                        'desc' => $garden->kebun_name,
                         'image' => asset('storage/' . $garden->photo_path),
                     ];
                 }
@@ -195,7 +195,7 @@
                             ->map(function ($p, $idx) use ($garden) {
                                 return [
                                     'title' => 'Galeri Kebun ' . ($idx + 1),
-                                    'desc' => $garden->name,
+                                    'desc' => $garden->kebun_name,
                                     'image' => asset('storage/' . $p->path),
                                 ];
                             })
@@ -472,11 +472,11 @@
         }
 
         function initMap() {
-            const lat = {{ $garden->latitude ?? 'null' }};
-            const lng = {{ $garden->longitude ?? 'null' }};
+            const lat = null;
+            const lng = null;
             let centerLat = lat,
                 centerLng = lng;
-            @php $coordStr = $garden->coordinates ?? null; @endphp
+            @php $coordStr = $garden->region->coordinates ?? null; @endphp
             if (centerLat === null || centerLng === null) {
                 const coordStr = @json($coordStr);
                 if (coordStr && coordStr.includes(',')) {
@@ -509,7 +509,7 @@
                 imperial: false
             }).addTo(map);
             L.marker([centerLat, centerLng]).addTo(map)
-                .bindPopup("<b>{{ $garden->name }}</b><br>{{ $garden->region->name }}, Indonesia")
+                .bindPopup("<b>{{ $garden->kebun_name }}</b><br>{{ $garden->region->regional_name }}, Indonesia")
                 .openPopup();
             L.circle([centerLat, centerLng], {
                 radius: 800,

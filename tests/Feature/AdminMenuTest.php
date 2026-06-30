@@ -10,8 +10,8 @@ use Tests\TestCase;
  * Test akses menu Admin PPTK.
  *
  * Menu Admin (setelah restrukturisasi):
- *   Dashboard Admin, Wilayah Kebun, Kebun, Afdeling/Updeling, Blok,
- *   Realisasi Produksi, Target Kinerja, Realisasi Anggaran, Manajemen Pengguna.
+ *   Wilayah Kebun, Kebun, Afdeling/Updeling, Blok,
+ *   Realisasi Produksi, Target Kinerja, Manajemen Pengguna.
  */
 class AdminMenuTest extends TestCase
 {
@@ -83,14 +83,6 @@ class AdminMenuTest extends TestCase
     }
 
     /** @test */
-    public function test_menu_realisasi_anggaran_dapat_diakses(): void
-    {
-        $this->actingAs($this->admin)
-            ->get(route('admin.research-budgets.index'))
-            ->assertStatus(200);
-    }
-
-    /** @test */
     public function test_menu_manajemen_pengguna_dapat_diakses(): void
     {
         $this->actingAs($this->admin)
@@ -113,5 +105,26 @@ class AdminMenuTest extends TestCase
 
         // Menu insight (dari manajemen) tidak boleh ada di sidebar admin
         $response->assertDontSee(route('manajemen.insights.index'));
+    }
+
+    /** @test */
+    public function test_sidebar_admin_hanya_menampilkan_menu_admin_yang_diminta(): void
+    {
+        $response = $this->actingAs($this->admin)
+            ->get(route('admin.dashboard'));
+
+        $response->assertSee('Wilayah Kebun');
+        $response->assertSee('Kebun');
+        $response->assertSee('Afdeling / Updeling');
+        $response->assertSee('Blok');
+        $response->assertSee('Realisasi Produksi');
+        $response->assertSee('Target Kinerja');
+        $response->assertSee('Manajemen Pengguna');
+
+        $response->assertDontSee('Program');
+        $response->assertDontSee('Strategic Action');
+        $response->assertDontSee('Kunjungan');
+        $response->assertDontSee('Insights');
+        $response->assertDontSee('Realisasi Anggaran');
     }
 }

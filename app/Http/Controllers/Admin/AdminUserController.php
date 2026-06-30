@@ -11,17 +11,6 @@ use Illuminate\Validation\Rule;
 
 class AdminUserController extends Controller
 {
-    public function __construct()
-    {
-        // Only allow actual admin_pptk for user management
-        $this->middleware(function ($request, $next) {
-            if (auth()->user()->role !== 'admin_pptk') {
-                return redirect()->route('dashboard')->with('error', 'Akses ditolak.');
-            }
-            return $next($request);
-        });
-    }
-
     public function index(Request $request)
     {
         $query = User::orderBy('name');
