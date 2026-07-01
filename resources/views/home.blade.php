@@ -6,16 +6,15 @@
     <!-- Hero Section -->
     <section class="relative min-h-[100dvh] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0 bg-gray-900">
-            <img src="{{ $heroPhotoUrl ?? 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Beautiful%20tea%20plantation%20landscape%20with%20rolling%20hills%2C%20lush%20green%20tea%20bushes%2C%20morning%20mist%2C%20professional%20photography%2C%20serene%20atmosphere&image_size=landscape_16_9' }}"
+            <img src="{{ $heroPhotoUrl ?? asset('images/gambar_1.jpg') }}"
                 alt="Kebun Teh PPTK Gambung" loading="lazy" decoding="async" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
         </div>
 
         <div class="relative z-10 text-center text-white px-4 max-w-5xl mx-auto py-20">
             <div class="mb-6 flex justify-center">
-                <div
-                    class="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/30 shadow-xl animate-fade-in-up">
-                    <span class="material-icons text-5xl text-white">eco</span>
+                <div class="w-24 h-24 flex items-center justify-center animate-fade-in-up drop-shadow-2xl">
+                    <img src="{{ asset('images/pptk.png') }}" class="w-full h-auto drop-shadow-2xl" alt="Logo PPTK" />
                 </div>
             </div>
             <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight animate-fade-in text-shadow-lg">
@@ -72,7 +71,7 @@
                 </div>
                 <div class="relative">
                     <div class="absolute -inset-4 bg-green-100 dark:bg-green-900/30 rounded-xl transform rotate-3"></div>
-                    <img src="https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Tea%20research%20center%20building%20indonesia%20gambung%20colonial%20architecture%20surrounded%20by%20tea%20gardens&image_size=landscape_4_3"
+                    <img src="{{ asset('images/gambar_2.jpg') }}"
                         alt="Gedung PPTK Gambung" class="relative rounded-xl shadow-lg w-full h-auto object-cover">
                 </div>
             </div>
@@ -143,7 +142,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div class="order-2 md:order-1">
                     <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-700">
-                        <img src="{{ $statsPhotoUrl ?? 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=Modern%20dashboard%20interface%20on%20tablet%20showing%20tea%20production%20charts%2C%20analytics%2C%20data%20visualization%2C%20clean%20ui%2C%20high%20quality&image_size=landscape_4_3' }}"
+                        <img src="{{ $statsPhotoUrl ?? asset('images/gambar_3.jpg') }}"
                             alt="Dashboard Analytics"
                             class="w-full h-auto transform hover:scale-105 transition-transform duration-700">
                     </div>

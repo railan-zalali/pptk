@@ -60,7 +60,7 @@
                                 @php
                                     $cover = $region->photo_path ?? optional($region->photos->first())->path;
                                 @endphp
-                                <img src="{{ $cover ? asset('storage/' . $cover) : 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=' . urlencode('Tea plantation landscape in ' . $region->regional_name . ', Indonesia, professional landscape photography, lush green tea garden') . '&image_size=landscape_4_3' }}"
+                                <img src="{{ $cover ? asset('storage/' . $cover) : asset('images/gambar_4.jpg') }}"
                                     alt="Kebun Teh {{ $region->regional_name }}" loading="lazy" decoding="async" fetchpriority="low"
                                     class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>

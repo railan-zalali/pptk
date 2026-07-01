@@ -130,6 +130,10 @@
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">manage_accounts</span> Manajemen Pengguna
                     </a>
+                    <a href="{{ route('home') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.research-budgets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">public</span> Halaman Depan
+                    </a>
                 @endif
 
                 {{-- ================================================ --}}
@@ -151,7 +155,7 @@
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.strategic-actions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">agriculture</span> Strategic Action
                     </a>
-                    {{-- Insight: disembunyikan dari menu (data & route tetap ada) --}}
+
                     <a href="{{ route('manajemen.visits.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.visits.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">event</span> Kunjungan
@@ -171,6 +175,10 @@
                     <a href="{{ route('manajemen.research-budgets.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.research-budgets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">account_balance</span> Realisasi Anggaran
+                    </a>
+                    <a href="{{ route('home') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.research-budgets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">public</span> Halaman Depan
                     </a>
                 @endif
 

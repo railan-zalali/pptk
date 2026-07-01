@@ -288,9 +288,8 @@
                     <!-- Logo -->
                     <div class="flex items-center">
                         <a href="{{ route('home') }}" class="flex items-center space-x-3">
-                            <div
-                                class="w-10 h-10 bg-gradient-to-br from-green-600 to-green-400 rounded-full flex items-center justify-center">
-                                <span class="material-icons text-white text-lg">eco</span>
+                            <div class="w-10 h-10 flex items-center justify-center">
+                                <img src="{{ asset('images/pptk.png') }}" class="w-full h-auto drop-shadow-md" alt="Logo PPTK" />
                             </div>
                             <div class="hidden md:block">
                                 <h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">Portal PPTK Gambung</h1>

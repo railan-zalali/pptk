@@ -79,7 +79,7 @@
                     @php
                         $regionCover = $region->photo_path ?? optional($region->photos->first())->path;
                     @endphp
-                    <img src="{{ $regionCover ? asset('storage/' . $regionCover) : 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=' . urlencode($region->regional_name . ' tea plantation landscape, beautiful scenery, professional photography, lush green tea gardens') . '&image_size=landscape_4_3' }}"
+                    <img src="{{ $regionCover ? asset('storage/' . $regionCover) : asset('images/gambar_4.jpg') }}"
                         alt="Kebun Teh {{ $region->regional_name }}" loading="lazy" decoding="async" fetchpriority="low"
                         class="w-full h-80 object-cover rounded-xl shadow-lg">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"></div>
@@ -286,7 +286,7 @@
                                 $gardenCover =
                                     optional($garden->photos->first())->path ?? ($garden->photo_path ?? $regionCover);
                             @endphp
-                            <img src="{{ $gardenCover ? asset('storage/' . $gardenCover) : 'https://trae-api-sg.mchost.guru/api/ide/v1/text_to_image?prompt=' . urlencode($garden->kebun_name . ' tea garden, beautiful plantation, professional photography, lush green tea bushes') . '&image_size=landscape_4_3' }}"
+                            <img src="{{ $gardenCover ? asset('storage/' . $gardenCover) : asset('images/gambar_5.jpg') }}"
                                 alt="Kebun {{ $garden->kebun_name }}" loading="lazy" decoding="async" fetchpriority="low"
                                 class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-lg"></div>
