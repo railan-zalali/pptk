@@ -33,7 +33,7 @@
                             @foreach ($afdelings as $afdeling)
                                 <option value="{{ $afdeling->id }}"
                                     {{ old('afdeling_id', $block->afdeling_id) == $afdeling->id ? 'selected' : '' }}>
-                                    {{ $afdeling->name }} ({{ $afdeling->garden->kebun_name }})
+                                    {{ $afdeling->name }} ({{ $afdeling->garden?->kebun_name ?? 'Tanpa Kebun' }})
                                 </option>
                             @endforeach
                         </select>
@@ -79,6 +79,44 @@
                             placeholder="Contoh: Blok Utara" required>
                     </div>
                     @error('name')
+                        <p class="text-red-500 text-xs mt-1 flex items-center gap-1">
+                            <span class="material-icons-outlined text-[14px]">error_outline</span>
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+
+                <!-- Area Ha -->
+                <div>
+                    <label for="area_ha" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Luas Area (Ha) <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-icons-outlined text-gray-400 text-sm">aspect_ratio</span>
+                        </span>
+                        <input type="number" step="0.01" name="area_ha" id="area_ha" value="{{ old('area_ha', $block->area_ha) }}"
+                            class="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-colors"
+                            placeholder="Contoh: 10.5" required>
+                    </div>
+                    @error('area_ha')
+                        <p class="text-red-500 text-xs mt-1 flex items-center gap-1">
+                            <span class="material-icons-outlined text-[14px]">error_outline</span>
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+
+                <!-- Population -->
+                <div>
+                    <label for="population" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Populasi <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-icons-outlined text-gray-400 text-sm">forest</span>
+                        </span>
+                        <input type="number" name="population" id="population" value="{{ old('population', $block->population) }}"
+                            class="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-colors"
+                            placeholder="Contoh: 1000" required>
+                    </div>
+                    @error('population')
                         <p class="text-red-500 text-xs mt-1 flex items-center gap-1">
                             <span class="material-icons-outlined text-[14px]">error_outline</span>
                             {{ $message }}

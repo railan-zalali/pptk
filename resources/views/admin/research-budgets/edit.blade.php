@@ -111,7 +111,7 @@
         </div>
 
         <div class="flex items-center justify-end gap-4 sticky bottom-0 bg-gray-100 dark:bg-gray-900 py-4 border-t border-gray-200 dark:border-gray-700">
-            <a href="{{ route('admin.research-budgets.index', ['year' => $year]) }}"
+            <a href="{{ route('manajemen.research-budgets.index', ['year' => $year]) }}"
                 class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition-colors">
                 Batal
             </a>

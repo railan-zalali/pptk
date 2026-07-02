@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Afdeling extends Model
 {
     protected $fillable = [
-        'garden_id',
+        'kebun_id',
         'name',
         'total_area_ha',
         'tm_area_ha',

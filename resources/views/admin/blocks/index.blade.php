@@ -101,9 +101,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex flex-col">
                                         <span
-                                            class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $block->afdeling->name }}</span>
+                                            class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $block->afdeling?->name ?? '-' }}</span>
                                         <span
-                                            class="text-xs text-gray-500 dark:text-gray-400">{{ $block->afdeling->garden->kebun_name }}</span>
+                                            class="text-xs text-gray-500 dark:text-gray-400">{{ $block->afdeling?->garden?->kebun_name ?? '-' }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
