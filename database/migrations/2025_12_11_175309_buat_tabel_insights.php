@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->foreignId('garden_id')->constrained();
+            $table->foreignId('garden_id')->constrained()->cascadeOnDelete();
             $table->string('insight_type');
             $table->text('message');
             $table->enum('alert_level', ['low', 'medium', 'high']);

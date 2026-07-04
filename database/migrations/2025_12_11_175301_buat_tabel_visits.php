@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('garden_id')->constrained();
+            $table->foreignId('garden_id')->constrained()->cascadeOnDelete();
             $table->string('title')->nullable();
             $table->date('visit_date');
             $table->integer('duration')->nullable();
