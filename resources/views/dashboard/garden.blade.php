@@ -258,52 +258,43 @@
                 </div>
             </div>
 
-            <!-- 4. Strategic Monitoring Widgets -->
+            <!-- 4. Strategic Monitoring — Radar Chart -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">Strategic Monitoring</h3>
-
-                <!-- Fertilizer -->
-                <div class="mb-8">
-                    <div class="flex justify-between mb-1">
-                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Penyerapan Pupuk</span>
-                        <div class="text-right">
-                            <span class="text-sm font-medium text-blue-700 dark:text-blue-400 block">{{ number_format($fertilizerProgress, 1) }}% (Protas: {{ number_format($fertilizerProtas, 1) }}%)</span>
-                            <span class="text-xs text-gray-500 block">Realisasi: {{ number_format($fertilizerRealization, 0) }} kg/ha</span>
-                        </div>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ min($fertilizerProgress, 100) }}%">
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">Target vs Realisasi Aplikasi</p>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Strategic Monitoring</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Capaian 4 dimensi strategis (%)</p>
+                <div class="chart-container" style="height: 280px;">
+                    <canvas id="strategicRadarChart"></canvas>
                 </div>
-
-                <!-- Kultivator (Moved from Header) -->
-                <div class="mb-8">
-                    <div class="flex justify-between mb-1">
-                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Kultivator</span>
-                        <span
-                            class="text-sm font-medium text-purple-700 dark:text-purple-400">{{ number_format($cultivatorProgress, 1) }}%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                        <div class="bg-purple-500 h-2.5 rounded-full" style="width: {{ min($cultivatorProgress, 100) }}%">
+                <!-- Legend / Detail -->
+                <div class="mt-4 space-y-2">
+                    <div class="flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-1.5">
+                            <span class="inline-block w-3 h-3 rounded-full bg-blue-500"></span>
+                            <span class="text-gray-600 dark:text-gray-300">Pupuk Daun</span>
                         </div>
+                        <span class="font-semibold text-blue-700 dark:text-blue-400">{{ number_format($fertilizerProgress, 1) }}%</span>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">Efisiensi Penggunaan Alat</p>
-                </div>
-
-                <!-- Weed Control -->
-                <div>
-                    <div class="flex justify-between mb-1">
-                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Pengendalian Gulma</span>
-                        <span
-                            class="text-sm font-medium text-red-700 dark:text-red-400">{{ number_format($weedControlProgress, 1) }}%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                        <div class="bg-red-500 h-2.5 rounded-full" style="width: {{ min($weedControlProgress, 100) }}%">
+                    <div class="flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-1.5">
+                            <span class="inline-block w-3 h-3 rounded-full bg-purple-500"></span>
+                            <span class="text-gray-600 dark:text-gray-300">Kultivator</span>
                         </div>
+                        <span class="font-semibold text-purple-700 dark:text-purple-400">{{ number_format($cultivatorProgress, 1) }}%</span>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">Sanitasi Kebun</p>
+                    <div class="flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-1.5">
+                            <span class="inline-block w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="text-gray-600 dark:text-gray-300">Gulma</span>
+                        </div>
+                        <span class="font-semibold text-red-700 dark:text-red-400">{{ number_format($weedControlProgress, 1) }}%</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-1.5">
+                            <span class="inline-block w-3 h-3 rounded-full bg-orange-500"></span>
+                            <span class="text-gray-600 dark:text-gray-300">Protas (N)</span>
+                        </div>
+                        <span class="font-semibold text-orange-700 dark:text-orange-400">{{ number_format($protasProgress, 1) }}%</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -426,5 +417,60 @@
                 }
             }
         });
+
+        // 3. Strategic Monitoring — Radar Chart
+        new Chart(document.getElementById('strategicRadarChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Pupuk Daun', 'Kultivator', 'Gulma', 'Protas (N)'],
+                datasets: [{
+                    label: 'Capaian (%)',
+                    data: [
+                        {{ min($fertilizerProgress, 100) }},
+                        {{ min($cultivatorProgress, 100) }},
+                        {{ min($weedControlProgress, 100) }},
+                        {{ min($protasProgress, 100) }}
+                    ],
+                    backgroundColor: 'rgba(34, 197, 94, 0.2)',
+                    borderColor: 'rgba(34, 197, 94, 0.9)',
+                    pointBackgroundColor: ['rgba(59,130,246,0.9)', 'rgba(168,85,247,0.9)', 'rgba(239,68,68,0.9)', 'rgba(249,115,22,0.9)'],
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(34,197,94,1)',
+                    borderWidth: 2,
+                    pointRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 100,
+                        ticks: {
+                            stepSize: 25,
+                            color: textColor,
+                            backdropColor: 'transparent',
+                            font: { size: 10 }
+                        },
+                        grid: { color: gridColor },
+                        pointLabels: {
+                            color: textColor,
+                            font: { size: 11, weight: '500' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ` ${ctx.raw}%`
+                        }
+                    }
+                }
+            }
+        });
     </script>
 @endpush
+

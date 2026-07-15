@@ -64,17 +64,22 @@ class ResearchBudget extends Model
             $totalIncome = (float)($data->total_income ?? 0);
             $totalExpenditure = (float)($data->total_expenditure ?? 0);
 
+            $totalBudget = $opening + $totalIncome; // total dana tersedia
+            $realizationPct = $totalBudget > 0 ? round(($totalExpenditure / $totalBudget) * 100, 1) : 0;
+
             $summary[] = [
-                'activity_name' => $activity,
-                'opening_balance' => $opening,
-                'total_income' => $totalIncome,
-                'total_expenditure' => $totalExpenditure,
-                'remaining_balance' => $opening + $totalIncome - $totalExpenditure,
+                'activity_name'      => $activity,
+                'opening_balance'    => $opening,
+                'total_income'       => $totalIncome,
+                'total_expenditure'  => $totalExpenditure,
+                'remaining_balance'  => $opening + $totalIncome - $totalExpenditure,
+                'realization_pct'    => $realizationPct,
             ];
         }
 
         return $summary;
     }
+
 
     /**
      * Ambil data bulanan per kegiatan untuk satu tahun.

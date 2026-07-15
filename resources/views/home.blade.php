@@ -136,6 +136,38 @@
         </div>
     </section>
 
+    <!-- Peta Lokasi Kebun -->
+    <section id="peta-kebun" class="py-20 bg-white dark:bg-gray-800 border-t dark:border-gray-700 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">Peta Lokasi Kebun</h2>
+                <div class="h-1 w-20 bg-green-500 mx-auto rounded-full"></div>
+                <p class="mt-4 text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    Sebaran kebun model dan pengembangan yang dikelola PPTK Gambung.
+                </p>
+            </div>
+
+            @if (count($gardensForMap) > 0)
+                <div class="rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-700" style="height: 450px;">
+                    <div id="home-map" style="height: 100%; width: 100%;"></div>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-4 justify-center text-sm text-gray-500 dark:text-gray-400">
+                    <span class="flex items-center gap-1.5">
+                        <span class="inline-block w-3 h-3 rounded-full bg-green-500"></span> Kebun Model
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <span class="inline-block w-3 h-3 rounded-full bg-blue-500"></span> Kebun Pengembangan
+                    </span>
+                </div>
+            @else
+                <div class="text-center py-16 text-gray-400 dark:text-gray-500">
+                    <span class="material-icons text-5xl mb-3 block">map</span>
+                    <p>Koordinat kebun belum diatur. Silakan tambahkan koordinat di panel Admin.</p>
+                </div>
+            @endif
+        </div>
+    </section>
+
     <!-- Stats Preview Section -->
     <section class="py-20 bg-white dark:bg-gray-800 transition-colors duration-300 border-t dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -198,3 +230,52 @@
         </div>
     </section>
 @endsection
+
+@push('styles')
+@if (count($gardensForMap) > 0)
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+@endif
+@endpush
+
+@push('scripts')
+@if (count($gardensForMap) > 0)
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const gardensData = @json($gardensForMap);
+
+    // Custom icon maker
+    function makeIcon(color) {
+        return L.divIcon({
+            html: `<div style="background:${color};width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>`,
+            className: '',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7],
+        });
+    }
+
+    const map = L.map('home-map', { scrollWheelZoom: false });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18
+    }).addTo(map);
+
+    const bounds = [];
+    gardensData.forEach(garden => {
+        const parts = garden.coordinates.split(',').map(s => parseFloat(s.trim()));
+        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+            const color  = garden.type === 'Model' ? '#22c55e' : '#3b82f6';
+            const marker = L.marker(parts, { icon: makeIcon(color) }).addTo(map);
+            marker.bindPopup(
+                `<b>${garden.name}</b><br>` +
+                `<span style="color:#6b7280;font-size:12px;">${garden.type}${garden.location ? ' — ' + garden.location : ''}</span>`
+            );
+            bounds.push(parts);
+        }
+    });
+
+    if (bounds.length > 0) {
+        map.fitBounds(bounds, { padding: [40, 40] });
+    }
+</script>
+@endif
+@endpush

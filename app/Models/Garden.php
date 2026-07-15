@@ -19,6 +19,7 @@ class Garden extends Model
         'photo_path',
         'description',
         'established_at',
+        'coordinates',
     ];
 
     protected $casts = [

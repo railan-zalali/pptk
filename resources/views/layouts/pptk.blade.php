@@ -321,10 +321,6 @@
                                 <a href="{{ route('strategic.index') }}"
                                     class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-b-lg">Strategic
                                     Action</a>
-                                <a href="{{ route('community-services.index') }}"
-                                    class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-b-lg">Pengabdian
-                                    Masyarakat</a>
-
                             </div>
                         </div>
 
@@ -341,7 +337,10 @@
                                     class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-t-lg">Dashboard
                                     Penelitian</a>
                                 <a href="{{ route('visits.index') }}"
-                                    class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-b-lg">Kunjungan</a>
+                                    class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700">Kunjungan</a>
+                                <a href="{{ route('community-services.index') }}"
+                                    class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-gray-700 rounded-b-lg">Pengabdian
+                                    Masyarakat</a>
                             </div>
                         </div>
 
@@ -423,8 +422,6 @@
                             <a href="{{ route('strategic.index') }}"
                                 class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Strategic
                                 Action</a>
-                            <a href="{{ route('community-services.index') }}"
-                                class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Pengabdian Masyarakat</a>
                         </div>
                     </div>
 
@@ -441,6 +438,8 @@
                                 class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Dashboard</a>
                             <a href="{{ route('visits.index') }}"
                                 class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Kunjungan</a>
+                            <a href="{{ route('community-services.index') }}"
+                                class="block text-sm text-gray-600 dark:text-gray-300 hover:text-green-600">Pengabdian Masyarakat</a>
                         </div>
                     </div>
 

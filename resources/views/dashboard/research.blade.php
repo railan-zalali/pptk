@@ -107,53 +107,70 @@
             <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
                 <span class="material-icons mr-2 text-green-600">account_balance</span> Detail Anggaran per Kegiatan
             </h2>
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Kegiatan
-                                </th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Saldo Awal
-                                </th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Pencairan
-                                </th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Pengeluaran
-                                </th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Sisa
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($budgetSummary as $item)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {{ $item['activity_name'] }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
-                                        Rp {{ number_format($item['opening_balance'], 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 text-right">
-                                        Rp {{ number_format($item['total_income'], 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 text-right">
-                                        Rp {{ number_format($item['total_expenditure'], 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium {{ $item['remaining_balance'] >= 0 ? 'text-purple-600' : 'text-red-600' }} text-right">
-                                        Rp {{ number_format($item['remaining_balance'], 0, ',', '.') }}
-                                    </td>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <!-- Tabel -->
+                <div class="xl:col-span-2 bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kegiatan</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Awal</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Pencairan</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Pengeluaran</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Sisa</th>
+                                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">% Realisasi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach ($budgetSummary as $item)
+                                    @php
+                                        $pct = $item['realization_pct'] ?? 0;
+                                        $pctColor = $pct >= 90 ? 'text-red-600 bg-red-50' : ($pct >= 70 ? 'text-yellow-600 bg-yellow-50' : 'text-green-600 bg-green-50');
+                                    @endphp
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {{ $item['activity_name'] }}
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 text-right">
+                                            Rp {{ number_format($item['opening_balance'], 0, ',', '.') }}
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-green-600 text-right">
+                                            Rp {{ number_format($item['total_income'], 0, ',', '.') }}
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm text-red-600 text-right">
+                                            Rp {{ number_format($item['total_expenditure'], 0, ',', '.') }}
+                                        </td>
+                                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium {{ $item['remaining_balance'] >= 0 ? 'text-purple-600' : 'text-red-700 font-bold' }} text-right">
+                                            Rp {{ number_format($item['remaining_balance'], 0, ',', '.') }}
+                                        </td>
+                                        <td class="px-4 py-3 text-center">
+                                            <span class="inline-block px-2 py-0.5 rounded-full text-xs font-semibold {{ $pctColor }}">
+                                                {{ $pct }}%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-4 py-3 bg-gray-50 border-t border-gray-100">
+                        <p class="text-xs text-gray-400">% Realisasi = Pengeluaran ÷ (Saldo Awal + Pencairan) × 100. <span class="text-green-600">Hijau</span> &lt;70%, <span class="text-yellow-600">Kuning</span> 70–90%, <span class="text-red-600">Merah</span> ≥90%.</p>
+                    </div>
+                </div>
+
+                <!-- Doughnut Chart -->
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col">
+                    <h3 class="text-base font-semibold text-gray-800 mb-1">Distribusi Pengeluaran</h3>
+                    <p class="text-xs text-gray-400 mb-4">Per kegiatan penelitian</p>
+                    <div class="flex-1 flex items-center justify-center" style="min-height: 240px;">
+                        <canvas id="budgetDoughnutChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
+
+
 
         <!-- 2. Informasi Penelitian -->
         <div class="mb-10">
@@ -517,3 +534,56 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Doughnut chart — distribusi pengeluaran per kegiatan
+    const doughnutLabels = {!! json_encode(array_column($budgetSummary, 'activity_name')) !!};
+    const doughnutData   = {!! json_encode(array_column($budgetSummary, 'total_expenditure')) !!};
+    const doughnutColors = [
+        '#16a34a','#2563eb','#9333ea','#dc2626','#d97706',
+        '#0891b2','#65a30d','#db2777','#7c3aed','#059669'
+    ];
+
+    const doughnutCtx = document.getElementById('budgetDoughnutChart');
+    if (doughnutCtx) {
+        new Chart(doughnutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: doughnutLabels,
+                datasets: [{
+                    data: doughnutData,
+                    backgroundColor: doughnutColors,
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                    hoverOffset: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 10 },
+                            padding: 8,
+                            boxWidth: 10
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => {
+                                const val = ctx.raw;
+                                return ` Rp ${val.toLocaleString('id-ID')}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+</script>
+@endpush
