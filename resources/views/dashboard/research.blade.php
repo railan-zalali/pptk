@@ -198,15 +198,58 @@
                 </div>
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Ringkasan RKAP (Anggaran)</h3>
-                    <p class="text-gray-600 leading-relaxed whitespace-pre-line">
-                        {{ $page->meta['info']['rkap_budget'] ?? $page->meta['info']['rkap_notes'] ?? 'Belum ada informasi.' }}
-                    </p>
+                    @php
+                        $rkapBudget = is_numeric($page->meta['info']['rkap_budget'] ?? null)
+                            ? (float)($page->meta['info']['rkap_budget'])
+                            : 0;
+                    @endphp
+                    @if ($rkapBudget > 0)
+                        <div class="flex items-center gap-3">
+                            <div class="bg-indigo-100 p-2 rounded-full">
+                                <span class="material-icons text-indigo-600 text-lg">account_balance</span>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-gray-800">Rp {{ number_format($rkapBudget, 0, ',', '.') }}</p>
+                                <p class="text-xs text-gray-500 mt-0.5">Anggaran RKAP yang dialokasikan</p>
+                            </div>
+                        </div>
+                    @else
+                        <p class="text-gray-500 text-sm">Belum ada data RKAP.</p>
+                    @endif
                 </div>
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">Ringkasan Pencairan</h3>
-                    <p class="text-gray-600 leading-relaxed whitespace-pre-line">
-                        {{ $page->meta['info']['rkap_disbursement'] ?? 'Belum ada informasi.' }}
-                    </p>
+                    @php
+                        $rkapDisbursement = is_numeric($page->meta['info']['rkap_disbursement'] ?? null)
+                            ? (float)($page->meta['info']['rkap_disbursement'])
+                            : 0;
+                        $disbursePct = ($rkapBudget > 0) ? min(round($rkapDisbursement / $rkapBudget * 100, 1), 100) : 0;
+                    @endphp
+                    @if ($rkapDisbursement > 0 || $rkapBudget > 0)
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="bg-green-100 p-2 rounded-full">
+                                <span class="material-icons text-green-600 text-lg">payments</span>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-green-700">Rp {{ number_format($rkapDisbursement, 0, ',', '.') }}</p>
+                                <p class="text-xs text-gray-500 mt-0.5">Dana yang sudah dicairkan</p>
+                            </div>
+                        </div>
+                        @if ($rkapBudget > 0)
+                            <div class="mt-2">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Realisasi Pencairan</span>
+                                    <span class="font-semibold {{ $disbursePct >= 90 ? 'text-red-600' : ($disbursePct >= 70 ? 'text-yellow-600' : 'text-green-600') }}">{{ $disbursePct }}%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-2">
+                                    <div class="h-2 rounded-full {{ $disbursePct >= 90 ? 'bg-red-500' : ($disbursePct >= 70 ? 'bg-yellow-500' : 'bg-green-500') }}"
+                                        style="width: {{ $disbursePct }}%"></div>
+                                </div>
+                            </div>
+                        @endif
+                    @else
+                        <p class="text-gray-500 text-sm">Belum ada data pencairan.</p>
+                    @endif
                 </div>
             </div>
         </div>

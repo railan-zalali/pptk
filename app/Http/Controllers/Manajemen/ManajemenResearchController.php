@@ -61,8 +61,8 @@ class ManajemenResearchController extends Controller
             'meta.info.internal_research' => 'nullable|string',
             'meta.info.external_research' => 'nullable|string',
             'meta.info.incubation' => 'nullable|string',
-            'meta.info.rkap_budget' => 'nullable|string',
-            'meta.info.rkap_disbursement' => 'nullable|string',
+            'meta.info.rkap_budget' => 'nullable|numeric|min:0',
+            'meta.info.rkap_disbursement' => 'nullable|numeric|min:0',
             'meta.info.rkap_notes' => 'nullable|string',
             
             'meta.activities' => 'nullable|array',

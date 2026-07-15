@@ -258,42 +258,30 @@
                 </div>
             </div>
 
-            <!-- 4. Strategic Monitoring — Radar Chart -->
+            <!-- 4. Strategic Monitoring — Horizontal Bar Chart -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">Strategic Monitoring</h3>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Capaian 4 dimensi strategis (%)</p>
-                <div class="chart-container" style="height: 280px;">
-                    <canvas id="strategicRadarChart"></canvas>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">Strategic Monitoring</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Capaian realisasi 4 dimensi strategis (%)</p>
+                <div class="chart-container" style="height: 220px;">
+                    <canvas id="strategicBarChart"></canvas>
                 </div>
-                <!-- Legend / Detail -->
-                <div class="mt-4 space-y-2">
-                    <div class="flex items-center justify-between text-xs">
-                        <div class="flex items-center gap-1.5">
-                            <span class="inline-block w-3 h-3 rounded-full bg-blue-500"></span>
-                            <span class="text-gray-600 dark:text-gray-300">Pupuk Daun</span>
-                        </div>
-                        <span class="font-semibold text-blue-700 dark:text-blue-400">{{ number_format($fertilizerProgress, 1) }}%</span>
+                <!-- Detail pills -->
+                <div class="mt-4 grid grid-cols-2 gap-2">
+                    <div class="flex items-center justify-between bg-blue-50 dark:bg-blue-900/30 rounded-lg px-3 py-2">
+                        <span class="text-xs text-gray-600 dark:text-gray-300">Pupuk Daun</span>
+                        <span class="text-xs font-bold text-blue-700 dark:text-blue-300">{{ number_format($fertilizerProgress, 1) }}%</span>
                     </div>
-                    <div class="flex items-center justify-between text-xs">
-                        <div class="flex items-center gap-1.5">
-                            <span class="inline-block w-3 h-3 rounded-full bg-purple-500"></span>
-                            <span class="text-gray-600 dark:text-gray-300">Kultivator</span>
-                        </div>
-                        <span class="font-semibold text-purple-700 dark:text-purple-400">{{ number_format($cultivatorProgress, 1) }}%</span>
+                    <div class="flex items-center justify-between bg-purple-50 dark:bg-purple-900/30 rounded-lg px-3 py-2">
+                        <span class="text-xs text-gray-600 dark:text-gray-300">Kultivator</span>
+                        <span class="text-xs font-bold text-purple-700 dark:text-purple-300">{{ number_format($cultivatorProgress, 1) }}%</span>
                     </div>
-                    <div class="flex items-center justify-between text-xs">
-                        <div class="flex items-center gap-1.5">
-                            <span class="inline-block w-3 h-3 rounded-full bg-red-500"></span>
-                            <span class="text-gray-600 dark:text-gray-300">Gulma</span>
-                        </div>
-                        <span class="font-semibold text-red-700 dark:text-red-400">{{ number_format($weedControlProgress, 1) }}%</span>
+                    <div class="flex items-center justify-between bg-red-50 dark:bg-red-900/30 rounded-lg px-3 py-2">
+                        <span class="text-xs text-gray-600 dark:text-gray-300">Gulma</span>
+                        <span class="text-xs font-bold text-red-700 dark:text-red-300">{{ number_format($weedControlProgress, 1) }}%</span>
                     </div>
-                    <div class="flex items-center justify-between text-xs">
-                        <div class="flex items-center gap-1.5">
-                            <span class="inline-block w-3 h-3 rounded-full bg-orange-500"></span>
-                            <span class="text-gray-600 dark:text-gray-300">Protas (N)</span>
-                        </div>
-                        <span class="font-semibold text-orange-700 dark:text-orange-400">{{ number_format($protasProgress, 1) }}%</span>
+                    <div class="flex items-center justify-between bg-orange-50 dark:bg-orange-900/30 rounded-lg px-3 py-2">
+                        <span class="text-xs text-gray-600 dark:text-gray-300">Protas (N)</span>
+                        <span class="text-xs font-bold text-orange-700 dark:text-orange-300">{{ number_format($protasProgress, 1) }}%</span>
                     </div>
                 </div>
             </div>
@@ -418,54 +406,73 @@
             }
         });
 
-        // 3. Strategic Monitoring — Radar Chart
-        new Chart(document.getElementById('strategicRadarChart'), {
-            type: 'radar',
+        // 3. Strategic Monitoring — Horizontal Bar Chart
+        new Chart(document.getElementById('strategicBarChart'), {
+            type: 'bar',
             data: {
                 labels: ['Pupuk Daun', 'Kultivator', 'Gulma', 'Protas (N)'],
-                datasets: [{
-                    label: 'Capaian (%)',
-                    data: [
-                        {{ min($fertilizerProgress, 100) }},
-                        {{ min($cultivatorProgress, 100) }},
-                        {{ min($weedControlProgress, 100) }},
-                        {{ min($protasProgress, 100) }}
-                    ],
-                    backgroundColor: 'rgba(34, 197, 94, 0.2)',
-                    borderColor: 'rgba(34, 197, 94, 0.9)',
-                    pointBackgroundColor: ['rgba(59,130,246,0.9)', 'rgba(168,85,247,0.9)', 'rgba(239,68,68,0.9)', 'rgba(249,115,22,0.9)'],
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgba(34,197,94,1)',
-                    borderWidth: 2,
-                    pointRadius: 5,
-                }]
+                datasets: [
+                    {
+                        label: 'Realisasi (%)',
+                        data: [
+                            {{ min($fertilizerProgress, 100) }},
+                            {{ min($cultivatorProgress, 100) }},
+                            {{ min($weedControlProgress, 100) }},
+                            {{ min($protasProgress, 100) }}
+                        ],
+                        backgroundColor: [
+                            'rgba(59,130,246,0.75)',
+                            'rgba(168,85,247,0.75)',
+                            'rgba(239,68,68,0.75)',
+                            'rgba(249,115,22,0.75)'
+                        ],
+                        borderColor: [
+                            'rgba(59,130,246,1)',
+                            'rgba(168,85,247,1)',
+                            'rgba(239,68,68,1)',
+                            'rgba(249,115,22,1)'
+                        ],
+                        borderWidth: 1.5,
+                        borderRadius: 4,
+                    },
+                    {
+                        label: 'Target (%)',
+                        data: [100, 100, 100, 100],
+                        backgroundColor: 'rgba(156,163,175,0.15)',
+                        borderColor: 'rgba(156,163,175,0.5)',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                    }
+                ]
             },
             options: {
+                indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    r: {
+                    x: {
                         min: 0,
                         max: 100,
                         ticks: {
-                            stepSize: 25,
                             color: textColor,
-                            backdropColor: 'transparent',
+                            callback: v => v + '%',
                             font: { size: 10 }
                         },
-                        grid: { color: gridColor },
-                        pointLabels: {
-                            color: textColor,
-                            font: { size: 11, weight: '500' }
-                        }
+                        grid: { color: gridColor }
+                    },
+                    y: {
+                        ticks: { color: textColor, font: { size: 11 } },
+                        grid: { display: false }
                     }
                 },
                 plugins: {
-                    legend: { display: false },
+                    legend: {
+                        display: true,
+                        labels: { color: textColor, font: { size: 10 }, boxWidth: 12 }
+                    },
                     tooltip: {
                         callbacks: {
-                            label: ctx => ` ${ctx.raw}%`
+                            label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%`
                         }
                     }
                 }

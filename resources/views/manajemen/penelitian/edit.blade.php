@@ -88,12 +88,26 @@
                         <textarea name="meta[info][incubation]" rows="3" class="w-full border dark:border-gray-700 dark:bg-gray-850 rounded px-3 py-2">{{ old('meta.info.incubation', $page->meta['info']['incubation'] ?? '') }}</textarea>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ringkasan RKAP (Anggaran)</label>
-                        <textarea name="meta[info][rkap_budget]" rows="3" class="w-full border dark:border-gray-700 dark:bg-gray-850 rounded px-3 py-2" placeholder="Informasi alokasi anggaran RKAP...">{{ old('meta.info.rkap_budget', $page->meta['info']['rkap_budget'] ?? '') }}</textarea>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ringkasan RKAP (Anggaran)</label>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mb-2">Jumlah anggaran RKAP yang dialokasikan (Rp)</p>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 dark:text-gray-400 pointer-events-none">Rp</span>
+                            <input type="number" name="meta[info][rkap_budget]" min="0" step="1000"
+                                class="w-full border dark:border-gray-700 dark:bg-gray-800 rounded pl-10 pr-3 py-2 text-sm"
+                                value="{{ old('meta.info.rkap_budget', $page->meta['info']['rkap_budget'] ?? 0) }}"
+                                placeholder="0">
+                        </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ringkasan Pencairan</label>
-                        <textarea name="meta[info][rkap_disbursement]" rows="3" class="w-full border dark:border-gray-700 dark:bg-gray-850 rounded px-3 py-2" placeholder="Informasi realisasi pencairan dana...">{{ old('meta.info.rkap_disbursement', $page->meta['info']['rkap_disbursement'] ?? '') }}</textarea>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ringkasan Pencairan</label>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mb-2">Total dana yang sudah dicairkan (Rp)</p>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 dark:text-gray-400 pointer-events-none">Rp</span>
+                            <input type="number" name="meta[info][rkap_disbursement]" min="0" step="1000"
+                                class="w-full border dark:border-gray-700 dark:bg-gray-800 rounded pl-10 pr-3 py-2 text-sm"
+                                value="{{ old('meta.info.rkap_disbursement', $page->meta['info']['rkap_disbursement'] ?? 0) }}"
+                                placeholder="0">
+                        </div>
                     </div>
                 </div>
             </div>

@@ -34,6 +34,9 @@
                             Prod. Basah (Kg)</th>
                         <th
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Prod. Kering (Kg)</th>
+                        <th
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                             Kapasitas Pemetikan</th>
                         <th
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -64,6 +67,9 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">
                                 {{ number_format($production->wet_production_kg, 0) }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-amber-600 dark:text-amber-400">
+                                {{ $production->dry_production_kg !== null ? number_format($production->dry_production_kg, 0) : '-' }}
                             </td>
                             <td class="px-6 py-4 text-xs text-gray-600 dark:text-gray-400">
                                 <div class="flex flex-col gap-1">
@@ -101,7 +107,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                            <td colspan="8" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                                 <div class="flex flex-col items-center justify-center gap-2">
                                     <span class="material-icons-outlined text-4xl text-gray-300">inbox</span>
                                     <p class="text-base">Belum ada data realisasi produksi.</p>
