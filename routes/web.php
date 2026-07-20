@@ -149,4 +149,6 @@ Route::middleware(['auth', 'manajemen'])->prefix('manajemen')->name('manajemen.'
     Route::get('research-budgets', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'index'])->name('research-budgets.index');
     Route::get('research-budgets/edit', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'edit'])->name('research-budgets.edit');
     Route::put('research-budgets', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'update'])->name('research-budgets.update');
+    Route::post('research-budgets/activities', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'storeActivity'])->name('research-budgets.activities.store');
+    Route::delete('research-budgets/activities/{activity}', [\App\Http\Controllers\Admin\AdminResearchBudgetController::class, 'destroyActivity'])->name('research-budgets.activities.destroy');
 });

@@ -42,15 +42,24 @@
     <div class="mb-2">
         <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Produksi & Kinerja</p>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-5 flex items-center justify-between">
             <div>
-                <p class="text-xs text-gray-500 dark:text-gray-400">Total Produksi (kg)</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Total Produksi Basah (kg)</p>
                 <p class="text-2xl font-bold text-blue-700 dark:text-blue-400">
                     {{ number_format($stats['production_total'], 0, ',', '.') }} kg
                 </p>
             </div>
-            <span class="material-icons text-4xl text-blue-200 dark:text-blue-800">precision_manufacturing</span>
+            <span class="material-icons text-4xl text-blue-200 dark:text-blue-800">water_drop</span>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-5 flex items-center justify-between">
+            <div>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Total Produksi Kering (kg)</p>
+                <p class="text-2xl font-bold text-amber-700 dark:text-amber-400">
+                    {{ number_format($stats['dry_production_total'], 0, ',', '.') }} kg
+                </p>
+            </div>
+            <span class="material-icons text-4xl text-amber-200 dark:text-amber-800">local_fire_department</span>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-5 flex items-center justify-between">
             <div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ResearchBudget;
+use App\Models\ResearchBudgetActivity;
 use App\Models\ResearchBudgetBalance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,13 +27,19 @@ class AdminResearchBudgetController extends Controller
         $grandTotals = ResearchBudget::getGrandTotals($year);
         $openingBalances = ResearchBudgetBalance::where('year', $year)
             ->pluck('opening_balance', 'activity_name');
+
+        // Ambil sebagai objek agar view bisa pakai id (untuk hapus)
+        $activities = ResearchBudgetActivity::orderBy('sort_order')->orderBy('name')
+            ->get(['id', 'name'])
+            ->toArray();
         
         return view('admin.research-budgets.index', compact(
             'year',
             'annualSummary',
             'monthlyData',
             'grandTotals',
-            'openingBalances'
+            'openingBalances',
+            'activities'
         ));
     }
 
@@ -101,5 +108,23 @@ class AdminResearchBudgetController extends Controller
         
         return redirect()->route('manajemen.research-budgets.index', ['year' => $year])
             ->with('success', 'Data anggaran penelitian berhasil diperbarui.');
+    }
+
+    /** Tambah kegiatan baru ke daftar */
+    public function storeActivity(Request $request)
+    {
+        $request->validate(['name' => 'required|string|max:100|unique:research_budget_activities,name']);
+
+        $max = ResearchBudgetActivity::max('sort_order') ?? -1;
+        ResearchBudgetActivity::create(['name' => $request->name, 'sort_order' => $max + 1]);
+
+        return back()->with('success', 'Kegiatan "' . $request->name . '" berhasil ditambahkan.');
+    }
+
+    /** Hapus kegiatan dari daftar */
+    public function destroyActivity(ResearchBudgetActivity $activity)
+    {
+        $activity->delete();
+        return back()->with('success', 'Kegiatan berhasil dihapus.');
     }
 }

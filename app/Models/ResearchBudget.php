@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class ResearchBudget extends Model
 {
@@ -24,22 +25,22 @@ class ResearchBudget extends Model
     ];
 
     /**
-     * Daftar kegiatan penelitian standar (sesuai data Excel).
+     * Daftar kegiatan penelitian — diambil dari DB agar bisa ditambah secara dinamis.
+     * ponytail: fallback ke hardcode jika tabel belum ada (pre-migration).
      */
     public static function activityList(): array
     {
-        return [
-            'Kina',
-            'KUT',
-            'Malabar/Sedep',
-            'Drone',
-            'GWP',
-            'IPM Helopeltis',
-            'Bio Kompos',
-            'Daur Petik',
-            'Inkubasi Riset',
-            'Inkubasi Booster',
-        ];
+        if (!Schema::hasTable('research_budget_activities')) {
+            return [
+                'Kina', 'KUT', 'Malabar/Sedep', 'Drone', 'GWP',
+                'IPM Helopeltis', 'Bio Kompos', 'Daur Petik',
+                'Inkubasi Riset', 'Inkubasi Booster',
+            ];
+        }
+
+        return ResearchBudgetActivity::orderBy('sort_order')->orderBy('name')
+            ->pluck('name')
+            ->toArray();
     }
 
     /**

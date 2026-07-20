@@ -13,8 +13,8 @@ class VisitCommunitySeeder extends Seeder
     /**
      * Seed data kunjungan dinas dan pengabdian masyarakat.
      *
-     * Kunjungan: 5 per kebun (2024–2025)
-     * Pengabdian Masyarakat: 4 kegiatan (global, tidak per kebun)
+     * Kunjungan: 5 per kebun (30 total) untuk tahun 2024-2025
+     * Pengabdian Masyarakat: 6 kegiatan (global, tidak per kebun)
      */
     public function run(): void
     {
@@ -24,10 +24,11 @@ class VisitCommunitySeeder extends Seeder
         $purposes = [
             'Studi Banding Teknologi Budidaya',
             'Penelitian dan Pengembangan Varietas',
-            'Monitoring Kinerja Kebun',
+            'Monitoring Kinerja Kebun Model',
             'Wisata Edukasi Pertanian',
             'Audit Mutu dan Kualitas Produksi',
         ];
+
         $visitorNames = [
             'Dr. Agus Santoso (Universitas Padjadjaran)',
             'Prof. Dr. Sri Wahyuni (IPB University)',
@@ -35,7 +36,10 @@ class VisitCommunitySeeder extends Seeder
             'Dr. Ratna Dewi (Balai Penelitian Tanaman Industri)',
             'Tim Peneliti Universitas Gadjah Mada',
             'Delegasi Dinas Pertanian Jawa Tengah',
-            'Ir. Ahmad Fauzi, M.Eng. (PTPN VIII)',
+            'Ir. Ahmad Fauzi, M.Eng. (PTPN I Regional 2)',
+            'Dr. Eko Prasetyo (Universitas Lampung)',
+            'Tim Monitoring Kementerian Pertanian',
+            'Prof. Dr. Hadi Kusuma (Universitas Hasanuddin)',
         ];
 
         $visitCount = 0;
@@ -48,14 +52,16 @@ class VisitCommunitySeeder extends Seeder
                 $purpose = $purposes[$i % count($purposes)];
 
                 Visit::create([
-                    'garden_id'        => $garden->id,
-                    'visit_date'       => $date,
-                    'visitor_name'     => $visitorNames[array_rand($visitorNames)],
-                    'purpose'          => $purpose,
-                    'status'           => $date->isPast() ? 'completed' : 'scheduled',
-                    'title'            => "Kunjungan ke {$garden->kebun_name} — " . $date->format('M Y'),
-                    'participants_list'=> rand(3, 20) . ' peserta',
-                    'description'      => "Kunjungan dalam rangka {$purpose} di {$garden->kebun_name}.",
+                    'garden_id'         => $garden->id,
+                    'visit_date'        => $date,
+                    'visitor_name'      => $visitorNames[array_rand($visitorNames)],
+                    'purpose'           => $purpose,
+                    'status'            => $date->isPast() ? 'completed' : 'scheduled',
+                    'title'             => "Kunjungan ke {$garden->kebun_name} — " . $date->format('M Y'),
+                    'participants_count'=> rand(3, 20),
+                    'participants_list' => rand(3, 20) . ' peserta',
+                    'description'       => "Kunjungan dalam rangka {$purpose} di {$garden->kebun_name}.",
+                    'duration'          => rand(1, 3),
                 ]);
                 $visitCount++;
             }
@@ -64,40 +70,58 @@ class VisitCommunitySeeder extends Seeder
         // ─── 2. Pengabdian Masyarakat ─────────────────────────────────────
         $communityActivities = [
             [
-                'activity_name' => 'Pelatihan Pemangkasan dan Perawatan Tanaman Teh',
-                'team_name'     => 'Tim PPTK Bidang Budidaya',
-                'description'   => 'Pelatihan intensif teknik pemangkasan untuk meningkatkan produktivitas tanaman teh bagi petani sekitar kebun.',
-                'location'      => 'Desa Ciwidey, Bandung',
-                'year'          => 2024,
-                'total_budget'  => 75_000_000,
+                'activity_name'    => 'Pelatihan Pemangkasan dan Perawatan Tanaman Teh',
+                'team_name'        => 'Tim PPTK Bidang Budidaya',
+                'description'      => 'Pelatihan intensif teknik pemangkasan untuk meningkatkan produktivitas tanaman teh bagi petani sekitar kebun.',
+                'location'         => 'Desa Ciwidey, Bandung',
+                'year'             => 2024,
+                'total_budget'     => 75_000_000,
                 'remaining_budget' => 5_250_000,
             ],
             [
-                'activity_name' => 'Sosialisasi Penggunaan Pupuk Organik Berkelanjutan',
-                'team_name'     => 'Tim PPTK Bidang Lingkungan',
-                'description'   => 'Program sosialisasi dan demonstrasi pembuatan pupuk organik dari limbah kebun untuk pertanian berkelanjutan.',
-                'location'      => 'Desa Pangalengan, Bandung',
-                'year'          => 2024,
-                'total_budget'  => 50_000_000,
+                'activity_name'    => 'Sosialisasi Penggunaan Pupuk Organik Berkelanjutan',
+                'team_name'        => 'Tim PPTK Bidang Lingkungan',
+                'description'      => 'Program sosialisasi dan demonstrasi pembuatan pupuk organik dari limbah kebun untuk pertanian berkelanjutan.',
+                'location'         => 'Desa Pangalengan, Bandung',
+                'year'             => 2024,
+                'total_budget'     => 50_000_000,
                 'remaining_budget' => 3_100_000,
             ],
             [
-                'activity_name' => 'Workshop Pengolahan Pascapanen Teh Hijau',
-                'team_name'     => 'Tim PPTK Bidang Teknologi Pengolahan',
-                'description'   => 'Workshop tentang teknik pengolahan teh hijau yang benar untuk meningkatkan kualitas produk dan nilai jual.',
-                'location'      => 'Desa Kertasari, Wonosobo',
-                'year'          => 2025,
-                'total_budget'  => 120_000_000,
+                'activity_name'    => 'Workshop Pengolahan Pascapanen Teh Hijau',
+                'team_name'        => 'Tim PPTK Bidang Teknologi Pengolahan',
+                'description'      => 'Workshop tentang teknik pengolahan teh hijau yang benar untuk meningkatkan kualitas produk dan nilai jual.',
+                'location'         => 'Desa Pandansari, Brebes',
+                'year'             => 2025,
+                'total_budget'     => 120_000_000,
                 'remaining_budget' => 18_500_000,
             ],
             [
-                'activity_name' => 'Pemberdayaan Petani Milenial dalam Agroteknologi Teh',
-                'team_name'     => 'Tim PPTK Bidang Pengembangan Masyarakat',
-                'description'   => 'Program mentoring, pelatihan kewirausahaan, dan digitalisasi pertanian bagi generasi muda petani teh.',
-                'location'      => 'Desa Cipanas, Cianjur',
-                'year'          => 2025,
-                'total_budget'  => 95_000_000,
+                'activity_name'    => 'Pemberdayaan Petani Milenial dalam Agroteknologi Teh',
+                'team_name'        => 'Tim PPTK Bidang Pengembangan Masyarakat',
+                'description'      => 'Program mentoring, pelatihan kewirausahaan, dan digitalisasi pertanian bagi generasi muda petani teh.',
+                'location'         => 'Desa Pasirjambu, Bandung',
+                'year'             => 2025,
+                'total_budget'     => 95_000_000,
                 'remaining_budget' => 22_300_000,
+            ],
+            [
+                'activity_name'    => 'Demonstrasi Pengendalian OPT Ramah Lingkungan',
+                'team_name'        => 'Tim PPTK Bidang Perlindungan Tanaman',
+                'description'      => 'Demonstrasi teknik pengendalian organisme pengganggu tumbuhan menggunakan pendekatan IPM (Integrated Pest Management).',
+                'location'         => 'Desa Patengan, Bandung',
+                'year'             => 2025,
+                'total_budget'     => 65_000_000,
+                'remaining_budget' => 12_000_000,
+            ],
+            [
+                'activity_name'    => 'Penyuluhan Teknologi Pemetikan Teh Modern',
+                'team_name'        => 'Tim PPTK Bidang Mekanisasi',
+                'description'      => 'Penyuluhan penggunaan mesin petik mekanis dan teknik pemetikan selektif untuk meningkatkan efisiensi panen.',
+                'location'         => 'Desa Neglawangi, Bandung',
+                'year'             => 2025,
+                'total_budget'     => 80_000_000,
+                'remaining_budget' => 15_000_000,
             ],
         ];
 

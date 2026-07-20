@@ -12,9 +12,17 @@ class ProductionSeeder extends Seeder
     /**
      * Seed data realisasi produksi bulanan untuk setiap kebun.
      *
+     * Produktivitas realistis untuk teh Indonesia:
+     *   - Rancabali  : ~2,261 kg/ha/tahun (sumber web)
+     *   - Malabar    : ~2,000 kg/ha/tahun (komersial besar)
+     *   - Gambung    : ~1,500 kg/ha/tahun (riset/eksperimental)
+     *   - Kaligua    : ~1,300 kg/ha/tahun (dataran tinggi)
+     *   - Sedep      : ~1,400 kg/ha/tahun (medium)
+     *   - Pagaralam  : ~1,200 kg/ha/tahun (Sumatera)
+     *
      * - Tahun: 2024 dan 2025
      * - Faktor musiman: produksi lebih tinggi di awal/akhir tahun (musim hujan)
-     * - Skip bulan yang belum terjadi (masa depan)
+     * - dry_production_kg = wet_production_kg × 0.22 (rasa teh standar)
      */
     public function run(): void
     {
@@ -27,14 +35,29 @@ class ProductionSeeder extends Seeder
             10 => 1.10, 11 => 1.15, 12 => 1.25,
         ];
 
+        // Produktivitas tahunan per kebun (kg/ha/tahun)
+        $gardenProductivity = [
+            'Kebun Teh Rancabali' => 2261,
+            'Kebun Teh Malabar'   => 2000,
+            'Kebun Teh Gambung'   => 1500,
+            'Kebun Teh Kaligua'   => 1300,
+            'Kebun Teh Sedep'     => 1400,
+            'Kebun Teh Pagaralam' => 1200,
+        ];
+
         $now     = Carbon::now();
         $gardens = Garden::all();
         $years   = [2024, 2025];
         $count   = 0;
 
         foreach ($gardens as $garden) {
-            $activeArea  = round($garden->luas_total_ha * 0.92, 2); // 92% area TM (Tanaman Menghasilkan)
-            $baseProdHa  = 110; // kg/ha rata-rata nasional
+            $activeArea = round($garden->luas_total_ha * 0.92, 2); // 92% area TM
+
+            // Produktivitas tahunan untuk kebun ini
+            $annualProdHa = $gardenProductivity[$garden->kebun_name] ?? 1400;
+
+            // Produktivitas per bulan (dasar sebelum faktor musiman)
+            $monthlyProdHa = $annualProdHa / 12;
 
             foreach ($years as $year) {
                 for ($month = 1; $month <= 12; $month++) {
@@ -45,7 +68,9 @@ class ProductionSeeder extends Seeder
 
                     $seasonal      = $seasonalFactors[$month];
                     $random        = 0.90 + (mt_rand() / mt_getrandmax()) * 0.20; // ±10%
-                    $wetProduction = $baseProdHa * $activeArea * $seasonal * $random;
+                    $productivity  = $monthlyProdHa * $seasonal * $random; // kg/ha/bulan
+                    $wetProduction = $productivity * $activeArea; // kg total
+                    $dryProduction = round($wetProduction * 0.22, 2); // 22% dry ratio
                     $qualityScore  = round(7.0 + (mt_rand() / mt_getrandmax()) * 2.5, 2);
 
                     ProductionRealization::create([
@@ -54,6 +79,7 @@ class ProductionSeeder extends Seeder
                         'year'                   => $year,
                         'active_picking_area_ha' => $activeArea,
                         'wet_production_kg'      => round($wetProduction, 2),
+                        'dry_production_kg'      => $dryProduction,
                         'capacity_per_ha'        => round(28 + (mt_rand() / mt_getrandmax()) * 18, 2),
                         'avg_capacity'           => round(30 + (mt_rand() / mt_getrandmax()) * 15, 2),
                         'estimated_production'   => round($wetProduction * 1.05, 2),

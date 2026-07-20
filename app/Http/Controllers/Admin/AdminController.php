@@ -26,6 +26,7 @@ class AdminController extends Controller
 
         // Data Produksi & Realisasi
         $totalWetProduction = ProductionRealization::sum('wet_production_kg') ?? 0;
+        $totalDryProduction = ProductionRealization::sum('dry_production_kg') ?? 0;
         $totalArea          = ProductionRealization::sum('active_picking_area_ha') ?? 0;
         $avgProductivity    = $totalArea > 0 ? $totalWetProduction / $totalArea : 0;
 
@@ -49,13 +50,14 @@ class AdminController extends Controller
         $completenessScore = $targetScore + $realizationScore;
 
         $stats = [
-            'regions'          => $totalRegions,
-            'gardens'          => $totalGardens,
-            'afdelings'        => $totalAfdelings,
-            'blocks'           => $totalBlocks,
-            'production_total' => $totalWetProduction,
-            'productivity_avg' => $avgProductivity,
-            'targets'          => $totalTargets,
+            'regions'            => $totalRegions,
+            'gardens'            => $totalGardens,
+            'afdelings'          => $totalAfdelings,
+            'blocks'             => $totalBlocks,
+            'production_total'   => $totalWetProduction,
+            'dry_production_total' => $totalDryProduction,
+            'productivity_avg'   => $avgProductivity,
+            'targets'            => $totalTargets,
         ];
 
         // Recent realizations

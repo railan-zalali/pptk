@@ -82,6 +82,78 @@
         </div>
     </div>
 
+    <!-- Kelola Daftar Kegiatan -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden mb-6">
+        <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+            <h4 class="font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+                <span class="material-icons-outlined text-green-600 text-base">list_alt</span>
+                Kelola Daftar Kegiatan
+            </h4>
+            <button type="button" onclick="document.getElementById('form-tambah-kegiatan').classList.toggle('hidden')"
+                class="text-sm bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors">
+                <span class="material-icons-outlined text-sm">add</span>
+                Tambah Kegiatan
+            </button>
+        </div>
+
+        {{-- Flash success --}}
+        @if (session('success'))
+            <div class="mx-6 mt-4 px-4 py-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg text-sm text-green-700 dark:text-green-300 flex items-center gap-2">
+                <span class="material-icons-outlined text-sm">check_circle</span>
+                {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- Form Tambah --}}
+        <div id="form-tambah-kegiatan" class="hidden px-6 pt-4 pb-2">
+            <form action="{{ route('manajemen.research-budgets.activities.store') }}" method="POST"
+                class="flex items-end gap-3">
+                @csrf
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Kegiatan Baru</label>
+                    <input type="text" name="name" required maxlength="100"
+                        class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500/20 focus:border-green-500"
+                        placeholder="Contoh: Pengujian Tanah">
+                    @error('name')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+                <button type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-1 transition-colors">
+                    <span class="material-icons-outlined text-sm">save</span>
+                    Simpan
+                </button>
+                <button type="button" onclick="document.getElementById('form-tambah-kegiatan').classList.add('hidden')"
+                    class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg text-sm transition-colors">
+                    Batal
+                </button>
+            </form>
+        </div>
+
+        {{-- Daftar Kegiatan Chips --}}
+        <div class="px-6 py-4 flex flex-wrap gap-2">
+            @foreach ($activities as $act)
+                <div class="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 rounded-full px-3 py-1 text-sm text-gray-800 dark:text-gray-200">
+                    <span>{{ $act['name'] }}</span>
+                    <form action="{{ route('manajemen.research-budgets.activities.destroy', $act['id']) }}"
+                        method="POST" class="inline"
+                        onsubmit="return confirm('Hapus kegiatan \'{{ $act['name'] }}\'? Data anggaran kegiatan ini tidak ikut terhapus.')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="ml-1 text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors"
+                            title="Hapus kegiatan">
+                            <span class="material-icons-outlined text-xs">close</span>
+                        </button>
+                    </form>
+                </div>
+            @endforeach
+            @if (empty($activities))
+                <p class="text-sm text-gray-400 dark:text-gray-500 italic">Belum ada kegiatan. Tambah dulu di atas.</p>
+            @endif
+        </div>
+    </div>
+
     <!-- Annual Summary Table -->
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden mb-6">
         <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700">

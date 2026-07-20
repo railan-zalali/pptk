@@ -129,7 +129,7 @@
                 @forelse ($recentCommunityServices as $service)
                     <div class="flex items-center justify-between border-b dark:border-gray-700 pb-2 last:border-0">
                         <div>
-                            <p class="font-medium text-gray-800 dark:text-gray-200 text-sm">{{ $service->title ?? '-' }}</p>
+                            <p class="font-medium text-gray-800 dark:text-gray-200 text-sm">{{ $service->activity_name ?? '-' }}</p>
                             <p class="text-xs text-gray-500 dark:text-gray-400">{{ optional($service->created_at)->format('d M Y') }}</p>
                         </div>
                     </div>

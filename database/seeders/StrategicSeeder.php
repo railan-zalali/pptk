@@ -15,8 +15,17 @@ class StrategicSeeder extends Seeder
      *
      * Setiap kebun mendapatkan:
      *   - 1 PerformanceTarget (tahun 2025)
-     *   - 6 StrategicAction (satu per jenis aksi)
+     *   - 7 StrategicAction (satu per jenis aksi, termasuk opt)
+     *
      * Program dibuat global (tidak per kebun), lalu di-assign ke aksi.
+     *
+     * Target protas disesuaikan dengan produktivitas aktual tiap kebun:
+     *   - Rancabali: 1,800 kg/ha (80% dari 2,261)
+     *   - Malabar  : 1,600 kg/ha (80% dari 2,000)
+     *   - Gambung  : 1,200 kg/ha (80% dari 1,500)
+     *   - Kaligua  : 1,040 kg/ha (80% dari 1,300)
+     *   - Sedep    : 1,120 kg/ha (80% dari 1,400)
+     *   - Pagaralam:   960 kg/ha (80% dari 1,200)
      */
     public function run(): void
     {
@@ -51,7 +60,17 @@ class StrategicSeeder extends Seeder
         }
         $programIds = array_column($programs, 'id');
 
-        // ─── 2. Per-Garden: Target Kinerja & Strategic Action ───────────────
+        // ─── 2. Target Protas per Kebun (kg/ha/tahun) ──────────────────────
+        $gardenTargets = [
+            'Kebun Teh Rancabali' => 1800,
+            'Kebun Teh Malabar'   => 1600,
+            'Kebun Teh Gambung'   => 1200,
+            'Kebun Teh Kaligua'   => 1040,
+            'Kebun Teh Sedep'     => 1120,
+            'Kebun Teh Pagaralam' =>  960,
+        ];
+
+        // ─── 3. Per-Garden: Target Kinerja & Strategic Action ───────────────
         $actionTypes = [
             'fertilizer_root' => [
                 'dosis_n_kg_ha'          => 240,
@@ -60,7 +79,7 @@ class StrategicSeeder extends Seeder
                 'application_frequency'  => 4,
                 'fertilizer_type'        => 'Urea + NPK Phonska',
                 'coverage_target_percent'=> 95,
-                'realization_percent'    => null, // diisi dinamis
+                'realization_percent'    => null,
             ],
             'fertilizer_leaf' => [
                 'coverage_target_percent' => 95,
@@ -92,6 +111,11 @@ class StrategicSeeder extends Seeder
                 'renewal_status'  => 'Peremajaan bertahap setiap tahun',
                 'realization_percent' => null,
             ],
+            'opt' => [
+                'opt_status'      => 'Aktif monitoring OPT',
+                'coverage_target_percent' => 100,
+                'realization_percent'     => null,
+            ],
         ];
 
         // Rentang realisasi realistis per jenis aksi (min%, max%)
@@ -102,17 +126,20 @@ class StrategicSeeder extends Seeder
             'cultivator'      => [65, 88],
             'picking'         => [82, 97],
             'machine'         => [80, 100],
+            'opt'             => [70, 95],
         ];
 
         $gardens = Garden::all();
 
         foreach ($gardens as $garden) {
+            $targetProtas = $gardenTargets[$garden->kebun_name] ?? 1200;
+
             // Target Kinerja
             PerformanceTarget::create([
                 'kebun_id'          => $garden->id,
                 'year'              => 2025,
-                'target_protas_min' => 82.50,
-                'target_protas_max' => 95.00,
+                'target_protas_min' => $targetProtas,
+                'target_protas_max' => round($targetProtas * 1.15, 2), // +15% buffer
                 'note'              => "Target disesuaikan kondisi iklim dan varietas di {$garden->kebun_name}.",
             ]);
 
