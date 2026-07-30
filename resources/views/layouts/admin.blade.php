@@ -131,6 +131,13 @@
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">manage_accounts</span> Manajemen Pengguna
                     </a>
+
+                    <div class="pt-3 mt-2 border-t border-gray-200 dark:border-gray-700">
+                        <a href="{{ route('home') }}"
+                            class="flex items-center px-3 py-2 rounded bg-green-50 hover:bg-green-100 dark:bg-green-900/30 dark:hover:bg-green-900/50 text-green-700 dark:text-green-300 font-medium">
+                            <span class="material-icons mr-2 text-sm">public</span> Ke Halaman Publik
+                        </a>
+                    </div>
                 @endif
 
                 {{-- ================================================ --}}
@@ -173,6 +180,13 @@
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.research-budgets.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">account_balance</span> Realisasi Anggaran
                     </a>
+
+                    <div class="pt-3 mt-2 border-t border-gray-200 dark:border-gray-700">
+                        <a href="{{ route('home') }}"
+                            class="flex items-center px-3 py-2 rounded bg-green-50 hover:bg-green-100 dark:bg-green-900/30 dark:hover:bg-green-900/50 text-green-700 dark:text-green-300 font-medium">
+                            <span class="material-icons mr-2 text-sm">public</span> Ke Halaman Publik
+                        </a>
+                    </div>
                 @endif
 
             </nav>

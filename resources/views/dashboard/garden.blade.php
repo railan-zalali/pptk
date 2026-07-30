@@ -134,10 +134,18 @@
         </div>
 
         <!-- 2. Visualisasi Grafik -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <!-- Bar Chart: Production -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Bar Chart: Wet Production -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Produksi Basah Bulanan (Kg)</h3>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="wetProductionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bar Chart: Dry Production -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Produksi Kering Bulanan (Kg)</h3>
                 <div class="chart-container" style="height: 300px;">
                     <canvas id="productionChart"></canvas>
                 </div>
@@ -152,83 +160,6 @@
             </div>
         </div>
 
-        <!-- Tabel Ringkasan Produksi Basah Bulanan -->
-        @php
-            $bulanNama = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'];
-            $prodArr = $monthlyProduction->toArray();
-            $protArr = $monthlyProductivity->toArray();
-            $maxProd = !empty($prodArr) ? max($prodArr) : 0;
-            $minProd = !empty($prodArr) ? min(array_filter($prodArr)) : 0;
-        @endphp
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
-                <span class="material-icons text-green-600 text-xl">table_chart</span>
-                Rincian Produksi Basah Bulanan {{ $currentYear }}
-            </h3>
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-                    <thead class="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Bulan</th>
-                            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Produksi Basah (Kg)</th>
-                            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Produktivitas (Kg/Ha)</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider w-48">Proporsi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        @php $grandTotal = array_sum($prodArr); @endphp
-                        @for ($m = 1; $m <= 12; $m++)
-                            @php
-                                $prod = $prodArr[$m] ?? 0;
-                                $prot = $protArr[$m] ?? 0;
-                                $pct  = $grandTotal > 0 ? ($prod / $grandTotal) * 100 : 0;
-                                $isMax = $prod > 0 && $prod == $maxProd;
-                                $isMin = $prod > 0 && $prod == $minProd && $minProd != $maxProd;
-                            @endphp
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors {{ $isMax ? 'bg-green-50 dark:bg-green-900/20' : ($isMin ? 'bg-red-50 dark:bg-red-900/10' : '') }}">
-                                <td class="px-4 py-2.5 font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                                    {{ $bulanNama[$m] }}
-                                    @if ($isMax)
-                                        <span class="text-xs bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300 px-1.5 py-0.5 rounded-full font-semibold">Tertinggi</span>
-                                    @elseif ($isMin)
-                                        <span class="text-xs bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 px-1.5 py-0.5 rounded-full font-semibold">Terendah</span>
-                                    @endif
-                                </td>
-                                <td class="px-4 py-2.5 text-right font-mono {{ $prod > 0 ? 'text-gray-900 dark:text-gray-100 font-semibold' : 'text-gray-400 dark:text-gray-500' }}">
-                                    {{ $prod > 0 ? number_format($prod, 0, ',', '.') : '—' }}
-                                </td>
-                                <td class="px-4 py-2.5 text-right font-mono text-blue-600 dark:text-blue-400">
-                                    {{ $prot > 0 ? number_format($prot, 1, ',', '.') : '—' }}
-                                </td>
-                                <td class="px-4 py-2.5">
-                                    @if ($prod > 0)
-                                        <div class="flex items-center gap-2">
-                                            <div class="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-green-500 h-2 rounded-full transition-all" style="width: {{ number_format($pct, 1) }}%"></div>
-                                            </div>
-                                            <span class="text-xs text-gray-500 dark:text-gray-400 w-10 text-right">{{ number_format($pct, 1) }}%</span>
-                                        </div>
-                                    @else
-                                        <span class="text-xs text-gray-400">—</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endfor
-                        <!-- Total Row -->
-                        <tr class="bg-gray-50 dark:bg-gray-700 font-bold">
-                            <td class="px-4 py-3 text-gray-800 dark:text-gray-100">Total {{ $currentYear }}</td>
-                            <td class="px-4 py-3 text-right font-mono text-green-700 dark:text-green-400">
-                                {{ $grandTotal > 0 ? number_format($grandTotal, 0, ',', '.') : '—' }} Kg
-                            </td>
-                            <td class="px-4 py-3 text-right text-gray-500 dark:text-gray-400 text-xs font-normal">
-                                Rata-rata: {{ count($protArr) > 0 ? number_format(array_sum($protArr) / count($protArr), 1, ',', '.') : '—' }} Kg/Ha
-                            </td>
-                            <td class="px-4 py-3"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
         <!-- 3. Performance Analysis (Merged) -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -370,14 +301,19 @@
 @push('scripts')
     <script>
         // Data passed from controller
-        const monthlyProductionLabels = {!! json_encode(array_keys($monthlyProduction->toArray())) !!}.map(m => {
+        const monthlyProductionLabels = {!! json_encode(array_keys($monthlyDryProduction->toArray())) !!}.map(m => {
             const date = new Date();
             date.setMonth(m - 1);
-            return date.toLocaleString('default', {
-                month: 'short'
-            });
+            return date.toLocaleString('default', { month: 'short' });
         });
-        const monthlyProductionData = {!! json_encode(array_values($monthlyProduction->toArray())) !!};
+        const monthlyProductionData = {!! json_encode(array_values($monthlyDryProduction->toArray())) !!};
+
+        const monthlyWetProductionLabels = {!! json_encode(array_keys($monthlyProduction->toArray())) !!}.map(m => {
+            const date = new Date();
+            date.setMonth(m - 1);
+            return date.toLocaleString('default', { month: 'short' });
+        });
+        const monthlyWetProductionData = {!! json_encode(array_values($monthlyProduction->toArray())) !!};
 
         const monthlyProductivityLabels = {!! json_encode(array_keys($monthlyProductivity->toArray())) !!}.map(m => {
             const date = new Date();
@@ -393,13 +329,37 @@
         const textColor = isDark ? '#e5e7eb' : '#374151';
         const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
 
-        // 1. Production Chart
+        // 0. Wet Production Chart
+        new Chart(document.getElementById('wetProductionChart'), {
+            type: 'bar',
+            data: {
+                labels: monthlyWetProductionLabels,
+                datasets: [{
+                    label: 'Produksi Basah (Kg)',
+                    data: monthlyWetProductionData,
+                    backgroundColor: 'rgba(59, 130, 246, 0.6)', // Blue-500
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor } },
+                    x: { grid: { display: false }, ticks: { color: textColor } }
+                },
+                plugins: { legend: { labels: { color: textColor } } }
+            }
+        });
+
+        // 1. Dry Production Chart
         new Chart(document.getElementById('productionChart'), {
             type: 'bar',
             data: {
                 labels: monthlyProductionLabels,
                 datasets: [{
-                    label: 'Produksi Basah (Kg)',
+                    label: 'Produksi Kering (Kg)',
                     data: monthlyProductionData,
                     backgroundColor: 'rgba(34, 197, 94, 0.6)', // Green-500
                     borderColor: 'rgb(34, 197, 94)',

@@ -189,6 +189,23 @@ class DashboardStatisticsService
     }
 
     /**
+     * Get Monthly Dry Production Chart Data (dry_production_kg)
+     */
+    public function getMonthlyDryProduction(int $year, ?int $gardenId = null): Collection
+    {
+        $query = ProductionRealization::selectRaw('month, SUM(dry_production_kg) as total')
+            ->where('year', $year);
+
+        if ($gardenId) {
+            $query->where('kebun_id', $gardenId);
+        }
+
+        return $query->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total', 'month');
+    }
+
+    /**
      * Get Monthly Productivity Chart Data
      */
     public function getMonthlyProductivity(int $year, ?int $gardenId = null): Collection

@@ -50,6 +50,7 @@ class StrategicDashboardController extends Controller
 
         // 2. Charts Data
         $monthlyProduction = $this->statsService->getMonthlyProduction($currentYear);
+        $monthlyDryProduction = $this->statsService->getMonthlyDryProduction($currentYear);
         $monthlyProductivity = $this->statsService->getMonthlyProductivity($currentYear);
 
         // 3. Table Detail Kebun
@@ -108,6 +109,7 @@ class StrategicDashboardController extends Controller
             'protasProgress',
             'weedControlProgress',
             'monthlyProduction',
+            'monthlyDryProduction',
             'monthlyProductivity',
             'gardenDetails',
             'bestPerformer',
