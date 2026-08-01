@@ -20,8 +20,9 @@ return new class extends Migration
             // 6.1 Luasan Efektif
             $table->decimal('active_picking_area_ha', 10, 2)->nullable();
 
-            // 6.2 Produksi Basah
+            // 6.2 Produksi Basah & Kering
             $table->decimal('wet_production_kg', 10, 2)->nullable();
+            $table->decimal('dry_production_kg', 10, 2)->nullable();
             $table->decimal('quality_score', 5, 2)->nullable();
 
             // 6.3 Kapasitas Pemetikan
@@ -33,6 +34,9 @@ return new class extends Migration
             $table->text('assumption_note')->nullable();
 
             $table->timestamps();
+
+            // Unique: satu record per kebun, bulan, tahun
+            $table->unique(['kebun_id', 'month', 'year'], 'unique_kebun_month_year');
         });
     }
 

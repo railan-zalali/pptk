@@ -45,12 +45,20 @@ class ProductionRealization extends Model
     }
 
     /**
-     * Get Protas Kering (Kg/Ha) - Assuming 22% dry ratio
+     * Get Protas Kering (Kg/Ha).
+     * Menggunakan kolom dry_production_kg jika ada (data aktual).
+     * Fallback ke estimasi 22% dari produksi basah jika kolom null.
      */
     public function getProductivityDryAttribute()
     {
-        // 22% is a standard conversion for tea, can be adjusted
-        return $this->productivity_wet * 0.22;
+        if ($this->active_picking_area_ha > 0) {
+            if ($this->dry_production_kg !== null && $this->dry_production_kg > 0) {
+                return $this->dry_production_kg / $this->active_picking_area_ha;
+            }
+            // Fallback estimasi konversi teh 22% (hanya jika data kering belum ada)
+            return $this->productivity_wet * 0.22;
+        }
+        return 0;
     }
 
     public function garden(): BelongsTo

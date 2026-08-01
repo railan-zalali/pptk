@@ -64,11 +64,21 @@ class User extends Authenticatable
     }
 
     /**
-     * Alias for isAdminPpkt() - backward compat.
+     * Cek apakah user memiliki akses ke panel (admin_pptk ATAU manajemen).
+     * Gunakan ini untuk membedakan user terdaftar dari guest.
+     */
+    public function isPrivileged(): bool
+    {
+        return in_array($this->role, ['admin_pptk', 'manajemen']);
+    }
+
+    /**
+     * @deprecated Gunakan isPrivileged() atau isAdminPptk() secara eksplisit.
+     * Dipertahankan untuk backward compat. Return true untuk admin_pptk DAN manajemen.
      */
     public function isAdmin(): bool
     {
-        return in_array($this->role, ['admin_pptk', 'manajemen']);
+        return $this->isPrivileged();
     }
 
     /**

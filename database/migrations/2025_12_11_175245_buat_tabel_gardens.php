@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('kebun_type', ['Model', 'Pengembangan']);
             $table->text('agro_climate_note')->nullable();
             $table->string('location')->nullable();
+            $table->string('coordinates')->nullable();
             $table->string('photo_path')->nullable();
             $table->text('description')->nullable();
             $table->date('established_at')->nullable();

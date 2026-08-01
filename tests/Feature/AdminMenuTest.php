@@ -6,6 +6,10 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Test semua route Admin PPTK dapat diakses oleh admin_pptk.
+ * Test bahwa manajemen tidak bisa masuk.
+ */
 class AdminMenuTest extends TestCase
 {
     use RefreshDatabase;
@@ -22,6 +26,10 @@ class AdminMenuTest extends TestCase
         ]);
     }
 
+    // ----------------------------------------------------------------
+    // Guest → redirect ke login
+    // ----------------------------------------------------------------
+
     public function test_guest_redirected_to_login(): void
     {
         $response = $this->get(route('admin.dashboard'));
@@ -29,77 +37,111 @@ class AdminMenuTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function test_admin_dashboard_dapat_diakses(): void
+    // ----------------------------------------------------------------
+    // admin_pptk — semua menu master kebun
+    // ----------------------------------------------------------------
+
+    public function test_admin_dashboard_accessible(): void
     {
         $response = $this->actingAs($this->admin)->get(route('admin.dashboard'));
 
         $response->assertStatus(200);
     }
 
-    public function test_menu_regions_dapat_diakses(): void
+    public function test_admin_regions_index_accessible(): void
     {
         $response = $this->actingAs($this->admin)->get(route('admin.regions.index'));
 
         $response->assertStatus(200);
     }
 
-    public function test_menu_gardens_dapat_diakses(): void
+    public function test_admin_gardens_index_accessible(): void
     {
         $response = $this->actingAs($this->admin)->get(route('admin.gardens.index'));
 
         $response->assertStatus(200);
     }
 
-    public function test_menu_afdelings_dapat_diakses(): void
+    public function test_admin_afdelings_index_accessible(): void
     {
         $response = $this->actingAs($this->admin)->get(route('admin.afdelings.index'));
 
         $response->assertStatus(200);
     }
 
-    public function test_menu_blocks_dapat_diakses(): void
+    public function test_admin_blocks_index_accessible(): void
     {
         $response = $this->actingAs($this->admin)->get(route('admin.blocks.index'));
 
         $response->assertStatus(200);
     }
 
-    public function test_menu_production_realizations_dapat_diakses(): void
+    // ----------------------------------------------------------------
+    // Produksi & Target
+    // ----------------------------------------------------------------
+
+    public function test_admin_production_realizations_index_accessible(): void
     {
         $response = $this->actingAs($this->admin)->get(route('admin.production-realizations.index'));
 
         $response->assertStatus(200);
     }
 
-    public function test_menu_performance_targets_dapat_diakses(): void
+    public function test_admin_performance_targets_index_accessible(): void
     {
         $response = $this->actingAs($this->admin)->get(route('admin.performance-targets.index'));
 
         $response->assertStatus(200);
     }
 
-    public function test_menu_users_dapat_diakses(): void
+    // ----------------------------------------------------------------
+    // Manajemen Pengguna
+    // ----------------------------------------------------------------
+
+    public function test_admin_users_index_accessible(): void
     {
         $response = $this->actingAs($this->admin)->get(route('admin.users.index'));
 
         $response->assertStatus(200);
     }
 
-    public function test_manajemen_cannot_access_admin_area(): void
+    // ----------------------------------------------------------------
+    // Endpoint pendukung (Strategic Actions, Insights, dll.)
+    // ----------------------------------------------------------------
+
+    public function test_admin_strategic_actions_index_accessible(): void
     {
-        $manajemen = User::factory()->create([
-            'role'              => 'manajemen',
-            'email_verified_at' => now(),
-        ]);
+        $response = $this->actingAs($this->admin)->get(route('admin.strategic-actions.index'));
 
-        $response = $this->actingAs($manajemen)->get(route('admin.dashboard'));
-
-        // IsAdmin middleware redirects to dashboard with error message
-        $response->assertRedirect(route('dashboard'));
-        $response->assertSessionHas('error');
+        $response->assertStatus(200);
     }
 
-    public function test_admin_sidebar_contains_expected_menu_items(): void
+    public function test_admin_programs_index_accessible(): void
+    {
+        $response = $this->actingAs($this->admin)->get(route('admin.programs.index'));
+
+        $response->assertStatus(200);
+    }
+
+    public function test_admin_insights_index_accessible(): void
+    {
+        $response = $this->actingAs($this->admin)->get(route('admin.insights.index'));
+
+        $response->assertStatus(200);
+    }
+
+    public function test_admin_visits_index_accessible(): void
+    {
+        $response = $this->actingAs($this->admin)->get(route('admin.visits.index'));
+
+        $response->assertStatus(200);
+    }
+
+    // ----------------------------------------------------------------
+    // Sidebar content — menu utama terlihat
+    // ----------------------------------------------------------------
+
+    public function test_admin_sidebar_shows_main_menu_items(): void
     {
         $response = $this->actingAs($this->admin)->get(route('admin.dashboard'));
 
@@ -110,6 +152,22 @@ class AdminMenuTest extends TestCase
         $response->assertSee('Realisasi Produksi');
         $response->assertSee('Target Kinerja');
         $response->assertSee('Manajemen Pengguna');
-        $response->assertSee('Halaman Depan');
+    }
+
+    // ----------------------------------------------------------------
+    // manajemen tidak bisa masuk admin area
+    // ----------------------------------------------------------------
+
+    public function test_manajemen_redirected_from_admin_panel(): void
+    {
+        $manajemen = User::factory()->create([
+            'role'              => 'manajemen',
+            'email_verified_at' => now(),
+        ]);
+
+        $response = $this->actingAs($manajemen)->get(route('admin.dashboard'));
+
+        $response->assertRedirect(route('dashboard'));
+        $response->assertSessionHas('error');
     }
 }

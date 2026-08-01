@@ -23,13 +23,14 @@ class DatabaseSeeder extends Seeder
         $this->truncateAll();
 
         $this->call([
-            ResearchBudgetSeeder::class,   // Step 1 — Data keuangan penelitian (independen)
-            UserSeeder::class,             // Step 2 — Akun admin & manajemen
-            CoreStructureSeeder::class,    // Step 3 — Region, Garden, Afdeling, Block
-            ProductionSeeder::class,       // Step 4 — Realisasi produksi bulanan
-            StrategicSeeder::class,        // Step 5 — Program, Strategic Action, Target Kinerja
-            VisitCommunitySeeder::class,   // Step 6 — Kunjungan & Pengabdian Masyarakat
-            InsightConfigSeeder::class,    // Step 7 — Konfigurasi threshold rule engine
+            ResearchBudgetActivitySeeder::class,   // Step 1 — Daftar kegiatan penelitian (master)
+            ResearchBudgetSeeder::class,           // Step 2 — Data keuangan penelitian (bergantung activities)
+            UserSeeder::class,                     // Step 3 — Akun admin & manajemen
+            CoreStructureSeeder::class,            // Step 4 — Region, Garden, Afdeling, Block
+            ProductionSeeder::class,               // Step 5 — Realisasi produksi bulanan
+            StrategicSeeder::class,                // Step 6 — Program, Strategic Action, Target Kinerja
+            VisitCommunitySeeder::class,           // Step 7 — Kunjungan & Pengabdian Masyarakat
+            InsightConfigSeeder::class,            // Step 8 — Konfigurasi threshold rule engine
         ]);
     }
 
@@ -56,6 +57,7 @@ class DatabaseSeeder extends Seeder
             'blocks', 'afdelings', 'garden_photos', 'gardens',
             'region_photos', 'regions',
             'pages',
+            'research_budget_activities',
             'research_budget_balances', 'research_budgets',
             'sessions', 'password_reset_tokens',
             'cache_locks', 'cache',
