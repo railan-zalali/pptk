@@ -159,7 +159,10 @@
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.strategic-actions.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">agriculture</span> Strategic Action
                     </a>
-
+                    <a href="{{ route('manajemen.insights.index') }}"
+                        class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.insights.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="material-icons mr-2">insights</span> Wawasan Kebun
+                    </a>
                     <a href="{{ route('manajemen.visits.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.visits.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">event</span> Kunjungan

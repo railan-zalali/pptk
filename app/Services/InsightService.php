@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Garden;
 use App\Models\Insight;
+use App\Models\PerformanceTarget;
 use App\Models\ProductionRealization;
 use App\Models\StrategicAction;
 use App\Services\RuleEngine\InsightResult;
@@ -59,7 +60,16 @@ class InsightService
         $avgArea         = $realizations->avg('active_picking_area_ha') ?? 0;
         $productivity    = $avgArea > 0 ? $totalProduction / $avgArea : 0;
 
-        $result = $this->productivityRule->evaluate($productivity);
+        // Load target per kebun untuk evaluasi kontekstual
+        $target = PerformanceTarget::where('kebun_id', $gardenId)
+            ->where('year', $year)
+            ->first();
+
+        $result = $this->productivityRule->evaluate([
+            'productivity' => $productivity,
+            'target_min'   => $target?->target_protas_min,
+            'target_max'   => $target?->target_protas_max,
+        ]);
 
         if ($result) {
             $this->persistInsight($gardenId, $result);
