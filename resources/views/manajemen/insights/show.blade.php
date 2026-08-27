@@ -12,64 +12,124 @@
             </a>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
-            <!-- Header Card -->
-            <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Kebun Model</span>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 flex items-center gap-2 mt-0.5">
-                        <span class="material-icons-outlined text-green-600">agriculture</span>
-                        {{ $insight->garden->kebun_name ?? '-' }}
-                        <span class="text-sm font-normal text-gray-500">({{ $insight->garden->region->regional_name ?? '-' }})</span>
-                    </h3>
+        @php
+            $level = $insight->alert_level;
+
+            $bannerBg = match($level) {
+                'high'   => 'bg-red-600',
+                'medium' => 'bg-amber-500',
+                default  => 'bg-green-600',
+            };
+            $bannerBorder = match($level) {
+                'high'   => 'border-red-700',
+                'medium' => 'border-amber-600',
+                default  => 'border-green-700',
+            };
+            $alertLabel = match($level) {
+                'high'   => 'Peringatan Kritis',
+                'medium' => 'Perlu Perhatian',
+                default  => 'Kondisi Optimal',
+            };
+            $alertIcon = match($level) {
+                'high'   => 'warning',
+                'medium' => 'info',
+                default  => 'check_circle',
+            };
+            $bodyBorder = match($level) {
+                'high'   => 'border-red-200 dark:border-red-800',
+                'medium' => 'border-amber-200 dark:border-amber-800',
+                default  => 'border-green-200 dark:border-green-800',
+            };
+            $recBg = match($level) {
+                'high'   => 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800',
+                'medium' => 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800',
+                default  => 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800',
+            };
+            $recIconColor = match($level) {
+                'high'   => 'text-red-500',
+                'medium' => 'text-amber-500',
+                default  => 'text-green-500',
+            };
+        @endphp
+
+        <div class="rounded-xl shadow-sm border {{ $bodyBorder }} overflow-hidden bg-white dark:bg-gray-800">
+
+            {{-- Alert Banner --}}
+            <div class="{{ $bannerBg }} px-6 py-5 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    {{-- Animated icon for high --}}
+                    <div class="relative flex-shrink-0">
+                        @if($level === 'high')
+                            <span class="absolute inline-flex w-10 h-10 rounded-full bg-red-400 opacity-60 animate-ping"></span>
+                        @endif
+                        <span class="material-icons text-white text-3xl relative z-10">{{ $alertIcon }}</span>
+                    </div>
+                    <div>
+                        <p class="text-white/80 text-xs font-bold uppercase tracking-widest">Status Alert</p>
+                        <p class="text-white text-xl font-black leading-tight">{{ $alertLabel }}</p>
+                    </div>
                 </div>
-                <div>
-                    @php
-                        $alertColor = $insight->alert_level == 'high' ? 'red' : ($insight->alert_level == 'medium' ? 'yellow' : 'green');
-                        $alertLabel = $insight->alert_level == 'high' ? 'Peringatan Tinggi' : ($insight->alert_level == 'medium' ? 'Perlu Perhatian' : 'Optimal');
-                    @endphp
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-{{ $alertColor }}-100 text-{{ $alertColor }}-800 dark:bg-{{ $alertColor }}-900/30 dark:text-{{ $alertColor }}-400 capitalize">
-                        <span class="w-2 h-2 rounded-full bg-{{ $alertColor }}-500 mr-2"></span>
-                        {{ $alertLabel }}
-                    </span>
+                <div class="text-right">
+                    <p class="text-white/70 text-xs">Tipe Evaluasi</p>
+                    <p class="text-white font-semibold text-sm capitalize">{{ str_replace('_', ' ', $insight->insight_type) }}</p>
                 </div>
             </div>
 
-            <!-- Body Content -->
-            <div class="p-6">
-                <div class="mb-6">
-                    <h4 class="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Wawasan / Analisis</h4>
-                    <div class="bg-gray-50 dark:bg-gray-700/30 p-5 rounded-lg border border-gray-100 dark:border-gray-700">
+            {{-- Garden Info --}}
+            <div class="px-6 py-4 border-b {{ $bodyBorder }} flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="material-icons-outlined text-green-600 dark:text-green-400">agriculture</span>
+                    <div>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-semibold uppercase tracking-wider">Kebun Model</p>
+                        <p class="font-bold text-gray-800 dark:text-gray-100">
+                            {{ $insight->garden->kebun_name ?? '-' }}
+                            <span class="font-normal text-sm text-gray-500 dark:text-gray-400">
+                                ({{ $insight->garden->region->regional_name ?? '-' }})
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 dark:text-gray-500">
+                    Dianalisis: <strong class="text-gray-600 dark:text-gray-300">{{ optional($insight->generated_at ?? $insight->created_at)->format('d F Y H:i') }}</strong>
+                </p>
+            </div>
+
+            {{-- Body --}}
+            <div class="p-6 space-y-6">
+
+                {{-- Wawasan --}}
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Wawasan / Analisis</h4>
+                    <div class="p-5 rounded-xl border {{ $bodyBorder }} bg-gray-50 dark:bg-gray-700/30">
                         <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">{{ $insight->title }}</h2>
                         <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ $insight->description }}</p>
                     </div>
                 </div>
 
-                <div class="mb-6">
-                    <h4 class="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">Rekomendasi Tindakan Agronomis</h4>
-                    @php
-                        $recommendations = is_array($insight->recommendations)
-                            ? $insight->recommendations
-                            : json_decode($insight->recommendations, true) ?? [];
-                    @endphp
-                    @if(!empty($recommendations))
+                {{-- Rekomendasi --}}
+                @php
+                    $recommendations = is_array($insight->recommendations)
+                        ? $insight->recommendations
+                        : json_decode($insight->recommendations, true) ?? [];
+                @endphp
+                @if(!empty($recommendations))
+                    <div>
+                        <h4 class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-3">
+                            Rekomendasi Tindakan Agronomis
+                        </h4>
                         <div class="grid grid-cols-1 gap-3">
-                            @foreach($recommendations as $rec)
-                                <div class="flex items-start bg-green-50/50 dark:bg-green-900/10 p-3 rounded-lg border border-green-100/50 dark:border-green-800/20">
-                                    <span class="material-icons-outlined text-green-600 text-sm mr-3 text-[20px] mt-0.5">task_alt</span>
-                                    <p class="text-sm text-gray-700 dark:text-gray-300 font-medium">{{ $rec }}</p>
+                            @foreach($recommendations as $i => $rec)
+                                <div class="flex items-start gap-3 p-3.5 rounded-xl border {{ $recBg }}">
+                                    <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-black {{ $recBg }} {{ $recIconColor }} border-current">
+                                        {{ $i + 1 }}
+                                    </span>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300 font-medium leading-snug">{{ $rec }}</p>
                                 </div>
                             @endforeach
                         </div>
-                    @else
-                        <p class="text-sm text-gray-400 dark:text-gray-500">Tidak ada rekomendasi khusus yang dikeluarkan.</p>
-                    @endif
-                </div>
+                    </div>
+                @endif
 
-                <div class="pt-6 border-t border-gray-100 dark:border-gray-700 flex justify-between text-xs text-gray-400">
-                    <span>Tipe Evaluasi: <strong class="text-gray-600 dark:text-gray-350 capitalize">{{ str_replace('_', ' ', $insight->insight_type) }}</strong></span>
-                    <span>Dianalisis Pada: <strong>{{ optional($insight->generated_at ?? $insight->created_at)->format('d F Y H:i') }}</strong></span>
-                </div>
             </div>
         </div>
     </div>

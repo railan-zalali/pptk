@@ -58,7 +58,8 @@
                     </div>
                     <div class="text-sm text-gray-600 dark:text-gray-300">Produktivitas Terakhir</div>
                     <div class="text-xs text-gray-500 dark:text-gray-400">
-                        {{ $latestProduction->month ?? 'Belum ada data' }}</div>
+                        {{ $latestProduction->month ?? 'Belum ada data' }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,7 +104,8 @@
                     <div class="grid grid-cols-2 gap-4 text-sm">
                         <div>
                             <span class="font-semibold text-gray-700 dark:text-gray-300">Koordinat:</span>
-                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->region->coordinates ?? '-' }}</span>
+                            <span
+                                class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->region->coordinates ?? '-' }}</span>
                         </div>
                         <div>
                             <span class="font-semibold text-gray-700 dark:text-gray-300">Tipe Kebun:</span>
@@ -111,11 +113,14 @@
                         </div>
                         <div>
                             <span class="font-semibold text-gray-700 dark:text-gray-300">Luas:</span>
-                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ number_format($garden->luas_total_ha, 1) }} ha</span>
+                            <span
+                                class="text-gray-600 dark:text-gray-400 ml-2">{{ number_format($garden->luas_total_ha, 1) }}
+                                ha</span>
                         </div>
                         <div>
                             <span class="font-semibold text-gray-700 dark:text-gray-300">Agroklimat:</span>
-                            <span class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->agro_climate_note ?? '-' }}</span>
+                            <span
+                                class="text-gray-600 dark:text-gray-400 ml-2">{{ $garden->agro_climate_note ?? '-' }}</span>
                         </div>
                     </div>
                 </div>
@@ -227,12 +232,10 @@
                     Lebih Banyak</button>
             </div>
             <div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden items-center justify-center p-4">
-                <button id="closeLightbox"
-                    class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
+                <button id="closeLightbox" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">
                     <span class="material-icons text-2xl">close</span>
                 </button>
-                <img id="lightboxImage" src="" alt=""
-                    class="max-w-full max-h-full rounded-lg shadow-2xl">
+                <img id="lightboxImage" src="" alt="" class="max-w-full max-h-full rounded-lg shadow-2xl">
                 <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-center">
                     <h3 id="lightboxTitle" class="text-xl font-bold mb-2"></h3>
                     <p id="lightboxDescription" class="text-sm opacity-90"></p>
@@ -248,7 +251,8 @@
             @if($garden->strategicActions->count() > 0)
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($garden->strategicActions as $action)
-                        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                        <div
+                            class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                             <h3 class="font-bold text-green-700 dark:text-green-400 mb-3 flex items-center capitalize">
                                 @if($action->action_type == 'fertilizer_root')
                                     <span class="material-icons mr-2">spa</span> Pemupukan
@@ -257,10 +261,11 @@
                                 @elseif($action->action_type == 'weed_control')
                                     <span class="material-icons mr-2">grass</span> Pengendalian Gulma
                                 @else
-                                    <span class="material-icons mr-2">check_circle</span> {{ str_replace('_', ' ', $action->action_type) }}
+                                    <span class="material-icons mr-2">check_circle</span>
+                                    {{ str_replace('_', ' ', $action->action_type) }}
                                 @endif
                             </h3>
-                            
+
                             <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
                                 @if($action->action_type == 'fertilizer_root')
                                     <div class="flex justify-between">
@@ -277,7 +282,7 @@
                                         <span class="font-semibold">{{ $action->focus_area }}</span>
                                     </div>
                                 @elseif($action->action_type == 'weed_control')
-                                     <div class="flex justify-between">
+                                    <div class="flex justify-between">
                                         <span>Metode:</span>
                                         <span class="font-semibold">{{ $action->method }}</span>
                                     </div>
@@ -305,44 +310,97 @@
             @endif
         </div>
 
-        <!-- Recent Insights -->
+        {{-- Recent Insights --}}
         @if ($insights->count() > 0)
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 scroll-mt-24" id="wawasan">
-                <h2 class="text-xl font-bold text-green-800 dark:text-green-100 mb-6 flex items-center">
-                    <span class="material-icons mr-2 text-yellow-500">lightbulb</span>Wawasan Terbaru
-                </h2>
-                <div class="space-y-4">
-                    @foreach ($insights as $insight)
-                        <div
-                            class="border-l-4 border-{{ $insight->alert_level == 'high' ? 'red' : ($insight->alert_level == 'medium' ? 'yellow' : 'green') }}-500 pl-4 py-2">
-                            <div class="flex items-start justify-between">
-                                <div>
-                                    <h3 class="font-semibold text-gray-800 dark:text-gray-100">{{ $insight->title }}</h3>
-                                    <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">{{ $insight->description }}
-                                    </p>
-                                    <div class="mt-2">
-                                        @php
-                                            $recs = is_array($insight->recommendations)
-                                                ? $insight->recommendations
-                                                : json_decode($insight->recommendations, true) ?? [];
-                                        @endphp
-                                        @foreach ($recs as $recommendation)
-                                            <span
-                                                class="inline-block px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs mr-2 mb-1">
-                                                {{ $recommendation }}
-                                            </span>
+            @php
+                // Sort: high first
+                $sortedInsights = $insights->sortBy(fn($i) => match($i->alert_level) {
+                    'high'   => 0,
+                    'medium' => 1,
+                    default  => 2,
+                });
+                $criticalCount = $insights->where('alert_level', 'high')->count();
+            @endphp
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden scroll-mt-24" id="wawasan">
+                <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-green-800 dark:text-green-100 flex items-center gap-2">
+                        <span class="material-icons text-yellow-500">lightbulb</span>
+                        Wawasan Terbaru
+                    </h2>
+                    @if($criticalCount > 0)
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold">
+                            <span class="w-2 h-2 rounded-full bg-white animate-ping opacity-75"></span>
+                            {{ $criticalCount }} Kritis
+                        </span>
+                    @endif
+                </div>
+
+                <div class="p-6 space-y-4">
+                    @foreach ($sortedInsights as $insight)
+                        @php
+                            $level = $insight->alert_level;
+                            $cardBg = match($level) {
+                                'high'   => 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800',
+                                'medium' => 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800',
+                                default  => 'bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800',
+                            };
+                            $headerBg = match($level) {
+                                'high'   => 'bg-red-600',
+                                'medium' => 'bg-amber-500',
+                                default  => 'bg-green-600',
+                            };
+                            $badgeText = match($level) {
+                                'high'   => 'Kritis',
+                                'medium' => 'Perhatian',
+                                default  => 'Optimal',
+                            };
+                            $icon = match($level) {
+                                'high'   => 'warning',
+                                'medium' => 'info',
+                                default  => 'check_circle',
+                            };
+                            $recs = is_array($insight->recommendations)
+                                ? $insight->recommendations
+                                : json_decode($insight->recommendations, true) ?? [];
+                        @endphp
+                        <div class="rounded-xl border overflow-hidden {{ $cardBg }}">
+                            {{-- Card Header --}}
+                            <div class="{{ $headerBg }} px-4 py-3 flex items-center justify-between">
+                                <div class="flex items-center gap-2 text-white">
+                                    <span class="material-icons text-lg {{ $level === 'high' ? 'animate-pulse' : '' }}">{{ $icon }}</span>
+                                    <span class="font-bold text-sm">{{ $insight->title }}</span>
+                                </div>
+                                <span class="text-white/80 text-xs">{{ optional($insight->created_at)->format('d M Y') }}</span>
+                            </div>
+
+                            {{-- Card Body --}}
+                            <div class="px-4 py-3 space-y-3">
+                                <p class="text-sm text-gray-700 dark:text-gray-300">{{ $insight->description }}</p>
+
+                                @if(!empty($recs))
+                                    <div class="space-y-1.5">
+                                        <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Rekomendasi</p>
+                                        @foreach(array_slice($recs, 0, 3) as $rec)
+                                            <div class="flex items-start gap-2">
+                                                <span class="material-icons text-sm mt-0.5
+                                                    {{ $level === 'high' ? 'text-red-500' : ($level === 'medium' ? 'text-amber-500' : 'text-green-500') }}">
+                                                    task_alt
+                                                </span>
+                                                <p class="text-xs text-gray-600 dark:text-gray-300 leading-snug">{{ $rec }}</p>
+                                            </div>
                                         @endforeach
+                                        @if(count($recs) > 3)
+                                            <p class="text-xs text-gray-400 dark:text-gray-500 italic pl-5">+{{ count($recs) - 3 }} rekomendasi lainnya...</p>
+                                        @endif
                                     </div>
-                                </div>
-                                <div class="text-right text-sm text-gray-500 dark:text-gray-400">
-                                    {{ $insight->created_at->format('d M Y') }}
-                                </div>
+                                @endif
                             </div>
                         </div>
                     @endforeach
                 </div>
             </div>
         @endif
+
     </div>
 @endsection
 
@@ -434,19 +492,19 @@
             const galleryGrid = document.getElementById('galleryGrid');
             const items = galleryData.slice(0, itemsLoaded);
             galleryGrid.innerHTML = items.map(item => `
-                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg cursor-pointer bg-white hover-card"
-                     onclick="openLightbox('${item.image}', '${item.title}', '${item.desc}')">
-                    <div class="aspect-square overflow-hidden">
-                        <img src="${item.image}" alt="${item.title}" loading="lazy" decoding="async" class="w-full h-full object-cover lazy-load" onload="this.classList.add('loaded')">
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-                            <h3 class="text-lg font-bold mb-1">${item.title}</h3>
-                            <p class="text-sm opacity-90">${item.desc}</p>
+                    <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg cursor-pointer bg-white hover-card"
+                         onclick="openLightbox('${item.image}', '${item.title}', '${item.desc}')">
+                        <div class="aspect-square overflow-hidden">
+                            <img src="${item.image}" alt="${item.title}" loading="lazy" decoding="async" class="w-full h-full object-cover lazy-load" onload="this.classList.add('loaded')">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+                                <h3 class="text-lg font-bold mb-1">${item.title}</h3>
+                                <p class="text-sm opacity-90">${item.desc}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
             const images = galleryGrid.querySelectorAll('img');
             images.forEach(img => {
                 img.addEventListener('load', () => img.classList.add('loaded'));
@@ -540,12 +598,12 @@
             lightbox.classList.remove('flex', 'show');
             document.body.style.overflow = 'auto';
         }
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('closeLightbox').addEventListener('click', closeLightbox);
-            document.getElementById('lightbox').addEventListener('click', function(e) {
+            document.getElementById('lightbox').addEventListener('click', function (e) {
                 if (e.target === e.currentTarget) closeLightbox();
             });
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape') closeLightbox();
             });
             renderGallery();

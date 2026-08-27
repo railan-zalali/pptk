@@ -160,6 +160,22 @@
                         <span class="material-icons mr-2">agriculture</span> Strategic Action
                     </a>
 
+                    @php
+                        $criticalInsightCount = \App\Models\Insight::where('alert_level', 'high')->count();
+                    @endphp
+                    <a href="{{ route('manajemen.insights.index') }}"
+                        class="flex items-center justify-between px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.insights.*') ? 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300' : 'text-gray-700 dark:text-gray-200' }}">
+                        <span class="flex items-center">
+                            <span class="material-icons mr-2">insights</span> Insight
+                        </span>
+                        @if($criticalInsightCount > 0)
+                            <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-xs font-bold leading-none">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping opacity-75"></span>
+                                {{ $criticalInsightCount }}
+                            </span>
+                        @endif
+                    </a>
+
                     <a href="{{ route('manajemen.visits.index') }}"
                         class="flex items-center px-3 py-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 {{ request()->routeIs('manajemen.visits.*') ? 'bg-green-100 text-green-800' : 'text-gray-700 dark:text-gray-200' }}">
                         <span class="material-icons mr-2">event</span> Kunjungan
