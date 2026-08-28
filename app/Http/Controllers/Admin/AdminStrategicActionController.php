@@ -141,6 +141,7 @@ class AdminStrategicActionController extends Controller
         try {
             Insight::where('garden_id', $gardenId)
                 ->where('insight_type', $insightKey)
+                ->where('year', $strategicAction->year)
                 ->delete();
         } catch (\Exception $e) {
             Log::warning('[InsightService] Gagal hapus insight setelah destroy strategic action: ' . $e->getMessage());

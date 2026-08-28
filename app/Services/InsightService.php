@@ -30,6 +30,7 @@ class InsightService
 
     public function __construct()
     {
+        // ponytail: Rules hardcoded — ceiling: unit test sulit mock rule terisolasi. Upgrade path: inject via constructor jika test butuh isolasi.
         $this->productivityRule    = new ProductivityRule();
         $this->productivityDryRule = new ProductivityDryRule();
         $this->qualityRule         = new QualityRule();

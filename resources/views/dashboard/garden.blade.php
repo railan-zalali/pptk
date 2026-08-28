@@ -245,10 +245,6 @@
                             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                 @foreach ($gardenDetails as $garden)
                                     @php
-                                        {{-- ─── RULE-BASED IF–THEN: Status Protas per Kebun ───
-                                             Rule 1: IF protas < 1000  THEN High Alert
-                                             Rule 2: IF 1000 ≤ protas < 1300 THEN Medium Alert
-                                             Rule 3: IF protas ≥ 1300  THEN Low Alert --}}
                                         $protas = $garden['protas_achievement'];
                                         if ($protas <= 0)      $ruleStatus = ['label' => 'Belum Ada Data', 'bg' => 'gray',   'dot' => '&#9898;'];
                                         elseif ($protas < 1000) $ruleStatus = ['label' => 'High Alert',    'bg' => 'red',    'dot' => '&#128308;'];

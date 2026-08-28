@@ -42,7 +42,7 @@
                     </thead>
                     <tbody class="divide-y divide-green-100 dark:divide-green-800">
                         <tr>
-                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">protas &lt; 1.000</td>
+                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">protas &lt; 83</td>
                             <td class="px-2 py-1">
                                 <span class="inline-flex items-center gap-1 bg-red-100 dark:bg-red-900/40
                                              text-red-700 dark:text-red-300 px-2 py-0.5 rounded-full font-semibold">
@@ -51,7 +51,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">1.000 &le; protas &lt; 1.300</td>
+                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">83 &le; protas &lt; 108</td>
                             <td class="px-2 py-1">
                                 <span class="inline-flex items-center gap-1 bg-yellow-100 dark:bg-yellow-900/40
                                              text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded-full font-semibold">
@@ -60,7 +60,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">protas &ge; 1.300</td>
+                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">protas &ge; 108</td>
                             <td class="px-2 py-1">
                                 <span class="inline-flex items-center gap-1 bg-green-100 dark:bg-green-900/40
                                              text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full font-semibold">
@@ -83,7 +83,7 @@
                     </thead>
                     <tbody class="divide-y divide-green-100 dark:divide-green-800">
                         <tr>
-                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">protas_kering &lt; 220</td>
+                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">protas_kering &lt; 18.3</td>
                             <td class="px-2 py-1">
                                 <span class="inline-flex items-center gap-1 bg-red-100 dark:bg-red-900/40
                                              text-red-700 dark:text-red-300 px-2 py-0.5 rounded-full font-semibold">
@@ -92,7 +92,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">220 &le; protas &lt; 286</td>
+                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">18.3 &le; protas &lt; 23.8</td>
                             <td class="px-2 py-1">
                                 <span class="inline-flex items-center gap-1 bg-yellow-100 dark:bg-yellow-900/40
                                              text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded-full font-semibold">
@@ -101,7 +101,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">protas_kering &ge; 286</td>
+                            <td class="px-2 py-1 font-mono text-gray-700 dark:text-gray-300">protas_kering &ge; 23.8</td>
                             <td class="px-2 py-1">
                                 <span class="inline-flex items-center gap-1 bg-green-100 dark:bg-green-900/40
                                              text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full font-semibold">
@@ -157,9 +157,9 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                     <!-- Rule 1: IF protas_basah < 1000  THEN High Alert
-                                 Rule 2: IF 1000 <= protas_basah < 1300 THEN Medium Alert
-                                 Rule 3: IF protas_basah >= 1300 THEN Low Alert -->
+                     <!-- Rule 1: IF protas_basah < 83  THEN High Alert
+                                 Rule 2: IF 83 <= protas_basah < 108 THEN Medium Alert
+                                 Rule 3: IF protas_basah >= 108 THEN Low Alert -->
                     @forelse ($productions as $production)
                         @php
                             $area = (float) $production->active_picking_area_ha;
@@ -167,14 +167,14 @@
                                 ? (float) $production->wet_production_kg / $area
                                 : 0;
                             if ($protasBasah <= 0)         $statusBasah = ['label' => 'Belum Ada Data',  'bg' => 'gray',   'dot' => '&#9898;'];
-                            elseif ($protasBasah < 1000)   $statusBasah = ['label' => 'High Alert',      'bg' => 'red',    'dot' => '&#128308;'];
-                            elseif ($protasBasah < 1300)   $statusBasah = ['label' => 'Medium Alert',    'bg' => 'yellow', 'dot' => '&#128993;'];
+                            elseif ($protasBasah < 83)     $statusBasah = ['label' => 'High Alert',      'bg' => 'red',    'dot' => '&#128308;'];
+                            elseif ($protasBasah < 108)    $statusBasah = ['label' => 'Medium Alert',    'bg' => 'yellow', 'dot' => '&#128993;'];
                             else                           $statusBasah = ['label' => 'Low Alert',       'bg' => 'green',  'dot' => '&#128994;'];
 
                             // RULE-BASED: Protas Kering (IF–THEN)
-                            // Rule 1: IF protas_kering < 220  THEN High Alert
-                            // Rule 2: IF 220 <= protas_kering < 286 THEN Medium Alert
-                            // Rule 3: IF protas_kering >= 286 THEN Low Alert
+                            // Rule 1: IF protas_kering < 18.3  THEN High Alert
+                            // Rule 2: IF 18.3 <= protas_kering < 23.8 THEN Medium Alert
+                            // Rule 3: IF protas_kering >= 23.8 THEN Low Alert
                             // Threshold = basah × 22% (konversi teh)
 
                             $dryKg = ($production->dry_production_kg !== null && (float)$production->dry_production_kg > 0)
@@ -182,8 +182,8 @@
                                 : (float) $production->wet_production_kg * 0.22;
                             $protasKering = $area > 0 ? $dryKg / $area : 0;
                             if ($protasKering <= 0)        $statusKering = ['label' => 'Belum Ada Data', 'bg' => 'gray',   'dot' => '&#9898;'];
-                            elseif ($protasKering < 220)   $statusKering = ['label' => 'High Alert',     'bg' => 'red',    'dot' => '&#128308;'];
-                            elseif ($protasKering < 286)   $statusKering = ['label' => 'Medium Alert',   'bg' => 'yellow', 'dot' => '&#128993;'];
+                            elseif ($protasKering < 18.3)  $statusKering = ['label' => 'High Alert',     'bg' => 'red',    'dot' => '&#128308;'];
+                            elseif ($protasKering < 23.8)  $statusKering = ['label' => 'Medium Alert',   'bg' => 'yellow', 'dot' => '&#128993;'];
                             else                           $statusKering = ['label' => 'Low Alert',      'bg' => 'green',  'dot' => '&#128994;'];
                         @endphp
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
