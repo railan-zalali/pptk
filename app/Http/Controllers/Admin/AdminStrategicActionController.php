@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Garden;
+use App\Models\Insight;
 use App\Models\StrategicAction;
 use App\Services\InsightService;
 use Illuminate\Http\Request;
@@ -131,7 +132,21 @@ class AdminStrategicActionController extends Controller
 
     public function destroy(StrategicAction $strategicAction)
     {
+        $gardenId   = $strategicAction->kebun_id;
+        $insightKey = 'strategic_' . $strategicAction->action_type;
+
         $strategicAction->delete();
+
+        // ── Hapus insight spesifik action yang dihapus ───────────────────────
+        try {
+            Insight::where('garden_id', $gardenId)
+                ->where('insight_type', $insightKey)
+                ->delete();
+        } catch (\Exception $e) {
+            Log::warning('[InsightService] Gagal hapus insight setelah destroy strategic action: ' . $e->getMessage());
+        }
+        // ───────────────────────────────────────────────────────
+
         return redirect()->route('admin.strategic-actions.index')->with('success', 'Strategic Action deleted successfully.');
     }
 }

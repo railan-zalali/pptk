@@ -11,6 +11,7 @@ class Insight extends Model
         'title',
         'description',
         'garden_id',
+        'year',
         'insight_type',
         'message',
         'alert_level',
@@ -19,6 +20,7 @@ class Insight extends Model
     ];
 
     protected $casts = [
+        'year'         => 'integer',
         'recommendations' => 'array',
         'generated_at' => 'datetime',
     ];

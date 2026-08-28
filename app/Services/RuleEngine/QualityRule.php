@@ -25,8 +25,8 @@ class QualityRule implements InsightRuleContract
     {
         $qualityScore = (float) $data;
 
-        if ($qualityScore <= 0) {
-            return null; // Tidak ada data mutu
+        if ($qualityScore < 0) {
+            return null; // Nilai negatif tidak valid
         }
 
         $thresholdLow  = InsightConfig::getValue('quality', 'threshold_low',  7.0);

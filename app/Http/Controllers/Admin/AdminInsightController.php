@@ -49,12 +49,7 @@ class AdminInsightController extends Controller
             'recommendations' => 'nullable|array',
         ]);
 
-        $payload = $validated;
-        if (isset($payload['recommendations']) && is_array($payload['recommendations'])) {
-            $payload['recommendations'] = json_encode(array_values($payload['recommendations']));
-        }
-
-        Insight::create($payload);
+        Insight::create($validated);
 
         return redirect()->route('admin.insights.index')->with('success', 'Insight berhasil ditambahkan.');
     }
@@ -77,12 +72,7 @@ class AdminInsightController extends Controller
             'recommendations' => 'nullable|array',
         ]);
 
-        $payload = $validated;
-        if (isset($payload['recommendations']) && is_array($payload['recommendations'])) {
-            $payload['recommendations'] = json_encode(array_values($payload['recommendations']));
-        }
-
-        $insight->update($payload);
+        $insight->update($validated);
 
         return redirect()->route('admin.insights.index')->with('success', 'Insight berhasil diperbarui.');
     }

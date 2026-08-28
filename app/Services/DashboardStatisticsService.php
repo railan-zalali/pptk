@@ -49,7 +49,7 @@ class DashboardStatisticsService
             ->pluck('avg_area', 'kebun_id');
 
         foreach ($gardens as $garden) {
-            $targetProtas = $garden->performanceTargets->first()->target_protas_min ?? 0;
+            $targetProtas = $garden->performanceTargets->first()?->target_protas_min ?? 0;
             
             // Use calculated avg area or fallback to total area
             $avgArea = $gardenAreas[$garden->id] ?? $garden->luas_total_ha;
@@ -257,7 +257,7 @@ class DashboardStatisticsService
             $avgArea = $prod ? $prod->avg_area : $garden->luas_total_ha;
             
             $protas = $avgArea > 0 ? $realization / $avgArea : 0;
-            $target = $garden->performanceTargets->first()->target_protas_min ?? 0;
+            $target = $garden->performanceTargets->first()?->target_protas_min ?? 0;
             
             $targetYtd = $target * $monthProgress;
             $achievement = $targetYtd > 0 ? ($protas / $targetYtd) * 100 : 0;

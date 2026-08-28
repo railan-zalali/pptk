@@ -8,6 +8,7 @@ use App\Models\ProductionRealization;
 use App\Models\StrategicAction;
 use App\Services\RuleEngine\InsightResult;
 use App\Services\RuleEngine\ProductivityRule;
+use App\Services\RuleEngine\ProductivityDryRule;
 use App\Services\RuleEngine\QualityRule;
 use App\Services\RuleEngine\StrategicActionRule;
 use Illuminate\Support\Facades\Log;
@@ -23,14 +24,16 @@ use Illuminate\Support\Facades\Log;
 class InsightService
 {
     protected ProductivityRule $productivityRule;
+    protected ProductivityDryRule $productivityDryRule;
     protected QualityRule $qualityRule;
     protected StrategicActionRule $strategicRule;
 
     public function __construct()
     {
-        $this->productivityRule = new ProductivityRule();
-        $this->qualityRule      = new QualityRule();
-        $this->strategicRule    = new StrategicActionRule();
+        $this->productivityRule    = new ProductivityRule();
+        $this->productivityDryRule = new ProductivityDryRule();
+        $this->qualityRule         = new QualityRule();
+        $this->strategicRule       = new StrategicActionRule();
     }
 
     // ============================================================
@@ -62,8 +65,54 @@ class InsightService
         $result = $this->productivityRule->evaluate($productivity);
 
         if ($result) {
-            $this->persistInsight($gardenId, $result);
+            $this->persistInsight($gardenId, $year, $result);
             Log::info("[InsightService] Productivity insight untuk kebun #{$gardenId}: {$result->alertLevel} ({$productivity} kg/ha)");
+        }
+
+        return $result;
+    }
+
+    /**
+     * Generate insight produktivitas KERING untuk satu kebun berdasarkan tahun.
+     *
+     * Algoritma Rule-Based IF–THEN (Produksi Kering):
+     *   Rule 1: IF protas_kering < 220 kg/ha  THEN High Alert
+     *   Rule 2: IF 220 ≤ protas_kering < 286   THEN Medium Alert
+     *   Rule 3: IF protas_kering ≥ 286 kg/ha   THEN Low Alert
+     *
+     * Threshold proporsional dari basah × 22% (rasio konversi teh).
+     *
+     * @param  int  $gardenId
+     * @param  int  $year
+     * @return InsightResult|null
+     */
+    public function generateDryProductivityInsight(int $gardenId, int $year): ?InsightResult
+    {
+        $realizations = ProductionRealization::where('kebun_id', $gardenId)
+            ->where('year', $year)
+            ->get();
+
+        if ($realizations->isEmpty()) {
+            return null;
+        }
+
+        // Gunakan dry_production_kg aktual jika ada; fallback estimasi 22% dari basah
+        $totalDryProduction = $realizations->sum(function ($r) {
+            if ($r->dry_production_kg !== null && $r->dry_production_kg > 0) {
+                return $r->dry_production_kg;
+            }
+            // ponytail: fallback estimasi — ceiling: data kering aktual lebih akurat
+            return $r->wet_production_kg * 0.22;
+        });
+
+        $avgArea      = $realizations->avg('active_picking_area_ha') ?? 0;
+        $protasKering = $avgArea > 0 ? $totalDryProduction / $avgArea : 0;
+
+        $result = $this->productivityDryRule->evaluate($protasKering);
+
+        if ($result) {
+            $this->persistInsight($gardenId, $year, $result);
+            Log::info("[InsightService] Dry productivity insight kebun #{$gardenId}: {$result->alertLevel} ({$protasKering} kg/ha kering)");
         }
 
         return $result;
@@ -91,7 +140,7 @@ class InsightService
         $result = $this->qualityRule->evaluate($avgQuality);
 
         if ($result) {
-            $this->persistInsight($gardenId, $result);
+            $this->persistInsight($gardenId, $year, $result);
             Log::info("[InsightService] Quality insight untuk kebun #{$gardenId}: {$result->alertLevel} (score: {$avgQuality})");
         }
 
@@ -121,7 +170,7 @@ class InsightService
         $result = $this->strategicRule->evaluate($data);
 
         if ($result) {
-            $this->persistInsight($action->kebun_id, $result);
+            $this->persistInsight($action->kebun_id, $action->year, $result);
             Log::info("[InsightService] Strategic insight [{$action->action_type}] untuk kebun #{$action->kebun_id}: {$result->alertLevel}");
         }
 
@@ -140,10 +189,16 @@ class InsightService
     {
         $results = [];
 
-        // 1. Productivity
+        // 1a. Productivity Basah (IF protas_basah < 1000 → High, 1000-1300 → Medium, ≥ 1300 → Low)
         $prodResult = $this->generateProductivityInsight($gardenId, $year);
         if ($prodResult) {
             $results['productivity'] = $prodResult;
+        }
+
+        // 1b. Productivity Kering (IF protas_kering < 220 → High, 220-286 → Medium, ≥ 286 → Low)
+        $dryResult = $this->generateDryProductivityInsight($gardenId, $year);
+        if ($dryResult) {
+            $results['productivity_dry'] = $dryResult;
         }
 
         // 2. Quality
@@ -173,14 +228,15 @@ class InsightService
 
     /**
      * Simpan atau perbarui insight ke database.
-     * Menggunakan updateOrCreate agar tidak duplikat per (kebun + tipe insight).
+     * Menggunakan updateOrCreate agar tidak duplikat per (kebun + tipe insight + tahun).
      */
-    private function persistInsight(int $gardenId, InsightResult $result): void
+    private function persistInsight(int $gardenId, int $year, InsightResult $result): void
     {
         Insight::updateOrCreate(
             [
                 'garden_id'    => $gardenId,
                 'insight_type' => $result->insightType,
+                'year'         => $year,
             ],
             [
                 'title'           => $result->title,

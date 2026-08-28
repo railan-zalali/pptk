@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Garden;
+use App\Models\Insight;
 use App\Models\ProductionRealization;
 use App\Services\InsightService;
 use Illuminate\Http\Request;
@@ -68,7 +69,13 @@ class AdminProductionRealizationController extends Controller
 
         // ── Auto-generate insight via Rule Engine ──────────────────────────
         try {
+            // Rule Basah: IF protas_basah < 1000 → High | 1000-1300 → Medium | ≥1300 → Low
             $this->insightService->generateProductivityInsight(
+                $realization->kebun_id,
+                $realization->year
+            );
+            // Rule Kering: IF protas_kering < 220 → High | 220-286 → Medium | ≥286 → Low
+            $this->insightService->generateDryProductivityInsight(
                 $realization->kebun_id,
                 $realization->year
             );
@@ -112,7 +119,13 @@ class AdminProductionRealizationController extends Controller
 
         // ── Auto-generate insight via Rule Engine ──────────────────────────
         try {
+            // Rule Basah: IF protas_basah < 1000 → High | 1000-1300 → Medium | ≥1300 → Low
             $this->insightService->generateProductivityInsight(
+                $productionRealization->kebun_id,
+                $productionRealization->year
+            );
+            // Rule Kering: IF protas_kering < 220 → High | 220-286 → Medium | ≥286 → Low
+            $this->insightService->generateDryProductivityInsight(
                 $productionRealization->kebun_id,
                 $productionRealization->year
             );
@@ -132,7 +145,35 @@ class AdminProductionRealizationController extends Controller
 
     public function destroy(ProductionRealization $productionRealization)
     {
+        $gardenId = $productionRealization->kebun_id;
+        $year     = $productionRealization->year;
+
         $productionRealization->delete();
+
+        // ── Refresh insight setelah delete ────────────────────────────────
+        try {
+            $remaining = ProductionRealization::where('kebun_id', $gardenId)
+                ->where('year', $year)
+                ->exists();
+
+            if ($remaining) {
+                // Masih ada data — regenerasi insight dari data terbaru
+                $this->insightService->generateProductivityInsight($gardenId, $year);
+                $this->insightService->generateDryProductivityInsight($gardenId, $year);
+                $this->insightService->generateQualityInsight($gardenId, $year);
+            } else {
+                // Tidak ada data tersisa — hapus insight produksi agar tidak stale
+                Insight::where('garden_id', $gardenId)
+                    ->where('year', $year)
+                    ->whereIn('insight_type', ['productivity', 'productivity_dry', 'quality'])
+                    ->delete();
+                Log::info("[InsightService] Insight produksi kebun #{$gardenId} tahun {$year} dihapus karena semua data realisasi dihapus.");
+            }
+        } catch (\Exception $e) {
+            Log::warning('[InsightService] Gagal refresh insight setelah destroy: ' . $e->getMessage());
+        }
+        // ─────────────────────────────────────────────────────────────────
+
         return redirect()->route('admin.production-realizations.index')->with('success', 'Realization Data deleted successfully.');
     }
 }

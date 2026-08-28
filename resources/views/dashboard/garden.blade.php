@@ -237,10 +237,24 @@
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         Protas (Kg/Ha)</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        Status Rule-Based</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                 @foreach ($gardenDetails as $garden)
+                                    @php
+                                        {{-- ─── RULE-BASED IF–THEN: Status Protas per Kebun ───
+                                             Rule 1: IF protas < 1000  THEN High Alert
+                                             Rule 2: IF 1000 ≤ protas < 1300 THEN Medium Alert
+                                             Rule 3: IF protas ≥ 1300  THEN Low Alert --}}
+                                        $protas = $garden['protas_achievement'];
+                                        if ($protas <= 0)      $ruleStatus = ['label' => 'Belum Ada Data', 'bg' => 'gray',   'dot' => '&#9898;'];
+                                        elseif ($protas < 1000) $ruleStatus = ['label' => 'High Alert',    'bg' => 'red',    'dot' => '&#128308;'];
+                                        elseif ($protas < 1300) $ruleStatus = ['label' => 'Medium Alert',  'bg' => 'yellow', 'dot' => '&#128993;'];
+                                        else                    $ruleStatus = ['label' => 'Low Alert',     'bg' => 'green',  'dot' => '&#128994;'];
+                                    @endphp
                                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -258,6 +272,16 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                                             {{ number_format($garden['protas_achievement'], 1) }}
+                                        </td>
+                                        {{-- Badge Status Rule-Based --}}
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full
+                                                {{ $ruleStatus['bg'] === 'red'    ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' : '' }}
+                                                {{ $ruleStatus['bg'] === 'yellow' ? 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300' : '' }}
+                                                {{ $ruleStatus['bg'] === 'green'  ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' : '' }}
+                                                {{ $ruleStatus['bg'] === 'gray'   ? 'bg-gray-100 dark:bg-gray-700 text-gray-500' : '' }}">
+                                                {!! $ruleStatus['dot'] !!} {{ $ruleStatus['label'] }}
+                                            </span>
                                         </td>
                                     </tr>
                                 @endforeach

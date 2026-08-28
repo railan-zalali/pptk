@@ -257,7 +257,7 @@ class StrategicActionRule implements InsightRuleContract
     private function evaluateOpt(array $data): ?InsightResult
     {
         $optStatus    = strtolower($data['opt_status'] ?? '');
-        $tpNormalized = (bool)($data['tp_normalization'] ?? true);
+        $tpNormalized = isset($data['tp_normalization']) ? (bool) $data['tp_normalization'] : false;
 
         $isUncontrolled = str_contains($optStatus, 'tidak terkendali') ||
                           str_contains($optStatus, 'berat') ||
